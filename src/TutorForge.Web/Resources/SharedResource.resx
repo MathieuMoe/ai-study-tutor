@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Nav_Tutor" xml:space="preserve"><value>Tutor</value></data>
+  <data name="Nav_About" xml:space="preserve"><value>How it works</value></data>
+  <data name="Nav_Resources" xml:space="preserve"><value>Resources</value></data>
+  <data name="Nav_SourceCode" xml:space="preserve"><value>Source code</value></data>
+  <data name="Nav_ClaudeDocs" xml:space="preserve"><value>Claude docs</value></data>
+  <data name="Nav_OpenMenu" xml:space="preserve"><value>Open menu</value></data>
+  <data name="Nav_ToggleTheme" xml:space="preserve"><value>Toggle dark mode</value></data>
+  <data name="Nav_EngineTooltip" xml:space="preserve"><value>AI engine used by the tutor</value></data>
+  <data name="Nav_Language" xml:space="preserve"><value>Interface language</value></data>
+  <data name="Engine_Demo" xml:space="preserve"><value>Demo (offline)</value></data>
+  <data name="Settings_Title" xml:space="preserve"><value>Study session</value></data>
+  <data name="Settings_Subject" xml:space="preserve"><value>Subject</value></data>
+  <data name="Settings_Level" xml:space="preserve"><value>Level</value></data>
+  <data name="Settings_Language" xml:space="preserve"><value>Tutor language</value></data>
+  <data name="Settings_Mode" xml:space="preserve"><value>How should I help?</value></data>
+  <data name="Subject_Mathematics" xml:space="preserve"><value>Mathematics</value></data>
+  <data name="Subject_PhysicsChemistry" xml:space="preserve"><value>Physics &amp; chemistry</value></data>
+  <data name="Subject_Biology" xml:space="preserve"><value>Biology</value></data>
+  <data name="Subject_HistoryGeography" xml:space="preserve"><value>History &amp; geography</value></data>
+  <data name="Subject_LanguageLiterature" xml:space="preserve"><value>Language &amp; literature</value></data>
+  <data name="Subject_English" xml:space="preserve"><value>English</value></data>
+  <data name="Subject_Programming" xml:space="preserve"><value>Programming</value></data>
+  <data name="Subject_Other" xml:space="preserve"><value>Other</value></data>
+  <data name="Level_Primary" xml:space="preserve"><value>Primary school</value></data>
+  <data name="Level_Secondary" xml:space="preserve"><value>Secondary school</value></data>
+  <data name="Level_HighSchool" xml:space="preserve"><value>High school</value></data>
+  <data name="Level_University" xml:space="preserve"><value>University</value></data>
+  <data name="Language_English" xml:space="preserve"><value>English</value></data>
+  <data name="Language_Spanish" xml:space="preserve"><value>Spanish</value></data>
+  <data name="Language_French" xml:space="preserve"><value>French</value></data>
+  <data name="Language_Catalan" xml:space="preserve"><value>Catalan</value></data>
+  <data name="Mode_Guide" xml:space="preserve"><value>Guide me</value></data>
+  <data name="Mode_Guide_Desc" xml:space="preserve"><value>Hints step by step, without giving the answer</value></data>
+  <data name="Mode_Explain" xml:space="preserve"><value>Explain</value></data>
+  <data name="Mode_Explain_Desc" xml:space="preserve"><value>A concept explained simply, with examples</value></data>
+  <data name="Mode_Check" xml:space="preserve"><value>Check my answer</value></data>
+  <data name="Mode_Check_Desc" xml:space="preserve"><value>Feedback on your work and where the mistake is</value></data>
+  <data name="Mode_Practice" xml:space="preserve"><value>Practise</value></data>
+  <data name="Mode_Practice_Desc" xml:space="preserve"><value>New exercises adapted to how you do</value></data>
+  <data name="Privacy_Note" xml:space="preserve"><value>Nothing is saved: the conversation only lives in this page and disappears when you close it.</value></data>
+  <data name="Chat_Title" xml:space="preserve"><value>Your study tutor</value></data>
+  <data name="Chat_Export" xml:space="preserve"><value>Download the conversation</value></data>
+  <data name="Chat_New" xml:space="preserve"><value>New conversation</value></data>
+  <data name="Chat_Copy" xml:space="preserve"><value>Copy</value></data>
+  <data name="Welcome_Title" xml:space="preserve"><value>Hi! What are you working on today?</value></data>
+  <data name="Welcome_Text" xml:space="preserve"><value>Write your question or paste your exercise. I'll help you understand it, step by step.</value></data>
+  <data name="Suggestion_1" xml:space="preserve"><value>Explain fractions to me with an example</value></data>
+  <data name="Suggestion_1_Mode" xml:space="preserve"><value>Explain</value></data>
+  <data name="Suggestion_2" xml:space="preserve"><value>Help me solve 2x + 3 = 11</value></data>
+  <data name="Suggestion_2_Mode" xml:space="preserve"><value>Guide</value></data>
+  <data name="Suggestion_3" xml:space="preserve"><value>Give me exercises on the past simple</value></data>
+  <data name="Suggestion_3_Mode" xml:space="preserve"><value>Practice</value></data>
+  <data name="Suggestion_4" xml:space="preserve"><value>Check my answer: 3/4 + 1/4 = 4/8</value></data>
+  <data name="Suggestion_4_Mode" xml:space="preserve"><value>Check</value></data>
+  <data name="Composer_Label" xml:space="preserve"><value>Your message</value></data>
+  <data name="Composer_Placeholder" xml:space="preserve"><value>Ask a question or paste your exercise…</value></data>
+  <data name="Composer_Stop" xml:space="preserve"><value>Stop</value></data>
+  <data name="Composer_Send" xml:space="preserve"><value>Send</value></data>
+  <data name="Composer_Hint" xml:space="preserve"><value>Enter to send · Shift + Enter for a new line</value></data>
+  <data name="Composer_Disclaimer" xml:space="preserve"><value>The AI can make mistakes: check with your teacher.</value></data>
+  <data name="Js_ai_error" xml:space="preserve"><value>The tutor could not answer. Please try again in a moment.</value></data>
+  <data name="Js_rate_limited" xml:space="preserve"><value>Too many messages. Wait a minute and try again.</value></data>
+  <data name="Js_Empty" xml:space="preserve"><value>Write a message first.</value></data>
+  <data name="Js_LastMustBeUser" xml:space="preserve"><value>The last message must be yours.</value></data>
+  <data name="Js_MessageTooLong" xml:space="preserve"><value>Your message is too long (4,000 characters max.).</value></data>
+  <data name="Js_ConversationTooLong" xml:space="preserve"><value>This conversation is very long. Start a new one to continue.</value></data>
+  <data name="Js_UnknownOption" xml:space="preserve"><value>Unknown option. Reload the page.</value></data>
+  <data name="Js_Copied" xml:space="preserve"><value>Copied!</value></data>
+  <data name="Js_Student" xml:space="preserve"><value>Student</value></data>
+  <data name="Js_Tutor" xml:space="preserve"><value>Tutor</value></data>
+  <data name="About_Title" xml:space="preserve"><value>A tutor that teaches, not one that does your homework</value></data>
+  <data name="About_Subtitle" xml:space="preserve"><value>TutorForge follows the Socratic method: it asks questions and gives hints so the student finds the answer by themselves. Choose the mode that fits what you need.</value></data>
+  <data name="About_Mode_Guide" xml:space="preserve"><value>One question or hint at a time. The final answer only comes after real attempts.</value></data>
+  <data name="About_Mode_Explain" xml:space="preserve"><value>A simple definition, an everyday example, a worked example and a question to check understanding.</value></data>
+  <data name="About_Mode_Check" xml:space="preserve"><value>Says if the answer is right, points to the step with the mistake and gives a hint to fix it.</value></data>
+  <data name="About_Mode_Practice" xml:space="preserve"><value>One exercise at a time, harder when you succeed, easier when you struggle.</value></data>
+  <data name="About_Privacy_Title" xml:space="preserve"><value>No data stored</value></data>
+  <data name="About_Privacy_Text" xml:space="preserve"><value>No account, no database: the conversation stays in the browser page and is sent only to answer. The tutor never asks for personal information.</value></data>
+  <data name="About_Safety_Title" xml:space="preserve"><value>Designed for young learners</value></data>
+  <data name="About_Safety_Text" xml:space="preserve"><value>Age-appropriate answers, kind refusal of off-limits topics, and if a student seems unwell, the tutor encourages them to talk to a trusted adult.</value></data>
+  <data name="About_Tech_Title" xml:space="preserve"><value>How it's built</value></data>
+  <data name="About_Tech_Text" xml:space="preserve"><value>ASP.NET Core (.NET 10), Claude API with streaming, Tailwind CSS + Preline UI, Markdown and math (KaTeX) rendering. Offline demo mode without an API key.</value></data>
+  <data name="Error_Title" xml:space="preserve"><value>Something went wrong</value></data>
+  <data name="Error_Text" xml:space="preserve"><value>An unexpected error occurred. Please try again.</value></data>
+  <data name="Error_Back" xml:space="preserve"><value>Back to home</value></data>
+</root>

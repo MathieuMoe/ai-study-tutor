@@ -1,0 +1,8 @@
+services:
+  tutorforge:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      # Leave empty to run in offline demo mode
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}

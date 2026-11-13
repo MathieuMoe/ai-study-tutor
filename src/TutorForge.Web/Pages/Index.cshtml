@@ -1,0 +1,167 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = L["Nav_Tutor"];
+    ViewData["MainClass"] = "lg:h-[calc(100dvh-3.75rem)]";
+    const string card = "flex flex-col bg-card border border-card-line shadow-2xs rounded-xl";
+    const string input = "py-2.5 px-3 block w-full bg-layer border border-layer-line rounded-lg text-sm text-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-hidden";
+    const string label = "block mb-1.5 text-sm font-medium text-foreground";
+    var modes = new[]
+    {
+        (TutorMode.Guide, "M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"),
+        (TutorMode.Explain, "M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"),
+        (TutorMode.Check, "M22 11.08V12a10 10 0 1 1-5.93-9.14M22 4 12 14.01l-3-3"),
+        (TutorMode.Practice, "M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"),
+    };
+}
+
+<div class="grid lg:grid-cols-12 gap-4 sm:gap-6 lg:h-full lg:min-h-0">
+
+    <!-- ========== SETTINGS ========== -->
+    <aside class="@card order-2 lg:order-none lg:col-span-4 xl:col-span-3 lg:min-h-0 lg:overflow-y-auto" aria-label="@L["Settings_Title"]">
+        <div class="py-3 px-4 border-b border-card-divider">
+            <h2 class="text-base font-semibold text-foreground">@L["Settings_Title"]</h2>
+        </div>
+        <div class="p-4 space-y-4">
+            <div>
+                <label for="subject" class="@label">@L["Settings_Subject"]</label>
+                <select id="subject" class="@input">
+                    @foreach (var s in Enum.GetValues<Subject>())
+                    {
+                        <option value="@s">@L[$"Subject_{s}"]</option>
+                    }
+                </select>
+            </div>
+            <div>
+                <label for="level" class="@label">@L["Settings_Level"]</label>
+                <select id="level" class="@input">
+                    @foreach (var l in Enum.GetValues<Level>())
+                    {
+                        <option value="@l" selected="@(l == Level.Secondary)">@L[$"Level_{l}"]</option>
+                    }
+                </select>
+            </div>
+            <div>
+                <label for="language" class="@label">@L["Settings_Language"]</label>
+                <select id="language" class="@input">
+                    @foreach (var lang in Enum.GetValues<TutorLanguage>())
+                    {
+                        <option value="@lang" selected="@(lang == Model.DefaultLanguage)">@L[$"Language_{lang}"]</option>
+                    }
+                </select>
+            </div>
+
+            <fieldset>
+                <legend class="@label">@L["Settings_Mode"]</legend>
+                <div class="grid gap-2">
+                    @foreach (var (mode, icon) in modes)
+                    {
+                        <label class="flex gap-x-3 p-3 bg-layer border border-layer-line rounded-lg cursor-pointer hover:border-primary has-checked:border-primary has-checked:bg-primary/5 has-focus-visible:ring-2 has-focus-visible:ring-primary/30">
+                            <input type="radio" name="mode" value="@mode" class="peer sr-only" checked="@(mode == TutorMode.Guide)" />
+                            <span class="shrink-0 size-8 grid place-items-center rounded-lg bg-surface text-muted-foreground-2 peer-checked:bg-primary peer-checked:text-primary-foreground">
+                                <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="@icon" /></svg>
+                            </span>
+                            <span class="text-sm">
+                                <span class="block font-medium text-foreground">@L[$"Mode_{mode}"]</span>
+                                <span class="block text-xs text-muted-foreground-1">@L[$"Mode_{mode}_Desc"]</span>
+                            </span>
+                        </label>
+                    }
+                </div>
+            </fieldset>
+
+            <div class="flex gap-x-2 p-3 rounded-lg bg-surface/60 text-xs text-muted-foreground-2">
+                <svg class="shrink-0 size-4 mt-0.5 text-teal-600 dark:text-teal-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" /></svg>
+                <span>@L["Privacy_Note"]</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ========== CHAT ========== -->
+    <section class="@card lg:col-span-8 xl:col-span-9 min-h-[70dvh] lg:min-h-0" aria-label="@L["Chat_Title"]">
+        <header class="py-3 px-4 border-b border-card-divider flex items-center justify-between gap-3">
+            <div class="flex items-center gap-x-3 min-w-0">
+                <span class="shrink-0 size-9 grid place-items-center rounded-full bg-linear-to-br from-teal-500 to-blue-600 text-white text-sm font-bold">T</span>
+                <div class="min-w-0">
+                    <h1 class="text-sm font-semibold text-foreground">@L["Chat_Title"]</h1>
+                    <p id="chat-context" class="text-xs text-muted-foreground-1 truncate"></p>
+                </div>
+            </div>
+            <div class="flex items-center gap-x-2">
+                <button type="button" id="export-btn" class="size-9 inline-flex justify-center items-center rounded-lg border border-layer-line bg-layer text-foreground shadow-2xs hover:bg-layer-hover focus:outline-hidden disabled:opacity-50 disabled:pointer-events-none" title="@L["Chat_Export"]" aria-label="@L["Chat_Export"]" disabled>
+                    <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" /></svg>
+                </button>
+                <button type="button" id="new-btn" class="py-2 px-3 inline-flex items-center gap-x-1.5 text-sm font-medium rounded-lg border border-layer-line bg-layer text-foreground shadow-2xs hover:bg-layer-hover focus:outline-hidden">
+                    <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14" /></svg>
+                    <span class="hidden sm:inline">@L["Chat_New"]</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Messages -->
+        <div id="messages" class="flex-1 min-h-0 overflow-y-auto p-4 sm:p-6 space-y-6" role="log" aria-live="polite">
+            <div id="welcome" class="max-w-2xl mx-auto text-center py-6">
+                <span class="mx-auto size-14 grid place-items-center rounded-full bg-linear-to-br from-teal-500 to-blue-600 text-white text-xl font-bold">T</span>
+                <h2 class="mt-4 text-lg font-semibold text-foreground">@L["Welcome_Title"]</h2>
+                <p class="mt-1 text-sm text-muted-foreground-1">@L["Welcome_Text"]</p>
+                <div class="mt-6 grid sm:grid-cols-2 gap-2 text-start">
+                    @for (var i = 1; i <= 4; i++)
+                    {
+                        <button type="button" data-suggestion="@L[$"Suggestion_{i}"]" data-mode="@L[$"Suggestion_{i}_Mode"]"
+                                class="p-3 text-sm text-foreground bg-layer border border-layer-line rounded-xl hover:border-primary hover:bg-layer-hover focus:outline-hidden">
+                            @L[$"Suggestion_{i}"]
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Composer -->
+        <form id="composer" class="p-3 sm:p-4 border-t border-card-divider">
+            <div id="chat-error" class="mb-2 p-2.5 text-sm rounded-lg bg-red-50 text-red-700 border border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/30" role="alert" hidden></div>
+            <div class="relative">
+                <label for="prompt" class="sr-only">@L["Composer_Label"]</label>
+                <textarea id="prompt" rows="1" maxlength="@TutorRequest.MaxMessageLength" placeholder="@L["Composer_Placeholder"]"
+                          class="@input max-h-48 resize-none pe-24 py-3"></textarea>
+                <div class="absolute end-2 bottom-2 flex gap-x-1">
+                    <button type="button" id="stop-btn" class="size-9 inline-flex justify-center items-center rounded-lg border border-layer-line bg-layer text-foreground hover:bg-layer-hover focus:outline-hidden" title="@L["Composer_Stop"]" aria-label="@L["Composer_Stop"]" hidden>
+                        <svg class="size-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><rect x="5" y="5" width="14" height="14" rx="2" /></svg>
+                    </button>
+                    <button type="submit" id="send-btn" class="size-9 inline-flex justify-center items-center rounded-lg bg-primary text-primary-foreground hover:bg-primary-hover focus:outline-hidden disabled:opacity-50 disabled:pointer-events-none" title="@L["Composer_Send"]" aria-label="@L["Composer_Send"]">
+                        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></svg>
+                    </button>
+                </div>
+            </div>
+            <p class="mt-2 flex flex-wrap justify-between gap-x-3 text-xs text-muted-foreground-1">
+                <span>@L["Composer_Hint"]</span>
+                <span>@L["Composer_Disclaimer"]</span>
+            </p>
+        </form>
+    </section>
+</div>
+
+<!-- Message templates -->
+<template id="tpl-user">
+    <div class="flex justify-end">
+        <div class="max-w-[85%] sm:max-w-[75%] py-2.5 px-4 rounded-2xl rounded-ee-md bg-primary text-primary-foreground text-sm whitespace-pre-wrap break-words" data-content></div>
+    </div>
+</template>
+<template id="tpl-assistant">
+    <div class="flex gap-x-3">
+        <span class="shrink-0 size-8 grid place-items-center rounded-full bg-linear-to-br from-teal-500 to-blue-600 text-white text-xs font-bold">T</span>
+        <div class="min-w-0 flex-1">
+            <div class="prose-chat text-sm text-foreground" data-content></div>
+            <div class="mt-1 flex items-center gap-x-1 opacity-0 transition-opacity [.done_&]:opacity-100">
+                <button type="button" data-copy class="py-1 px-2 inline-flex items-center gap-x-1 rounded-md text-xs text-muted-foreground-1 hover:bg-layer-hover hover:text-foreground focus:outline-hidden">
+                    <svg class="size-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
+                    <span>@L["Chat_Copy"]</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</template>
+
+@section Scripts {
+    <link rel="stylesheet" href="~/lib/katex/katex.min.css" />
+    <script type="module" src="~/js/chat.js" asp-append-version="true"></script>
+}

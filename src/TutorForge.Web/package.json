@@ -1,0 +1,19 @@
+{
+  "name": "tutorforge-web-assets",
+  "private": true,
+  "description": "Front-end assets for TutorForge (Tailwind CSS + Preline UI + marked + DOMPurify + KaTeX). Built files are committed, so Node is only needed to change the design.",
+  "scripts": {
+    "build:css": "tailwindcss -i ./Styles/app.css -o ./wwwroot/css/site.css --minify",
+    "watch:css": "tailwindcss -i ./Styles/app.css -o ./wwwroot/css/site.css --watch",
+    "copy:vendor": "node ./Styles/copy-vendor.mjs",
+    "build": "npm run copy:vendor && npm run build:css"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "4.3.5",
+    "dompurify": "3.4.17",
+    "katex": "0.19.1",
+    "marked": "18.2.0",
+    "preline": "5.1.0",
+    "tailwindcss": "4.3.5"
+  }
+}

@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <RootNamespace>TutorForge.Web</RootNamespace>
+    <UserSecretsId>tutorforge-web-2b9d4e</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TutorForge.Infrastructure\TutorForge.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -48,4 +48,11 @@ public class TutorRequestValidatorTests
         var request = TestData.Request() with { Mode = (TutorMode)99 };
         Assert.Contains(TutorRequestValidator.Check(request), e => e.Code == TutorRequestValidator.UnknownOption);
     }
+
+    [Fact]
+    public void Too_long_topic_is_rejected()
+    {
+        var request = TestData.Request() with { Topic = new string('t', TutorRequest.MaxTopicLength + 1) };
+        Assert.Contains(TutorRequestValidator.Check(request), e => e.Code == TutorRequestValidator.TopicTooLong);
+    }
 }

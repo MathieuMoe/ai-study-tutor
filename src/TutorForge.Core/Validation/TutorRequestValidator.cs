@@ -12,6 +12,7 @@ public static class TutorRequestValidator
     public const string MessageTooLong = "MessageTooLong";
     public const string ConversationTooLong = "ConversationTooLong";
     public const string UnknownOption = "UnknownOption";
+    public const string TopicTooLong = "TopicTooLong";
 
     public static IReadOnlyList<ValidationError> Check(TutorRequest request)
     {
@@ -38,6 +39,11 @@ public static class TutorRequestValidator
         if (messages.Count > TutorRequest.MaxMessages || messages.Sum(m => m.Content?.Length ?? 0) > TutorRequest.MaxTotalLength)
         {
             errors.Add(new(ConversationTooLong, "The conversation is too long. Start a new one."));
+        }
+
+        if ((request.Topic?.Length ?? 0) > TutorRequest.MaxTopicLength)
+        {
+            errors.Add(new(TopicTooLong, $"The topic can have at most {TutorRequest.MaxTopicLength} characters."));
         }
 
         if (!Enum.IsDefined(request.Subject) || !Enum.IsDefined(request.Level)

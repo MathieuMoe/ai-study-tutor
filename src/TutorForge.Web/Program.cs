@@ -22,6 +22,9 @@ builder.Services.AddRazorPages();
 // Write accented characters (é, ñ, ç, à…) as-is in the HTML instead of &#xE9; entities.
 builder.Services.Configure<WebEncoderOptions>(o => o.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All));
 builder.Services.AddTutorForge(builder.Configuration);
+// Progress files live under the app's content root (App_Data is excluded from git).
+builder.Services.PostConfigure<TutorForge.Infrastructure.Progress.ProgressStoreOptions>(o =>
+    o.Directory = Path.Combine(builder.Environment.ContentRootPath, o.Directory));
 builder.Services.AddHealthChecks();
 builder.Services.AddProblemDetails();
 builder.Services.ConfigureHttpJsonOptions(o => o.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
@@ -33,6 +36,9 @@ builder.Services.AddRateLimiter(options =>
     options.AddPolicy("chat", context => RateLimitPartition.GetFixedWindowLimiter(
         context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
         _ => new FixedWindowRateLimiterOptions { PermitLimit = 20, Window = TimeSpan.FromMinutes(1) }));
+    options.AddPolicy("progress", context => RateLimitPartition.GetFixedWindowLimiter(
+        context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+        _ => new FixedWindowRateLimiterOptions { PermitLimit = 120, Window = TimeSpan.FromMinutes(1) }));
 });
 
 var app = builder.Build();
@@ -106,6 +112,8 @@ app.MapPost("/api/tutor/stream", async (TutorRequest request, ITutor tutor, Http
     }
 })
 .RequireRateLimiting("chat");
+
+app.MapProgressEndpoints();
 
 await app.RunAsync();
 

@@ -1,9 +1,12 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using TutorForge.Core.Abstractions;
+using TutorForge.Core.Progress;
 using TutorForge.Infrastructure.Claude;
 using TutorForge.Infrastructure.Demo;
+using TutorForge.Infrastructure.Progress;
 
 namespace TutorForge.Infrastructure;
 
@@ -16,6 +19,13 @@ public static class DependencyInjection
     public static IServiceCollection AddTutorForge(this IServiceCollection services, IConfiguration configuration)
     {
         ArgumentNullException.ThrowIfNull(configuration);
+
+        // Student progress (anonymous). Swap FileStudentProgressStore for a SQL implementation in production.
+        services.TryAddSingleton(TimeProvider.System);
+        services.AddOptions<ProgressStoreOptions>().Bind(configuration.GetSection(ProgressStoreOptions.SectionName));
+        services.AddSingleton<IStudentProgressStore, FileStudentProgressStore>();
+        services.AddSingleton<ProgressService>();
+        services.AddHostedService<ProgressCleanupService>();
 
         services.AddOptions<ClaudeOptions>()
             .Bind(configuration.GetSection(ClaudeOptions.SectionName))

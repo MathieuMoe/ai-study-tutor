@@ -41,11 +41,16 @@ public sealed class DemoTutor(TimeProvider timeProvider) : ITutor
         var topic = Topic(request.Messages[^1].Content);
         var s = Script(request.Language);
 
+        if (request.Mode == TutorMode.Assess)
+        {
+            return Assess(turn, request.Language) + "\n\n" + s.DemoNote;
+        }
+
         var body = request.Mode switch
         {
             TutorMode.Explain => string.Format(CultureInfo.InvariantCulture, s.Explain, topic),
             TutorMode.Check => s.Check,
-            TutorMode.Practice => turn == 1 ? s.PracticeFirst : s.PracticeNext,
+            TutorMode.Practice => turn == 1 ? s.PracticeFirst : s.PracticeNext + $" [[LEVEL:{Math.Min(4 + turn, 9)}]]",
             _ => turn switch
             {
                 1 => string.Format(CultureInfo.InvariantCulture, s.GuideFirst, topic),
@@ -56,6 +61,79 @@ public sealed class DemoTutor(TimeProvider timeProvider) : ITutor
 
         return body + "\n\n" + s.DemoNote;
     }
+
+    /// <summary>Scripted adaptive test: 5 questions, then a report with the estimated level, then training that "grows".</summary>
+    private static string Assess(int turn, TutorLanguage language)
+    {
+        var a = AssessScript(language);
+        if (turn <= a.Questions.Length)
+        {
+            var feedback = turn == 1 ? a.Intro : (turn % 2 == 0 ? a.Right : a.Wrong);
+            return $"{feedback}\n\n**{string.Format(CultureInfo.InvariantCulture, a.QuestionLabel, turn, a.Questions.Length)}** {a.Questions[turn - 1]}";
+        }
+
+        if (turn == a.Questions.Length + 1)
+        {
+            return a.Report + " [[LEVEL:6]]";
+        }
+
+        var level = Math.Min(6 + (turn - a.Questions.Length - 1), 10);
+        return a.Next + $" [[LEVEL:{level}]]";
+    }
+
+    private sealed record AssessTexts(string Intro, string Right, string Wrong, string QuestionLabel, string[] Questions, string Report, string Next);
+
+    private static AssessTexts AssessScript(TutorLanguage language) => language switch
+    {
+        TutorLanguage.Spanish => new(
+            "¡Vamos a ver tu nivel! 🎯 Te haré **5 preguntas cortas**, cada vez adaptadas a cómo respondes. Si no sabes una, no pasa nada: dímelo.",
+            "✅ ¡Correcto! Subimos un poco la dificultad.",
+            "❌ No exactamente, pero buen intento. Probamos con una un poco más sencilla.",
+            "Pregunta {0}/{1}:",
+            ["¿Cuánto es $\\frac{1}{2} + \\frac{1}{4}$?\n\nA) $\\frac{2}{6}$ · B) $\\frac{3}{4}$ · C) $\\frac{1}{6}$ · D) $\\frac{2}{4}$",
+             "Resuelve: $3x - 4 = 11$",
+             "Si un pantalón cuesta 40 € y tiene un 25 % de descuento, ¿cuánto pagas?",
+             "Explica con tus palabras por qué $(-2) \\cdot (-3)$ es positivo.",
+             "Resuelve el sistema: $x + y = 10$, $x - y = 2$"],
+            "📊 **Tu informe de nivel**\n\n**Nivel estimado: 6/10**: dominas las operaciones básicas y las ecuaciones sencillas.\n\n**Puntos fuertes:** fracciones, porcentajes.\n**A trabajar:** signos con números negativos, sistemas de ecuaciones.\n\n**Siguiente paso:** ¿seguimos entrenando? Te propondré ejercicios a tu nivel y subiremos la dificultad a medida que aciertes.",
+            "¡Muy bien, vas subiendo! 📈 Siguiente reto, un poco más difícil: resuelve $2(x - 3) = x + 4$."),
+        TutorLanguage.French => new(
+            "Voyons ton niveau ! 🎯 Je vais te poser **5 questions courtes**, adaptées à tes réponses. Si tu ne sais pas, ce n'est pas grave : dis-le-moi.",
+            "✅ Correct ! On augmente un peu la difficulté.",
+            "❌ Pas tout à fait, mais bel essai. On passe à une question un peu plus simple.",
+            "Question {0}/{1} :",
+            ["Combien font $\\frac{1}{2} + \\frac{1}{4}$ ?\n\nA) $\\frac{2}{6}$ · B) $\\frac{3}{4}$ · C) $\\frac{1}{6}$ · D) $\\frac{2}{4}$",
+             "Résous : $3x - 4 = 11$",
+             "Un pantalon coûte 40 € avec 25 % de réduction : combien paies-tu ?",
+             "Explique avec tes mots pourquoi $(-2) \\times (-3)$ est positif.",
+             "Résous le système : $x + y = 10$, $x - y = 2$"],
+            "📊 **Ton bilan de niveau**\n\n**Niveau estimé : 6/10** : tu maîtrises les opérations de base et les équations simples.\n\n**Points forts :** fractions, pourcentages.\n**À travailler :** règles des signes, systèmes d'équations.\n\n**Prochaine étape :** on continue l'entraînement ? Je te proposerai des exercices à ton niveau et on augmentera la difficulté au fur et à mesure.",
+            "Très bien, tu progresses ! 📈 Défi suivant, un peu plus difficile : résous $2(x - 3) = x + 4$."),
+        TutorLanguage.Catalan => new(
+            "Anem a veure el teu nivell! 🎯 Et faré **5 preguntes curtes**, adaptades a com respons. Si no en saps una, no passa res: digues-m'ho.",
+            "✅ Correcte! Pugem una mica la dificultat.",
+            "❌ No exactament, però bon intent. Provem amb una de més senzilla.",
+            "Pregunta {0}/{1}:",
+            ["Quant és $\\frac{1}{2} + \\frac{1}{4}$?\n\nA) $\\frac{2}{6}$ · B) $\\frac{3}{4}$ · C) $\\frac{1}{6}$ · D) $\\frac{2}{4}$",
+             "Resol: $3x - 4 = 11$",
+             "Uns pantalons costen 40 € i tenen un 25 % de descompte: quant pagues?",
+             "Explica amb les teves paraules per què $(-2) \\cdot (-3)$ és positiu.",
+             "Resol el sistema: $x + y = 10$, $x - y = 2$"],
+            "📊 **El teu informe de nivell**\n\n**Nivell estimat: 6/10**: domines les operacions bàsiques i les equacions senzilles.\n\n**Punts forts:** fraccions, percentatges.\n**A treballar:** signes amb nombres negatius, sistemes d'equacions.\n\n**Següent pas:** seguim entrenant? Et proposaré exercicis al teu nivell i pujarem la dificultat a mesura que encertis.",
+            "Molt bé, vas pujant! 📈 Següent repte, una mica més difícil: resol $2(x - 3) = x + 4$."),
+        _ => new(
+            "Let's find your level! 🎯 I'll ask you **5 short questions**, each adapted to your answers. If you don't know one, that's fine: just tell me.",
+            "✅ Correct! Let's make it a bit harder.",
+            "❌ Not quite, but good try. Let's go with a slightly easier one.",
+            "Question {0}/{1}:",
+            ["What is $\\frac{1}{2} + \\frac{1}{4}$?\n\nA) $\\frac{2}{6}$ · B) $\\frac{3}{4}$ · C) $\\frac{1}{6}$ · D) $\\frac{2}{4}$",
+             "Solve: $3x - 4 = 11$",
+             "A pair of trousers costs €40 with a 25% discount. How much do you pay?",
+             "Explain in your own words why $(-2) \\times (-3)$ is positive.",
+             "Solve the system: $x + y = 10$, $x - y = 2$"],
+            "📊 **Your level report**\n\n**Estimated level: 6/10**: you handle basic operations and simple equations well.\n\n**Strengths:** fractions, percentages.\n**To work on:** signs with negative numbers, systems of equations.\n\n**Next step:** shall we keep training? I'll give you exercises at your level and make them harder as you succeed.",
+            "Great, you're improving! 📈 Next challenge, a bit harder: solve $2(x - 3) = x + 4$."),
+    };
 
     private static string Topic(string message)
     {

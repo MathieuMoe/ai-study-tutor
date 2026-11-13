@@ -34,6 +34,12 @@ public enum TutorMode
 
     /// <summary>Proposes a new exercise to practise, then corrects it.</summary>
     Practice,
+
+    /// <summary>
+    /// Adaptive level test: the tutor starts by itself, asks one question at a time, adjusts the difficulty
+    /// to the answers, estimates the level and keeps updating it as the student progresses.
+    /// </summary>
+    Assess,
 }
 
 public enum TutorLanguage
@@ -58,8 +64,11 @@ public sealed record TutorRequest(
     Subject Subject = Subject.Mathematics,
     Level Level = Level.Secondary,
     TutorMode Mode = TutorMode.Guide,
-    TutorLanguage Language = TutorLanguage.English)
+    TutorLanguage Language = TutorLanguage.English,
+    string? Topic = null)
 {
+    public const int MaxTopicLength = 120;
+
     public const int MaxMessageLength = 4_000;
     public const int MaxMessages = 40;
     public const int MaxTotalLength = 40_000;

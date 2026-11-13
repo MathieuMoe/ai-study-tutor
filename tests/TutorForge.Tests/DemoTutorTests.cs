@@ -59,4 +59,35 @@ public class DemoTutorTests
             }
         });
     }
+
+    private static TutorRequest Turn(int userTurns, TutorMode mode = TutorMode.Assess)
+    {
+        var messages = new List<ChatMessage>();
+        for (var i = 1; i <= userTurns; i++)
+        {
+            messages.Add(new ChatMessage(ChatRole.User, $"answer {i}"));
+            if (i < userTurns)
+            {
+                messages.Add(new ChatMessage(ChatRole.Assistant, "question"));
+            }
+        }
+
+        return TestData.Request(mode: mode) with { Messages = messages };
+    }
+
+    [Fact]
+    public void Assess_mode_starts_with_question_1_without_any_question_from_the_student()
+    {
+        var reply = DemoTutor.BuildReply(Turn(1));
+        Assert.Contains("Question 1/5", reply, StringComparison.Ordinal);
+        Assert.DoesNotContain("[[LEVEL", reply, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Assess_mode_gives_a_level_report_then_the_level_grows()
+    {
+        Assert.Contains("[[LEVEL:6]]", DemoTutor.BuildReply(Turn(6)), StringComparison.Ordinal);
+        Assert.Contains("[[LEVEL:7]]", DemoTutor.BuildReply(Turn(7)), StringComparison.Ordinal);
+        Assert.Contains("[[LEVEL:8]]", DemoTutor.BuildReply(Turn(8)), StringComparison.Ordinal);
+    }
 }

@@ -1,26 +1,31 @@
-# TutorForge AI
+<img src="src/TutorForge.Web/wwwroot/img/logo.svg" width="64" alt="" />
+
+# MatGPT Tutor
 
 **An AI study tutor that teaches instead of doing the homework.**
-Students choose a subject, their level and how they want help: TutorForge guides them with questions and hints (Socratic method), explains concepts, checks their answers or gives them exercises to practise.
+Students choose a subject, their level and how they want help: MatGPT Tutor guides them with questions and hints (Socratic method), explains concepts, checks their answers or gives them exercises to practise.
 
-Built with **ASP.NET Core (.NET 10)**, the **Claude API** (streaming) and a dashboard UI made with **Tailwind CSS + Preline UI**. No account and no database: nothing is stored.
+Built with **ASP.NET Core (.NET 10)**, the **Claude API** (streaming) and a dashboard UI made with **Tailwind CSS + Preline UI**. No account needed: progress is saved anonymously per subject.
 
-![TutorForge screenshot](docs/screenshot.png)
+![MatGPT Tutor screenshot](docs/screenshot.png)
 
 <details>
 <summary>Dark mode</summary>
 
-![TutorForge dark mode](docs/screenshot-dark.png)
+![MatGPT Tutor dark mode](docs/screenshot-dark.png)
 
 </details>
 
 ## Features
 
 - 💬 **Chat with streaming**: the answer appears word by word, with a Stop button
-- 🧭 **4 teaching modes**: *Guide me* (hints, no direct answer), *Explain*, *Check my answer*, *Practise* (adaptive exercises)
+- 🎯 **Assess my level**: the tutor starts by itself with an adaptive test (questions get harder or easier with each answer), gives a 0-10 level report, then keeps training and updates the level as the student improves
+- 🧭 **More teaching modes**: *Guide me* (hints, no direct answer), *Explain*, *Check my answer*, *Practise* (adaptive exercises)
+- 📌 Optional topic (e.g. "linear equations") to focus the session
 - 🎓 Subject (maths, sciences, history, languages, programming…) and level (primary to university)
 - ➗ **Markdown and math** rendering: LaTeX formulas with KaTeX, sanitized with DOMPurify
-- 🔒 **Privacy by design**: the conversation only lives in the browser page; the server is stateless and keeps nothing
+- 💾 **Saved progress per subject**: conversation, settings and level history are restored when the student comes back or switches subject; changing to a new subject shows the welcome screen with the level test
+- 🔒 **Privacy by design**: anonymous cookie (no name, no email), 90-day retention with automatic cleanup, "Delete my progress" button
 - 🛡️ **Safe for young learners**: age-appropriate answers, never asks for personal data, encourages talking to a trusted adult if a student seems unwell
 - 🗣️ Interface in **English, Français, Español and Català** (`.resx` localization); the tutor's language can be chosen separately
 - 📥 Download the conversation as Markdown to keep your notes
@@ -41,8 +46,10 @@ flowchart LR
 
 Technical choices worth noting:
 
+- **Hidden level tracking.** In Assess and Practice modes the model appends a hidden `[[LEVEL:n]]` tag; the UI strips it from the text and turns it into a level bar with a trend (▲ +1), without any database.
 - **Pedagogy in the prompt.** `TutorPromptBuilder` builds a system prompt per mode (Socratic guidance, explanation structure, error-finding, adaptive practice) plus permanent safety rules. It's covered by tests.
-- **Stateless server.** The browser sends the whole conversation each turn; `ConversationNormalizer` makes it valid for the API (starts with the student, alternating roles). No session, no database, no personal data.
+- **Stateless chat, persistent progress.** The chat endpoint is stateless (the browser sends the history; `ConversationNormalizer` makes it valid for the API). Progress goes through `ProgressService` and the `IStudentProgressStore` repository: the demo writes atomic JSON files (`FileStudentProgressStore`), and [docs/database.sql](docs/database.sql) contains the SQL Server schema for a production implementation, without changing anything else.
+- **Anonymous identity.** A random id in an HttpOnly cookie identifies the student; with real authentication it simply becomes the user id. A background service purges inactive students after 90 days.
 - **End-to-end streaming.** Claude's SSE stream is parsed (`content_block_delta`) and re-emitted as SSE to the browser, which renders Markdown progressively. Cancelling in the UI aborts the request to the AI too.
 - **Safe rendering.** Model output is Markdown converted with `marked` and sanitized with `DOMPurify` before touching the DOM; math is protected from the Markdown parser and rendered with KaTeX.
 - **Cost protection.** Rate limiting (20 messages/minute per IP), message and conversation size limits.
@@ -51,8 +58,8 @@ Technical choices worth noting:
 
 ```
 src/
-  TutorForge.Core/            Models, validation, prompts (pedagogy + safety), conversation normalizer
-  TutorForge.Infrastructure/  Claude streaming tutor (HttpClient + SSE), offline demo tutor, DI
+  TutorForge.Core/            Models, validation, prompts (pedagogy + safety), progress service + store interface
+  TutorForge.Infrastructure/  Claude streaming tutor (HttpClient + SSE), offline demo tutor, JSON progress store, cleanup job
   TutorForge.Web/             Razor Pages UI, streaming minimal API, localization, rate limiting
     Resources/                UI translations (en, fr, es, ca)
     Styles/                   Tailwind CSS source + vendor copy script
@@ -85,6 +92,8 @@ With Docker: `ANTHROPIC_API_KEY=sk-ant-... docker compose up --build` and open h
 | `Claude:ApiKey` / `ANTHROPIC_API_KEY` | – | Enables Claude. Without it, demo mode is used. |
 | `Claude:Model` | `claude-sonnet-4-5` | Any model from the [models list](https://docs.claude.com/en/docs/about-claude/models). |
 | `Claude:MaxTokens` | `2048` | Maximum answer size. |
+| `Progress:Directory` | `App_Data/progress` | Where the demo progress store writes (excluded from git). |
+| `Progress:Retention` | `90.00:00:00` | Inactive students are deleted after this time. |
 
 ## API
 
@@ -96,6 +105,8 @@ curl -N -X POST http://localhost:5190/api/tutor/stream \
 ```
 
 Answers with `text/event-stream`: `data: {"text":"..."}` chunks, then `event: done` (or `event: error`).
+
+Progress: `GET /api/progress` (all subjects), `PUT /api/progress/{subject}` (save one subject), `DELETE /api/progress` (forget me).
 
 ## Front-end (optional)
 
@@ -114,6 +125,7 @@ dotnet test
 ## Roadmap
 
 - [ ] Attach a photo or PDF of the exercise
+- [ ] SQL Server implementation of `IStudentProgressStore` (schema ready in docs/database.sql)
 - [ ] Teacher view: choose topics and see anonymous difficulty statistics
 - [ ] Voice input for younger students
 
@@ -124,6 +136,6 @@ dotnet test
 ## Author
 
 **Mathieu Moreau**, Full Stack .NET Developer & UI/UX Designer
-[LinkedIn](https://www.linkedin.com/in/mathieu-moreau-045b26114/) · [GitHub](https://github.com/MathieuMoe) · see also [QuizForge AI](https://github.com/MathieuMoe/ai-quiz-generator)
+[LinkedIn](https://www.linkedin.com/in/mathieu-moreau-045b26114/) · [GitHub](https://github.com/MathieuMoe) · see also [MatGPT Quiz](https://github.com/MathieuMoe/ai-quiz-generator)
 
 Licensed under the [MIT License](LICENSE).

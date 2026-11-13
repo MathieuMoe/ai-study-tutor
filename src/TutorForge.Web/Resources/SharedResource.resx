@@ -35,6 +35,28 @@
   <data name="Language_Spanish" xml:space="preserve"><value>Spanish</value></data>
   <data name="Language_French" xml:space="preserve"><value>French</value></data>
   <data name="Language_Catalan" xml:space="preserve"><value>Catalan</value></data>
+  <data name="Mode_Assess" xml:space="preserve"><value>Assess my level</value></data>
+  <data name="Mode_Assess_Desc" xml:space="preserve"><value>Adaptive test, then training that grows with you</value></data>
+  <data name="About_Mode_Assess" xml:space="preserve"><value>The tutor starts by itself: 5-6 questions that get harder or easier with each answer, a level report (0-10), then training that raises the difficulty as you improve.</value></data>
+  <data name="Settings_Topic" xml:space="preserve"><value>Topic (optional)</value></data>
+  <data name="Settings_TopicPlaceholder" xml:space="preserve"><value>e.g. linear equations</value></data>
+  <data name="Assess_Title" xml:space="preserve"><value>Find out your level in</value></data>
+  <data name="Assess_Text" xml:space="preserve"><value>No need to ask anything: the tutor asks you adaptive questions, estimates your level and then trains with you, step by step.</value></data>
+  <data name="Assess_Button" xml:space="preserve"><value>Assess my level</value></data>
+  <data name="Welcome_OrAsk" xml:space="preserve"><value>Or start with a question:</value></data>
+  <data name="Level_Label" xml:space="preserve"><value>Estimated level</value></data>
+  <data name="Level_Hint" xml:space="preserve"><value>Updated as you progress. It's only an estimate.</value></data>
+  <data name="Js_Level" xml:space="preserve"><value>Level</value></data>
+  <data name="Js_AssessStart" xml:space="preserve"><value>Assess my level in {0}.</value></data>
+  <data name="Js_AssessStartTopic" xml:space="preserve"><value>Assess my level in {0}, topic: {1}.</value></data>
+  <data name="Js_TopicTooLong" xml:space="preserve"><value>The topic is too long (120 characters max.).</value></data>
+  <data name="Privacy_Forget" xml:space="preserve"><value>Delete my progress</value></data>
+  <data name="Js_Forget" xml:space="preserve"><value>Delete my progress</value></data>
+  <data name="Js_ForgetConfirm" xml:space="preserve"><value>Click again to confirm</value></data>
+  <data name="Js_Forgotten" xml:space="preserve"><value>Progress deleted.</value></data>
+  <data name="Js_Saved" xml:space="preserve"><value>✓ Progress saved</value></data>
+  <data name="Js_NotSaved" xml:space="preserve"><value>Progress could not be saved</value></data>
+  <data name="Js_LastUpdate" xml:space="preserve"><value>Updated {0}.</value></data>
   <data name="Mode_Guide" xml:space="preserve"><value>Guide me</value></data>
   <data name="Mode_Guide_Desc" xml:space="preserve"><value>Hints step by step, without giving the answer</value></data>
   <data name="Mode_Explain" xml:space="preserve"><value>Explain</value></data>
@@ -43,7 +65,7 @@
   <data name="Mode_Check_Desc" xml:space="preserve"><value>Feedback on your work and where the mistake is</value></data>
   <data name="Mode_Practice" xml:space="preserve"><value>Practise</value></data>
   <data name="Mode_Practice_Desc" xml:space="preserve"><value>New exercises adapted to how you do</value></data>
-  <data name="Privacy_Note" xml:space="preserve"><value>Nothing is saved: the conversation only lives in this page and disappears when you close it.</value></data>
+  <data name="Privacy_Note" xml:space="preserve"><value>Your progress is saved anonymously for 90 days: no account, no name, no email.</value></data>
   <data name="Chat_Title" xml:space="preserve"><value>Your study tutor</value></data>
   <data name="Chat_Export" xml:space="preserve"><value>Download the conversation</value></data>
   <data name="Chat_New" xml:space="preserve"><value>New conversation</value></data>
@@ -75,13 +97,13 @@
   <data name="Js_Student" xml:space="preserve"><value>Student</value></data>
   <data name="Js_Tutor" xml:space="preserve"><value>Tutor</value></data>
   <data name="About_Title" xml:space="preserve"><value>A tutor that teaches, not one that does your homework</value></data>
-  <data name="About_Subtitle" xml:space="preserve"><value>TutorForge follows the Socratic method: it asks questions and gives hints so the student finds the answer by themselves. Choose the mode that fits what you need.</value></data>
+  <data name="About_Subtitle" xml:space="preserve"><value>MatGPT Tutor follows the Socratic method: it asks questions and gives hints so the student finds the answer by themselves. Choose the mode that fits what you need.</value></data>
   <data name="About_Mode_Guide" xml:space="preserve"><value>One question or hint at a time. The final answer only comes after real attempts.</value></data>
   <data name="About_Mode_Explain" xml:space="preserve"><value>A simple definition, an everyday example, a worked example and a question to check understanding.</value></data>
   <data name="About_Mode_Check" xml:space="preserve"><value>Says if the answer is right, points to the step with the mistake and gives a hint to fix it.</value></data>
   <data name="About_Mode_Practice" xml:space="preserve"><value>One exercise at a time, harder when you succeed, easier when you struggle.</value></data>
-  <data name="About_Privacy_Title" xml:space="preserve"><value>No data stored</value></data>
-  <data name="About_Privacy_Text" xml:space="preserve"><value>No account, no database: the conversation stays in the browser page and is sent only to answer. The tutor never asks for personal information.</value></data>
+  <data name="About_Privacy_Title" xml:space="preserve"><value>Anonymous progress</value></data>
+  <data name="About_Privacy_Text" xml:space="preserve"><value>No account and no personal data: an anonymous cookie lets the tutor remember your level and conversation in each subject for 90 days. You can delete everything with one click.</value></data>
   <data name="About_Safety_Title" xml:space="preserve"><value>Designed for young learners</value></data>
   <data name="About_Safety_Text" xml:space="preserve"><value>Age-appropriate answers, kind refusal of off-limits topics, and if a student seems unwell, the tutor encourages them to talk to a trusted adult.</value></data>
   <data name="About_Tech_Title" xml:space="preserve"><value>How it's built</value></data>

@@ -35,6 +35,28 @@
   <data name="Language_Spanish" xml:space="preserve"><value>Espagnol</value></data>
   <data name="Language_French" xml:space="preserve"><value>Français</value></data>
   <data name="Language_Catalan" xml:space="preserve"><value>Catalan</value></data>
+  <data name="Mode_Assess" xml:space="preserve"><value>Évalue mon niveau</value></data>
+  <data name="Mode_Assess_Desc" xml:space="preserve"><value>Test adaptatif, puis entraînement qui progresse avec toi</value></data>
+  <data name="About_Mode_Assess" xml:space="preserve"><value>Le tuteur commence tout seul : 5-6 questions qui s'adaptent à chaque réponse, un bilan de niveau (0-10), puis un entraînement qui augmente la difficulté au fur et à mesure.</value></data>
+  <data name="Settings_Topic" xml:space="preserve"><value>Thème (facultatif)</value></data>
+  <data name="Settings_TopicPlaceholder" xml:space="preserve"><value>ex. : équations du premier degré</value></data>
+  <data name="Assess_Title" xml:space="preserve"><value>Découvre ton niveau en</value></data>
+  <data name="Assess_Text" xml:space="preserve"><value>Pas besoin de poser de question : le tuteur te pose des questions adaptées, estime ton niveau puis s'entraîne avec toi, pas à pas.</value></data>
+  <data name="Assess_Button" xml:space="preserve"><value>Évaluer mon niveau</value></data>
+  <data name="Welcome_OrAsk" xml:space="preserve"><value>Ou commence par une question :</value></data>
+  <data name="Level_Label" xml:space="preserve"><value>Niveau estimé</value></data>
+  <data name="Level_Hint" xml:space="preserve"><value>Mis à jour au fil de tes progrès. C'est une estimation.</value></data>
+  <data name="Js_Level" xml:space="preserve"><value>Niveau</value></data>
+  <data name="Js_AssessStart" xml:space="preserve"><value>Évalue mon niveau en {0}.</value></data>
+  <data name="Js_AssessStartTopic" xml:space="preserve"><value>Évalue mon niveau en {0}, thème : {1}.</value></data>
+  <data name="Js_TopicTooLong" xml:space="preserve"><value>Le thème est trop long (120 caractères max.).</value></data>
+  <data name="Privacy_Forget" xml:space="preserve"><value>Effacer ma progression</value></data>
+  <data name="Js_Forget" xml:space="preserve"><value>Effacer ma progression</value></data>
+  <data name="Js_ForgetConfirm" xml:space="preserve"><value>Clique à nouveau pour confirmer</value></data>
+  <data name="Js_Forgotten" xml:space="preserve"><value>Progression effacée.</value></data>
+  <data name="Js_Saved" xml:space="preserve"><value>✓ Progression enregistrée</value></data>
+  <data name="Js_NotSaved" xml:space="preserve"><value>La progression n'a pas pu être enregistrée</value></data>
+  <data name="Js_LastUpdate" xml:space="preserve"><value>Mis à jour le {0}.</value></data>
   <data name="Mode_Guide" xml:space="preserve"><value>Guide-moi</value></data>
   <data name="Mode_Guide_Desc" xml:space="preserve"><value>Des indices étape par étape, sans donner la réponse</value></data>
   <data name="Mode_Explain" xml:space="preserve"><value>Explique</value></data>
@@ -43,7 +65,7 @@
   <data name="Mode_Check_Desc" xml:space="preserve"><value>Un retour sur ton travail et où est l'erreur</value></data>
   <data name="Mode_Practice" xml:space="preserve"><value>Entraîne-moi</value></data>
   <data name="Mode_Practice_Desc" xml:space="preserve"><value>De nouveaux exercices adaptés à ton niveau</value></data>
-  <data name="Privacy_Note" xml:space="preserve"><value>Rien n'est enregistré : la conversation n'existe que dans cette page et disparaît quand tu la fermes.</value></data>
+  <data name="Privacy_Note" xml:space="preserve"><value>Ta progression est enregistrée de façon anonyme pendant 90 jours : sans compte, sans nom, sans e-mail.</value></data>
   <data name="Chat_Title" xml:space="preserve"><value>Ton tuteur d'étude</value></data>
   <data name="Chat_Export" xml:space="preserve"><value>Télécharger la conversation</value></data>
   <data name="Chat_New" xml:space="preserve"><value>Nouvelle conversation</value></data>
@@ -75,13 +97,13 @@
   <data name="Js_Student" xml:space="preserve"><value>Élève</value></data>
   <data name="Js_Tutor" xml:space="preserve"><value>Tuteur</value></data>
   <data name="About_Title" xml:space="preserve"><value>Un tuteur qui fait apprendre, pas qui fait les devoirs</value></data>
-  <data name="About_Subtitle" xml:space="preserve"><value>TutorForge suit la méthode socratique : il pose des questions et donne des indices pour que l'élève trouve la réponse par lui-même. Choisis le mode qui correspond à ton besoin.</value></data>
+  <data name="About_Subtitle" xml:space="preserve"><value>MatGPT Tutor suit la méthode socratique : il pose des questions et donne des indices pour que l'élève trouve la réponse par lui-même. Choisis le mode qui correspond à ton besoin.</value></data>
   <data name="About_Mode_Guide" xml:space="preserve"><value>Une question ou un indice à la fois. La réponse finale n'arrive qu'après de vrais essais.</value></data>
   <data name="About_Mode_Explain" xml:space="preserve"><value>Une définition simple, un exemple du quotidien, un exemple résolu et une question pour vérifier.</value></data>
   <data name="About_Mode_Check" xml:space="preserve"><value>Dit si la réponse est juste, montre l'étape avec l'erreur et donne un indice pour la corriger.</value></data>
   <data name="About_Mode_Practice" xml:space="preserve"><value>Un exercice à la fois, plus difficile quand tu réussis, plus facile quand tu bloques.</value></data>
-  <data name="About_Privacy_Title" xml:space="preserve"><value>Aucune donnée enregistrée</value></data>
-  <data name="About_Privacy_Text" xml:space="preserve"><value>Ni compte ni base de données : la conversation reste dans la page du navigateur et n'est envoyée que pour répondre. Le tuteur ne demande jamais d'informations personnelles.</value></data>
+  <data name="About_Privacy_Title" xml:space="preserve"><value>Progression anonyme</value></data>
+  <data name="About_Privacy_Text" xml:space="preserve"><value>Ni compte ni données personnelles : un cookie anonyme permet au tuteur de se souvenir de ton niveau et de ta conversation dans chaque matière pendant 90 jours. Tu peux tout effacer en un clic.</value></data>
   <data name="About_Safety_Title" xml:space="preserve"><value>Pensé pour les jeunes élèves</value></data>
   <data name="About_Safety_Text" xml:space="preserve"><value>Réponses adaptées à l'âge, refus bienveillant des sujets inappropriés et, si un élève semble aller mal, le tuteur l'encourage à parler à un adulte de confiance.</value></data>
   <data name="About_Tech_Title" xml:space="preserve"><value>Comment c'est fait</value></data>

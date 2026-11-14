@@ -1,306 +1,2002 @@
 {
-  "Mathematics": {
-    "English": [
-      "What is $\\frac{1}{2} + \\frac{1}{4}$?\n\nA) $\\frac{2}{6}$ · B) $\\frac{3}{4}$ · C) $\\frac{1}{6}$ · D) $\\frac{2}{4}$",
-      "Solve: $3x - 4 = 11$",
-      "A pair of trousers costs €40 with a 25% discount. How much do you pay?",
-      "What is the area of a rectangle 6 cm long and 4 cm wide?",
-      "Explain in your own words why $(-2) \\times (-3)$ is positive.",
-      "Solve the system: $x + y = 10$, $x - y = 2$",
-      "What is $2^5$? And $\\sqrt{81}$?"
+ "Mathematics": {
+  "English": [
+   {
+    "q": "What is $\\frac{1}{2} + \\frac{1}{4}$?",
+    "options": [
+     "$\\frac{2}{6}$",
+     "$\\frac{3}{4}$",
+     "$\\frac{1}{6}$",
+     "$\\frac{2}{4}$"
     ],
-    "Spanish": [
-      "¿Cuánto es $\\frac{1}{2} + \\frac{1}{4}$?\n\nA) $\\frac{2}{6}$ · B) $\\frac{3}{4}$ · C) $\\frac{1}{6}$ · D) $\\frac{2}{4}$",
-      "Resuelve: $3x - 4 = 11$",
-      "Un pantalón cuesta 40 € y tiene un 25 % de descuento. ¿Cuánto pagas?",
-      "¿Cuál es el área de un rectángulo de 6 cm de largo y 4 cm de ancho?",
-      "Explica con tus palabras por qué $(-2) \\cdot (-3)$ es positivo.",
-      "Resuelve el sistema: $x + y = 10$, $x - y = 2$",
-      "¿Cuánto es $2^5$? ¿Y $\\sqrt{81}$?"
+    "answer": 1
+   },
+   {
+    "q": "Solve: $3x - 4 = 11$",
+    "options": [
+     "$x = 3$",
+     "$x = 7$",
+     "$x = 5$",
+     "$x = 15$"
     ],
-    "French": [
-      "Combien font $\\frac{1}{2} + \\frac{1}{4}$ ?\n\nA) $\\frac{2}{6}$ · B) $\\frac{3}{4}$ · C) $\\frac{1}{6}$ · D) $\\frac{2}{4}$",
-      "Résous : $3x - 4 = 11$",
-      "Un pantalon coûte 40 € avec 25 % de réduction. Combien paies-tu ?",
-      "Quelle est l'aire d'un rectangle de 6 cm de long et 4 cm de large ?",
-      "Explique avec tes mots pourquoi $(-2) \\times (-3)$ est positif.",
-      "Résous le système : $x + y = 10$, $x - y = 2$",
-      "Combien font $2^5$ ? Et $\\sqrt{81}$ ?"
+    "answer": 2
+   },
+   {
+    "q": "Trousers cost €40 with a 25% discount. How much do you pay?",
+    "options": [
+     "€30",
+     "€35",
+     "€15",
+     "€10"
     ],
-    "Catalan": [
-      "Quant és $\\frac{1}{2} + \\frac{1}{4}$?\n\nA) $\\frac{2}{6}$ · B) $\\frac{3}{4}$ · C) $\\frac{1}{6}$ · D) $\\frac{2}{4}$",
-      "Resol: $3x - 4 = 11$",
-      "Uns pantalons costen 40 € i tenen un 25 % de descompte. Quant pagues?",
-      "Quina és l'àrea d'un rectangle de 6 cm de llarg i 4 cm d'ample?",
-      "Explica amb les teves paraules per què $(-2) \\cdot (-3)$ és positiu.",
-      "Resol el sistema: $x + y = 10$, $x - y = 2$",
-      "Quant és $2^5$? I $\\sqrt{81}$?"
-    ]
-  },
-  "PhysicsChemistry": {
-    "English": [
-      "What is the SI unit of force?\n\nA) Joule · B) Newton · C) Watt · D) Pascal",
-      "A car travels 120 km in 2 hours. What is its average speed?",
-      "What is the chemical symbol of sodium?",
-      "What is the difference between a physical change and a chemical change? Give an example of each.",
-      "At what temperature does water boil at sea level?",
-      "What is the formula of water and how many atoms does one molecule have?",
-      "Why does an ice cube float on water?"
+    "answer": 0
+   },
+   {
+    "q": "Area of a rectangle 6 cm long and 4 cm wide?",
+    "options": [
+     "10 cm²",
+     "20 cm²",
+     "12 cm²",
+     "24 cm²"
     ],
-    "Spanish": [
-      "¿Cuál es la unidad de fuerza en el Sistema Internacional?\n\nA) Julio · B) Newton · C) Vatio · D) Pascal",
-      "Un coche recorre 120 km en 2 horas. ¿Cuál es su velocidad media?",
-      "¿Cuál es el símbolo químico del sodio?",
-      "¿Qué diferencia hay entre un cambio físico y un cambio químico? Pon un ejemplo de cada uno.",
-      "¿A qué temperatura hierve el agua a nivel del mar?",
-      "¿Cuál es la fórmula del agua y cuántos átomos tiene una molécula?",
-      "¿Por qué un cubito de hielo flota en el agua?"
+    "answer": 3
+   },
+   {
+    "q": "What is $(-2) \\times (-3)$?",
+    "options": [
+     "$-6$",
+     "$6$",
+     "$-5$",
+     "$5$"
     ],
-    "French": [
-      "Quelle est l'unité de force dans le Système international ?\n\nA) Joule · B) Newton · C) Watt · D) Pascal",
-      "Une voiture parcourt 120 km en 2 heures. Quelle est sa vitesse moyenne ?",
-      "Quel est le symbole chimique du sodium ?",
-      "Quelle est la différence entre une transformation physique et une transformation chimique ? Donne un exemple de chaque.",
-      "À quelle température l'eau bout-elle au niveau de la mer ?",
-      "Quelle est la formule de l'eau et combien d'atomes a une molécule ?",
-      "Pourquoi un glaçon flotte-t-il sur l'eau ?"
+    "answer": 1
+   },
+   {
+    "q": "What is $2^5$?",
+    "options": [
+     "10",
+     "25",
+     "32",
+     "64"
     ],
-    "Catalan": [
-      "Quina és la unitat de força al Sistema Internacional?\n\nA) Joule · B) Newton · C) Watt · D) Pascal",
-      "Un cotxe recorre 120 km en 2 hores. Quina és la seva velocitat mitjana?",
-      "Quin és el símbol químic del sodi?",
-      "Quina diferència hi ha entre un canvi físic i un canvi químic? Posa un exemple de cadascun.",
-      "A quina temperatura bull l'aigua al nivell del mar?",
-      "Quina és la fórmula de l'aigua i quants àtoms té una molècula?",
-      "Per què un glaçó flota a l'aigua?"
-    ]
-  },
-  "Biology": {
-    "English": [
-      "In which organelle does photosynthesis take place?\n\nA) Mitochondria · B) Chloroplast · C) Nucleus · D) Ribosome",
-      "What is the function of red blood cells?",
-      "What is the difference between a prokaryotic and a eukaryotic cell?",
-      "How many chromosomes does a human body cell have?",
-      "Name the four bases of DNA.",
-      "What is an ecosystem? Give an example.",
-      "What do herbivores, carnivores and omnivores eat?"
+    "answer": 2
+   }
+  ],
+  "Spanish": [
+   {
+    "q": "¿Cuánto es $\\frac{1}{2} + \\frac{1}{4}$?",
+    "options": [
+     "$\\frac{2}{6}$",
+     "$\\frac{3}{4}$",
+     "$\\frac{1}{6}$",
+     "$\\frac{2}{4}$"
     ],
-    "Spanish": [
-      "¿En qué orgánulo se realiza la fotosíntesis?\n\nA) Mitocondria · B) Cloroplasto · C) Núcleo · D) Ribosoma",
-      "¿Cuál es la función de los glóbulos rojos?",
-      "¿Qué diferencia hay entre una célula procariota y una eucariota?",
-      "¿Cuántos cromosomas tiene una célula del cuerpo humano?",
-      "Nombra las cuatro bases del ADN.",
-      "¿Qué es un ecosistema? Pon un ejemplo.",
-      "¿Qué comen los animales herbívoros, carnívoros y omnívoros?"
+    "answer": 1
+   },
+   {
+    "q": "Resuelve: $3x - 4 = 11$",
+    "options": [
+     "$x = 3$",
+     "$x = 7$",
+     "$x = 5$",
+     "$x = 15$"
     ],
-    "French": [
-      "Dans quel organite se déroule la photosynthèse ?\n\nA) Mitochondrie · B) Chloroplaste · C) Noyau · D) Ribosome",
-      "Quel est le rôle des globules rouges ?",
-      "Quelle est la différence entre une cellule procaryote et une cellule eucaryote ?",
-      "Combien de chromosomes possède une cellule du corps humain ?",
-      "Cite les quatre bases de l'ADN.",
-      "Qu'est-ce qu'un écosystème ? Donne un exemple.",
-      "Que mangent les herbivores, les carnivores et les omnivores ?"
+    "answer": 2
+   },
+   {
+    "q": "Un pantalón cuesta 40 € con un 25 % de descuento. ¿Cuánto pagas?",
+    "options": [
+     "30 €",
+     "35 €",
+     "15 €",
+     "10 €"
     ],
-    "Catalan": [
-      "En quin orgànul es fa la fotosíntesi?\n\nA) Mitocondri · B) Cloroplast · C) Nucli · D) Ribosoma",
-      "Quina és la funció dels glòbuls vermells?",
-      "Quina diferència hi ha entre una cèl·lula procariota i una eucariota?",
-      "Quants cromosomes té una cèl·lula del cos humà?",
-      "Anomena les quatre bases de l'ADN.",
-      "Què és un ecosistema? Posa un exemple.",
-      "Què mengen els animals herbívors, carnívors i omnívors?"
-    ]
-  },
-  "HistoryGeography": {
-    "English": [
-      "In which year did the Second World War end?",
-      "What is the capital of Australia?\n\nA) Sydney · B) Melbourne · C) Canberra · D) Perth",
-      "Explain one cause of the French Revolution.",
-      "What is the longest river in Europe?",
-      "What was the Renaissance? Name one artist from that period.",
-      "Which civilisation built Machu Picchu?",
-      "What is the difference between weather and climate?"
+    "answer": 0
+   },
+   {
+    "q": "¿Área de un rectángulo de 6 cm de largo y 4 cm de ancho?",
+    "options": [
+     "10 cm²",
+     "20 cm²",
+     "12 cm²",
+     "24 cm²"
     ],
-    "Spanish": [
-      "¿En qué año terminó la Segunda Guerra Mundial?",
-      "¿Cuál es la capital de Australia?\n\nA) Sídney · B) Melbourne · C) Canberra · D) Perth",
-      "Explica una causa de la Revolución francesa.",
-      "¿Cuál es el río más largo de Europa?",
-      "¿Qué fue el Renacimiento? Nombra un artista de esa época.",
-      "¿Qué civilización construyó Machu Picchu?",
-      "¿Qué diferencia hay entre el tiempo atmosférico y el clima?"
+    "answer": 3
+   },
+   {
+    "q": "¿Cuánto es $(-2) \\cdot (-3)$?",
+    "options": [
+     "$-6$",
+     "$6$",
+     "$-5$",
+     "$5$"
     ],
-    "French": [
-      "En quelle année la Seconde Guerre mondiale s'est-elle terminée ?",
-      "Quelle est la capitale de l'Australie ?\n\nA) Sydney · B) Melbourne · C) Canberra · D) Perth",
-      "Explique une cause de la Révolution française.",
-      "Quel est le plus long fleuve d'Europe ?",
-      "Qu'est-ce que la Renaissance ? Cite un artiste de cette époque.",
-      "Quelle civilisation a construit le Machu Picchu ?",
-      "Quelle est la différence entre la météo et le climat ?"
+    "answer": 1
+   },
+   {
+    "q": "¿Cuánto es $2^5$?",
+    "options": [
+     "10",
+     "25",
+     "32",
+     "64"
     ],
-    "Catalan": [
-      "En quin any va acabar la Segona Guerra Mundial?",
-      "Quina és la capital d'Austràlia?\n\nA) Sydney · B) Melbourne · C) Canberra · D) Perth",
-      "Explica una causa de la Revolució francesa.",
-      "Quin és el riu més llarg d'Europa?",
-      "Què va ser el Renaixement? Anomena un artista d'aquella època.",
-      "Quina civilització va construir Machu Picchu?",
-      "Quina diferència hi ha entre el temps atmosfèric i el clima?"
-    ]
-  },
-  "LanguageLiterature": {
-    "English": [
-      "Give a synonym and an antonym of \"fast\".",
-      "What is the subject of this sentence: \"The students are studying for the exam\"?",
-      "Who wrote \"Romeo and Juliet\"?",
-      "Which figure of speech is \"her teeth were pearls\"?\n\nA) Simile · B) Metaphor · C) Hyperbole · D) Alliteration",
-      "Complete with their / there / they're: \"___ going to ___ house over ___.\"",
-      "What is a subordinate clause? Give an example.",
-      "What is the difference between a narrator in first person and in third person?"
+    "answer": 2
+   }
+  ],
+  "French": [
+   {
+    "q": "Combien font $\\frac{1}{2} + \\frac{1}{4}$ ?",
+    "options": [
+     "$\\frac{2}{6}$",
+     "$\\frac{3}{4}$",
+     "$\\frac{1}{6}$",
+     "$\\frac{2}{4}$"
     ],
-    "Spanish": [
-      "Da un sinónimo y un antónimo de «rápido».",
-      "¿Cuál es el sujeto de la oración «Los alumnos estudian para el examen»?",
-      "¿Quién escribió «Don Quijote de la Mancha»?",
-      "¿Qué figura literaria es «sus dientes eran perlas»?\n\nA) Comparación · B) Metáfora · C) Hipérbole · D) Aliteración",
-      "Completa con «haber» o «a ver»: «Vamos ___ qué ha pasado».",
-      "¿Qué es una oración subordinada? Pon un ejemplo.",
-      "¿Qué diferencia hay entre un narrador en primera persona y en tercera persona?"
+    "answer": 1
+   },
+   {
+    "q": "Résous : $3x - 4 = 11$",
+    "options": [
+     "$x = 3$",
+     "$x = 7$",
+     "$x = 5$",
+     "$x = 15$"
     ],
-    "French": [
-      "Donne un synonyme et un antonyme de « rapide ».",
-      "Quel est le sujet de la phrase « Les élèves révisent pour l'examen » ?",
-      "Qui a écrit « Les Misérables » ?",
-      "Quelle figure de style est « ses dents étaient des perles » ?\n\nA) Comparaison · B) Métaphore · C) Hyperbole · D) Allitération",
-      "Complète avec « a » ou « à » : « Il ___ fini ___ midi. »",
-      "Qu'est-ce qu'une proposition subordonnée ? Donne un exemple.",
-      "Quelle est la différence entre un narrateur à la première et à la troisième personne ?"
+    "answer": 2
+   },
+   {
+    "q": "Un pantalon coûte 40 € avec 25 % de réduction. Combien paies-tu ?",
+    "options": [
+     "30 €",
+     "35 €",
+     "15 €",
+     "10 €"
     ],
-    "Catalan": [
-      "Dona un sinònim i un antònim de «ràpid».",
-      "Quin és el subjecte de l'oració «Els alumnes estudien per a l'examen»?",
-      "Qui va escriure «Tirant lo Blanc»?",
-      "Quina figura literària és «les seves dents eren perles»?\n\nA) Comparació · B) Metàfora · C) Hipèrbole · D) Al·literació",
-      "Completa amb «perquè» o «per què»: «No sé ___ ha vingut tan d'hora».",
-      "Què és una oració subordinada? Posa un exemple.",
-      "Quina diferència hi ha entre un narrador en primera persona i en tercera persona?"
-    ]
-  },
-  "English": {
-    "English": [
-      "Choose the right form: \"She ___ to school yesterday.\"\n\nA) goed · B) went · C) gone · D) goes",
-      "Rewrite in the past simple: \"I eat breakfast at 8.\"",
-      "Choose: \"I have lived here ___ 2020.\"\n\nA) for · B) since · C) during · D) from",
-      "What is the plural of \"child\"? And of \"mouse\"?",
-      "Turn into a question: \"You play football on Saturdays.\"",
-      "What is the opposite of \"expensive\"?",
-      "Complete: \"If it rains tomorrow, I ___ (stay) at home.\""
+    "answer": 0
+   },
+   {
+    "q": "Aire d'un rectangle de 6 cm de long et 4 cm de large ?",
+    "options": [
+     "10 cm²",
+     "20 cm²",
+     "12 cm²",
+     "24 cm²"
     ],
-    "Spanish": [
-      "Elige la forma correcta: \"She ___ to school yesterday.\"\n\nA) goed · B) went · C) gone · D) goes",
-      "Traduce al inglés: «Me gusta leer libros por la noche».",
-      "Elige: \"I have lived here ___ 2020.\"\n\nA) for · B) since · C) during · D) from",
-      "¿Cuál es el plural de \"child\"? ¿Y de \"mouse\"?",
-      "Convierte en pregunta: \"You play football on Saturdays.\"",
-      "¿Cuál es el contrario de \"expensive\"?",
-      "Completa: \"If it rains tomorrow, I ___ (stay) at home.\""
+    "answer": 3
+   },
+   {
+    "q": "Combien font $(-2) \\times (-3)$ ?",
+    "options": [
+     "$-6$",
+     "$6$",
+     "$-5$",
+     "$5$"
     ],
-    "French": [
-      "Choisis la bonne forme : \"She ___ to school yesterday.\"\n\nA) goed · B) went · C) gone · D) goes",
-      "Traduis en anglais : « J'aime lire des livres le soir ».",
-      "Choisis : \"I have lived here ___ 2020.\"\n\nA) for · B) since · C) during · D) from",
-      "Quel est le pluriel de \"child\" ? Et de \"mouse\" ?",
-      "Transforme en question : \"You play football on Saturdays.\"",
-      "Quel est le contraire de \"expensive\" ?",
-      "Complète : \"If it rains tomorrow, I ___ (stay) at home.\""
+    "answer": 1
+   },
+   {
+    "q": "Combien vaut $2^5$ ?",
+    "options": [
+     "10",
+     "25",
+     "32",
+     "64"
     ],
-    "Catalan": [
-      "Tria la forma correcta: \"She ___ to school yesterday.\"\n\nA) goed · B) went · C) gone · D) goes",
-      "Tradueix a l'anglès: «M'agrada llegir llibres a la nit».",
-      "Tria: \"I have lived here ___ 2020.\"\n\nA) for · B) since · C) during · D) from",
-      "Quin és el plural de \"child\"? I de \"mouse\"?",
-      "Converteix en pregunta: \"You play football on Saturdays.\"",
-      "Quin és el contrari de \"expensive\"?",
-      "Completa: \"If it rains tomorrow, I ___ (stay) at home.\""
-    ]
-  },
-  "Programming": {
-    "English": [
-      "What does a `for` loop do? Give a small example.",
-      "What is the value of `x` after: `x = 5; x = x * 2 + 1;`?",
-      "What is the difference between a variable and a constant?",
-      "What does this print: `print(3 > 2 and 2 > 5)`?\n\nA) True · B) False · C) 3 · D) An error",
-      "What is a list (or array)? Give an example.",
-      "What is a function and why do we use them?",
-      "What is a bug, and what would you do first to find one?"
+    "answer": 2
+   }
+  ],
+  "Catalan": [
+   {
+    "q": "Quant és $\\frac{1}{2} + \\frac{1}{4}$?",
+    "options": [
+     "$\\frac{2}{6}$",
+     "$\\frac{3}{4}$",
+     "$\\frac{1}{6}$",
+     "$\\frac{2}{4}$"
     ],
-    "Spanish": [
-      "¿Qué hace un bucle `for`? Pon un ejemplo pequeño.",
-      "¿Qué valor tiene `x` después de: `x = 5; x = x * 2 + 1;`?",
-      "¿Qué diferencia hay entre una variable y una constante?",
-      "¿Qué imprime: `print(3 > 2 and 2 > 5)`?\n\nA) True · B) False · C) 3 · D) Un error",
-      "¿Qué es una lista (o array)? Pon un ejemplo.",
-      "¿Qué es una función y para qué sirve?",
-      "¿Qué es un bug y qué harías primero para encontrarlo?"
+    "answer": 1
+   },
+   {
+    "q": "Resol: $3x - 4 = 11$",
+    "options": [
+     "$x = 3$",
+     "$x = 7$",
+     "$x = 5$",
+     "$x = 15$"
     ],
-    "French": [
-      "Que fait une boucle `for` ? Donne un petit exemple.",
-      "Quelle est la valeur de `x` après : `x = 5; x = x * 2 + 1;` ?",
-      "Quelle est la différence entre une variable et une constante ?",
-      "Qu'affiche : `print(3 > 2 and 2 > 5)` ?\n\nA) True · B) False · C) 3 · D) Une erreur",
-      "Qu'est-ce qu'une liste (ou tableau) ? Donne un exemple.",
-      "Qu'est-ce qu'une fonction et à quoi sert-elle ?",
-      "Qu'est-ce qu'un bug, et que ferais-tu en premier pour le trouver ?"
+    "answer": 2
+   },
+   {
+    "q": "Uns pantalons costen 40 € amb un 25 % de descompte. Quant pagues?",
+    "options": [
+     "30 €",
+     "35 €",
+     "15 €",
+     "10 €"
     ],
-    "Catalan": [
-      "Què fa un bucle `for`? Posa'n un exemple petit.",
-      "Quin valor té `x` després de: `x = 5; x = x * 2 + 1;`?",
-      "Quina diferència hi ha entre una variable i una constant?",
-      "Què imprimeix: `print(3 > 2 and 2 > 5)`?\n\nA) True · B) False · C) 3 · D) Un error",
-      "Què és una llista (o array)? Posa'n un exemple.",
-      "Què és una funció i per a què serveix?",
-      "Què és un bug i què faries primer per trobar-lo?"
-    ]
-  },
-  "Other": {
-    "English": [
-      "How do you find the main idea of a text?",
-      "Name one technique to memorise a list of words.",
-      "What is the difference between a fact and an opinion? Give an example of each.",
-      "Which planet is closest to the Sun?\n\nA) Venus · B) Mercury · C) Mars · D) Earth",
-      "What does \"summarise\" mean, and what should a good summary include?",
-      "How many continents are there? Name three.",
-      "How would you organise your study time the week before an exam?"
+    "answer": 0
+   },
+   {
+    "q": "Àrea d'un rectangle de 6 cm de llarg i 4 cm d'ample?",
+    "options": [
+     "10 cm²",
+     "20 cm²",
+     "12 cm²",
+     "24 cm²"
     ],
-    "Spanish": [
-      "¿Cómo encuentras la idea principal de un texto?",
-      "Di una técnica para memorizar una lista de palabras.",
-      "¿Qué diferencia hay entre un hecho y una opinión? Pon un ejemplo de cada uno.",
-      "¿Qué planeta está más cerca del Sol?\n\nA) Venus · B) Mercurio · C) Marte · D) Tierra",
-      "¿Qué significa «resumir» y qué debe tener un buen resumen?",
-      "¿Cuántos continentes hay? Nombra tres.",
-      "¿Cómo organizarías tu tiempo de estudio la semana antes de un examen?"
+    "answer": 3
+   },
+   {
+    "q": "Quant és $(-2) \\cdot (-3)$?",
+    "options": [
+     "$-6$",
+     "$6$",
+     "$-5$",
+     "$5$"
     ],
-    "French": [
-      "Comment trouves-tu l'idée principale d'un texte ?",
-      "Cite une technique pour mémoriser une liste de mots.",
-      "Quelle est la différence entre un fait et une opinion ? Donne un exemple de chaque.",
-      "Quelle planète est la plus proche du Soleil ?\n\nA) Vénus · B) Mercure · C) Mars · D) Terre",
-      "Que veut dire « résumer » et que doit contenir un bon résumé ?",
-      "Combien y a-t-il de continents ? Cites-en trois.",
-      "Comment organiserais-tu ton temps de révision la semaine avant un examen ?"
+    "answer": 1
+   },
+   {
+    "q": "Quant és $2^5$?",
+    "options": [
+     "10",
+     "25",
+     "32",
+     "64"
     ],
-    "Catalan": [
-      "Com trobes la idea principal d'un text?",
-      "Digues una tècnica per memoritzar una llista de paraules.",
-      "Quina diferència hi ha entre un fet i una opinió? Posa un exemple de cadascun.",
-      "Quin planeta és el més proper al Sol?\n\nA) Venus · B) Mercuri · C) Mart · D) Terra",
-      "Què vol dir «resumir» i què ha de tenir un bon resum?",
-      "Quants continents hi ha? Anomena'n tres.",
-      "Com organitzaries el teu temps d'estudi la setmana abans d'un examen?"
-    ]
-  }
+    "answer": 2
+   }
+  ]
+ },
+ "PhysicsChemistry": {
+  "English": [
+   {
+    "q": "What is the chemical formula of water?",
+    "options": [
+     "H₂O",
+     "CO₂",
+     "O₂",
+     "H₂O₂"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "A car travels 120 km in 2 hours. What is its average speed?",
+    "options": [
+     "240 km/h",
+     "30 km/h",
+     "60 km/h",
+     "122 km/h"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "At sea level, water boils at…",
+    "options": [
+     "50 °C",
+     "100 °C",
+     "0 °C",
+     "212 °C"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "Which particle has a negative charge?",
+    "options": [
+     "Proton",
+     "Neutron",
+     "Nucleus",
+     "Electron"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "What is the unit of force in the International System?",
+    "options": [
+     "Newton (N)",
+     "Joule (J)",
+     "Watt (W)",
+     "Pascal (Pa)"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "Turning a liquid into a gas is called…",
+    "options": [
+     "Condensation",
+     "Melting",
+     "Evaporation",
+     "Solidification"
+    ],
+    "answer": 2
+   }
+  ],
+  "Spanish": [
+   {
+    "q": "¿Cuál es la fórmula química del agua?",
+    "options": [
+     "H₂O",
+     "CO₂",
+     "O₂",
+     "H₂O₂"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "Un coche recorre 120 km en 2 horas. ¿Cuál es su velocidad media?",
+    "options": [
+     "240 km/h",
+     "30 km/h",
+     "60 km/h",
+     "122 km/h"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "A nivel del mar, el agua hierve a…",
+    "options": [
+     "50 °C",
+     "100 °C",
+     "0 °C",
+     "212 °C"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "¿Qué partícula tiene carga negativa?",
+    "options": [
+     "Protón",
+     "Neutrón",
+     "Núcleo",
+     "Electrón"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "¿Cuál es la unidad de fuerza en el Sistema Internacional?",
+    "options": [
+     "Newton (N)",
+     "Julio (J)",
+     "Vatio (W)",
+     "Pascal (Pa)"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "El paso de líquido a gas se llama…",
+    "options": [
+     "Condensación",
+     "Fusión",
+     "Evaporación",
+     "Solidificación"
+    ],
+    "answer": 2
+   }
+  ],
+  "French": [
+   {
+    "q": "Quelle est la formule chimique de l'eau ?",
+    "options": [
+     "H₂O",
+     "CO₂",
+     "O₂",
+     "H₂O₂"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "Une voiture parcourt 120 km en 2 heures. Quelle est sa vitesse moyenne ?",
+    "options": [
+     "240 km/h",
+     "30 km/h",
+     "60 km/h",
+     "122 km/h"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Au niveau de la mer, l'eau bout à…",
+    "options": [
+     "50 °C",
+     "100 °C",
+     "0 °C",
+     "212 °C"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "Quelle particule a une charge négative ?",
+    "options": [
+     "Proton",
+     "Neutron",
+     "Noyau",
+     "Électron"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "Quelle est l'unité de force dans le Système international ?",
+    "options": [
+     "Newton (N)",
+     "Joule (J)",
+     "Watt (W)",
+     "Pascal (Pa)"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "Le passage de l'état liquide à l'état gazeux s'appelle…",
+    "options": [
+     "La condensation",
+     "La fusion",
+     "La vaporisation",
+     "La solidification"
+    ],
+    "answer": 2
+   }
+  ],
+  "Catalan": [
+   {
+    "q": "Quina és la fórmula química de l'aigua?",
+    "options": [
+     "H₂O",
+     "CO₂",
+     "O₂",
+     "H₂O₂"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "Un cotxe recorre 120 km en 2 hores. Quina és la seva velocitat mitjana?",
+    "options": [
+     "240 km/h",
+     "30 km/h",
+     "60 km/h",
+     "122 km/h"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Al nivell del mar, l'aigua bull a…",
+    "options": [
+     "50 °C",
+     "100 °C",
+     "0 °C",
+     "212 °C"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "Quina partícula té càrrega negativa?",
+    "options": [
+     "Protó",
+     "Neutró",
+     "Nucli",
+     "Electró"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "Quina és la unitat de força al Sistema Internacional?",
+    "options": [
+     "Newton (N)",
+     "Joule (J)",
+     "Watt (W)",
+     "Pascal (Pa)"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "El pas de líquid a gas s'anomena…",
+    "options": [
+     "Condensació",
+     "Fusió",
+     "Evaporació",
+     "Solidificació"
+    ],
+    "answer": 2
+   }
+  ]
+ },
+ "Biology": {
+  "English": [
+   {
+    "q": "Which organelle carries out photosynthesis?",
+    "options": [
+     "Mitochondrion",
+     "Chloroplast",
+     "Nucleus",
+     "Ribosome"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "Where is the genetic material of an animal cell mainly found?",
+    "options": [
+     "Cell membrane",
+     "Cytoplasm",
+     "Vacuole",
+     "Nucleus"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "Which blood cells carry oxygen?",
+    "options": [
+     "Red blood cells",
+     "White blood cells",
+     "Platelets",
+     "Neurons"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "Which organ pumps blood around the body?",
+    "options": [
+     "Lungs",
+     "Liver",
+     "Heart",
+     "Kidneys"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Animals that eat only plants are…",
+    "options": [
+     "Carnivores",
+     "Herbivores",
+     "Omnivores",
+     "Decomposers"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "Which gas do plants release during photosynthesis?",
+    "options": [
+     "Carbon dioxide",
+     "Nitrogen",
+     "Hydrogen",
+     "Oxygen"
+    ],
+    "answer": 3
+   }
+  ],
+  "Spanish": [
+   {
+    "q": "¿Qué orgánulo realiza la fotosíntesis?",
+    "options": [
+     "Mitocondria",
+     "Cloroplasto",
+     "Núcleo",
+     "Ribosoma"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "¿Dónde está principalmente el material genético de una célula animal?",
+    "options": [
+     "Membrana",
+     "Citoplasma",
+     "Vacuola",
+     "Núcleo"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "¿Qué células de la sangre transportan el oxígeno?",
+    "options": [
+     "Glóbulos rojos",
+     "Glóbulos blancos",
+     "Plaquetas",
+     "Neuronas"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "¿Qué órgano bombea la sangre por el cuerpo?",
+    "options": [
+     "Pulmones",
+     "Hígado",
+     "Corazón",
+     "Riñones"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Los animales que solo comen plantas son…",
+    "options": [
+     "Carnívoros",
+     "Herbívoros",
+     "Omnívoros",
+     "Descomponedores"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "¿Qué gas liberan las plantas en la fotosíntesis?",
+    "options": [
+     "Dióxido de carbono",
+     "Nitrógeno",
+     "Hidrógeno",
+     "Oxígeno"
+    ],
+    "answer": 3
+   }
+  ],
+  "French": [
+   {
+    "q": "Quel organite réalise la photosynthèse ?",
+    "options": [
+     "Mitochondrie",
+     "Chloroplaste",
+     "Noyau",
+     "Ribosome"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "Où se trouve surtout le matériel génétique d'une cellule animale ?",
+    "options": [
+     "Membrane",
+     "Cytoplasme",
+     "Vacuole",
+     "Noyau"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "Quelles cellules du sang transportent l'oxygène ?",
+    "options": [
+     "Globules rouges",
+     "Globules blancs",
+     "Plaquettes",
+     "Neurones"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "Quel organe fait circuler le sang dans le corps ?",
+    "options": [
+     "Poumons",
+     "Foie",
+     "Cœur",
+     "Reins"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Les animaux qui mangent seulement des plantes sont…",
+    "options": [
+     "Carnivores",
+     "Herbivores",
+     "Omnivores",
+     "Décomposeurs"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "Quel gaz les plantes libèrent-elles pendant la photosynthèse ?",
+    "options": [
+     "Dioxyde de carbone",
+     "Azote",
+     "Hydrogène",
+     "Oxygène"
+    ],
+    "answer": 3
+   }
+  ],
+  "Catalan": [
+   {
+    "q": "Quin orgànul fa la fotosíntesi?",
+    "options": [
+     "Mitocondri",
+     "Cloroplast",
+     "Nucli",
+     "Ribosoma"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "On es troba principalment el material genètic d'una cèl·lula animal?",
+    "options": [
+     "Membrana",
+     "Citoplasma",
+     "Vacúol",
+     "Nucli"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "Quines cèl·lules de la sang transporten l'oxigen?",
+    "options": [
+     "Glòbuls vermells",
+     "Glòbuls blancs",
+     "Plaquetes",
+     "Neurones"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "Quin òrgan bombeja la sang pel cos?",
+    "options": [
+     "Pulmons",
+     "Fetge",
+     "Cor",
+     "Ronyons"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Els animals que només mengen plantes són…",
+    "options": [
+     "Carnívors",
+     "Herbívors",
+     "Omnívors",
+     "Descomponedors"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "Quin gas alliberen les plantes en la fotosíntesi?",
+    "options": [
+     "Diòxid de carboni",
+     "Nitrogen",
+     "Hidrogen",
+     "Oxigen"
+    ],
+    "answer": 3
+   }
+  ]
+ },
+ "HistoryGeography": {
+  "English": [
+   {
+    "q": "In which year did Christopher Columbus reach America?",
+    "options": [
+     "1215",
+     "1789",
+     "1492",
+     "1648"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "What is the longest river in the Iberian Peninsula?",
+    "options": [
+     "Tagus",
+     "Ebro",
+     "Douro",
+     "Guadalquivir"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "Which event began in 1789 in France?",
+    "options": [
+     "The Hundred Years' War",
+     "The Renaissance",
+     "The First World War",
+     "The French Revolution"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "Which is the largest ocean?",
+    "options": [
+     "Atlantic",
+     "Pacific",
+     "Indian",
+     "Arctic"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "What is the capital of Portugal?",
+    "options": [
+     "Porto",
+     "Madrid",
+     "Lisbon",
+     "Seville"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Which civilisation built the pyramids of Giza?",
+    "options": [
+     "Ancient Egyptians",
+     "Romans",
+     "Aztecs",
+     "Vikings"
+    ],
+    "answer": 0
+   }
+  ],
+  "Spanish": [
+   {
+    "q": "¿En qué año llegó Cristóbal Colón a América?",
+    "options": [
+     "1215",
+     "1789",
+     "1492",
+     "1648"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "¿Cuál es el río más largo de la península ibérica?",
+    "options": [
+     "Tajo",
+     "Ebro",
+     "Duero",
+     "Guadalquivir"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "¿Qué acontecimiento empezó en 1789 en Francia?",
+    "options": [
+     "La guerra de los Cien Años",
+     "El Renacimiento",
+     "La Primera Guerra Mundial",
+     "La Revolución francesa"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "¿Cuál es el océano más grande?",
+    "options": [
+     "Atlántico",
+     "Pacífico",
+     "Índico",
+     "Ártico"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "¿Cuál es la capital de Portugal?",
+    "options": [
+     "Oporto",
+     "Madrid",
+     "Lisboa",
+     "Sevilla"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "¿Qué civilización construyó las pirámides de Guiza?",
+    "options": [
+     "Los antiguos egipcios",
+     "Los romanos",
+     "Los aztecas",
+     "Los vikingos"
+    ],
+    "answer": 0
+   }
+  ],
+  "French": [
+   {
+    "q": "En quelle année Christophe Colomb a-t-il atteint l'Amérique ?",
+    "options": [
+     "1215",
+     "1789",
+     "1492",
+     "1648"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Quel est le plus long fleuve de la péninsule Ibérique ?",
+    "options": [
+     "Le Tage",
+     "L'Èbre",
+     "Le Douro",
+     "Le Guadalquivir"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "Quel événement commence en 1789 en France ?",
+    "options": [
+     "La guerre de Cent Ans",
+     "La Renaissance",
+     "La Première Guerre mondiale",
+     "La Révolution française"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "Quel est le plus grand océan ?",
+    "options": [
+     "Atlantique",
+     "Pacifique",
+     "Indien",
+     "Arctique"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "Quelle est la capitale du Portugal ?",
+    "options": [
+     "Porto",
+     "Madrid",
+     "Lisbonne",
+     "Séville"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Quelle civilisation a construit les pyramides de Gizeh ?",
+    "options": [
+     "Les anciens Égyptiens",
+     "Les Romains",
+     "Les Aztèques",
+     "Les Vikings"
+    ],
+    "answer": 0
+   }
+  ],
+  "Catalan": [
+   {
+    "q": "En quin any va arribar Cristòfor Colom a Amèrica?",
+    "options": [
+     "1215",
+     "1789",
+     "1492",
+     "1648"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Quin és el riu més llarg de la península Ibèrica?",
+    "options": [
+     "Tajo",
+     "Ebre",
+     "Duero",
+     "Guadalquivir"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "Quin esdeveniment va començar el 1789 a França?",
+    "options": [
+     "La guerra dels Cent Anys",
+     "El Renaixement",
+     "La Primera Guerra Mundial",
+     "La Revolució francesa"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "Quin és l'oceà més gran?",
+    "options": [
+     "Atlàntic",
+     "Pacífic",
+     "Índic",
+     "Àrtic"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "Quina és la capital de Portugal?",
+    "options": [
+     "Porto",
+     "Madrid",
+     "Lisboa",
+     "Sevilla"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Quina civilització va construir les piràmides de Gizeh?",
+    "options": [
+     "Els antics egipcis",
+     "Els romans",
+     "Els asteques",
+     "Els víkings"
+    ],
+    "answer": 0
+   }
+  ]
+ },
+ "LanguageLiterature": {
+  "English": [
+   {
+    "q": "In \"The cat sleeps on the sofa\", what is the verb?",
+    "options": [
+     "cat",
+     "sleeps",
+     "on",
+     "sofa"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "Which word is a synonym of \"happy\"?",
+    "options": [
+     "joyful",
+     "sad",
+     "tired",
+     "angry"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "\"Her smile was a ray of sunshine\" is an example of…",
+    "options": [
+     "a question",
+     "a rhyme",
+     "an onomatopoeia",
+     "a metaphor"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "Who wrote \"Romeo and Juliet\"?",
+    "options": [
+     "Charles Dickens",
+     "Jane Austen",
+     "William Shakespeare",
+     "Mark Twain"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Which word is an adjective?",
+    "options": [
+     "quickly",
+     "beautiful",
+     "run",
+     "table"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "What is the plural of \"child\"?",
+    "options": [
+     "children",
+     "childs",
+     "childes",
+     "child"
+    ],
+    "answer": 0
+   }
+  ],
+  "Spanish": [
+   {
+    "q": "En «El gato duerme en el sofá», ¿cuál es el verbo?",
+    "options": [
+     "gato",
+     "duerme",
+     "en",
+     "sofá"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "¿Qué palabra es sinónimo de «feliz»?",
+    "options": [
+     "contento",
+     "triste",
+     "cansado",
+     "enfadado"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "«Su sonrisa era un rayo de sol» es un ejemplo de…",
+    "options": [
+     "una pregunta",
+     "una rima",
+     "una onomatopeya",
+     "una metáfora"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "¿Quién escribió «Don Quijote de la Mancha»?",
+    "options": [
+     "Lope de Vega",
+     "Federico García Lorca",
+     "Miguel de Cervantes",
+     "Antonio Machado"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "¿Qué palabra es un adjetivo?",
+    "options": [
+     "rápidamente",
+     "bonito",
+     "correr",
+     "mesa"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "¿Cuál es el plural de «lápiz»?",
+    "options": [
+     "lápices",
+     "lápizes",
+     "lápizs",
+     "lápiz"
+    ],
+    "answer": 0
+   }
+  ],
+  "French": [
+   {
+    "q": "Dans « Le chat dort sur le canapé », quel est le verbe ?",
+    "options": [
+     "chat",
+     "dort",
+     "sur",
+     "canapé"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "Quel mot est un synonyme de « heureux » ?",
+    "options": [
+     "joyeux",
+     "triste",
+     "fatigué",
+     "fâché"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "« Son sourire était un rayon de soleil » est un exemple de…",
+    "options": [
+     "question",
+     "rime",
+     "onomatopée",
+     "métaphore"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "Qui a écrit « Les Misérables » ?",
+    "options": [
+     "Molière",
+     "Émile Zola",
+     "Victor Hugo",
+     "Albert Camus"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Quel mot est un adjectif ?",
+    "options": [
+     "rapidement",
+     "beau",
+     "courir",
+     "table"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "Quel est le pluriel de « cheval » ?",
+    "options": [
+     "chevaux",
+     "chevals",
+     "chevales",
+     "cheval"
+    ],
+    "answer": 0
+   }
+  ],
+  "Catalan": [
+   {
+    "q": "A «El gat dorm al sofà», quin és el verb?",
+    "options": [
+     "gat",
+     "dorm",
+     "al",
+     "sofà"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "Quina paraula és sinònim de «feliç»?",
+    "options": [
+     "content",
+     "trist",
+     "cansat",
+     "enfadat"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "«El seu somriure era un raig de sol» és un exemple de…",
+    "options": [
+     "una pregunta",
+     "una rima",
+     "una onomatopeia",
+     "una metàfora"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "Qui va escriure «Tirant lo Blanc»?",
+    "options": [
+     "Jacint Verdaguer",
+     "Mercè Rodoreda",
+     "Joanot Martorell",
+     "Ramon Llull"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Quina paraula és un adjectiu?",
+    "options": [
+     "ràpidament",
+     "bonic",
+     "córrer",
+     "taula"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "Quin és el plural de «peix»?",
+    "options": [
+     "peixos",
+     "peixs",
+     "peixes",
+     "peix"
+    ],
+    "answer": 0
+   }
+  ]
+ },
+ "English": {
+  "English": [
+   {
+    "q": "Choose the correct form: \"She ___ to school every day.\"",
+    "options": [
+     "go",
+     "going",
+     "goes",
+     "gone"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "What is the past simple of \"buy\"?",
+    "options": [
+     "buyed",
+     "bought",
+     "brought",
+     "buys"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "Complete: \"There ___ two apples on the table.\"",
+    "options": [
+     "are",
+     "is",
+     "be",
+     "am"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "What does \"library\" mean?",
+    "options": [
+     "A bookshop",
+     "A laboratory",
+     "A bakery",
+     "A place to borrow books"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "Choose the comparative: \"This test is ___ than the last one.\"",
+    "options": [
+     "easyer",
+     "more easy",
+     "easier",
+     "easiest"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Complete: \"I have lived here ___ 2020.\"",
+    "options": [
+     "for",
+     "since",
+     "from",
+     "during"
+    ],
+    "answer": 1
+   }
+  ],
+  "Spanish": [
+   {
+    "q": "Elige la forma correcta: «She ___ to school every day.»",
+    "options": [
+     "go",
+     "going",
+     "goes",
+     "gone"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "¿Cuál es el pasado simple de «buy»?",
+    "options": [
+     "buyed",
+     "bought",
+     "brought",
+     "buys"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "Completa: «There ___ two apples on the table.»",
+    "options": [
+     "are",
+     "is",
+     "be",
+     "am"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "¿Qué significa «library»?",
+    "options": [
+     "Librería",
+     "Laboratorio",
+     "Panadería",
+     "Biblioteca"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "Elige el comparativo: «This test is ___ than the last one.»",
+    "options": [
+     "easyer",
+     "more easy",
+     "easier",
+     "easiest"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Completa: «I have lived here ___ 2020.»",
+    "options": [
+     "for",
+     "since",
+     "from",
+     "during"
+    ],
+    "answer": 1
+   }
+  ],
+  "French": [
+   {
+    "q": "Choisis la bonne forme : « She ___ to school every day. »",
+    "options": [
+     "go",
+     "going",
+     "goes",
+     "gone"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Quel est le prétérit de « buy » ?",
+    "options": [
+     "buyed",
+     "bought",
+     "brought",
+     "buys"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "Complète : « There ___ two apples on the table. »",
+    "options": [
+     "are",
+     "is",
+     "be",
+     "am"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "Que signifie « library » ?",
+    "options": [
+     "Librairie",
+     "Laboratoire",
+     "Boulangerie",
+     "Bibliothèque"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "Choisis le comparatif : « This test is ___ than the last one. »",
+    "options": [
+     "easyer",
+     "more easy",
+     "easier",
+     "easiest"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Complète : « I have lived here ___ 2020. »",
+    "options": [
+     "for",
+     "since",
+     "from",
+     "during"
+    ],
+    "answer": 1
+   }
+  ],
+  "Catalan": [
+   {
+    "q": "Tria la forma correcta: «She ___ to school every day.»",
+    "options": [
+     "go",
+     "going",
+     "goes",
+     "gone"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Quin és el passat simple de «buy»?",
+    "options": [
+     "buyed",
+     "bought",
+     "brought",
+     "buys"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "Completa: «There ___ two apples on the table.»",
+    "options": [
+     "are",
+     "is",
+     "be",
+     "am"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "Què vol dir «library»?",
+    "options": [
+     "Llibreria",
+     "Laboratori",
+     "Fleca",
+     "Biblioteca"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "Tria el comparatiu: «This test is ___ than the last one.»",
+    "options": [
+     "easyer",
+     "more easy",
+     "easier",
+     "easiest"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Completa: «I have lived here ___ 2020.»",
+    "options": [
+     "for",
+     "since",
+     "from",
+     "during"
+    ],
+    "answer": 1
+   }
+  ]
+ },
+ "Programming": {
+  "English": [
+   {
+    "q": "What does `print(2 + 3 * 2)` show in Python?",
+    "options": [
+     "10",
+     "8",
+     "7",
+     "12"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "What is a loop used for?",
+    "options": [
+     "Storing a single value",
+     "Drawing a window",
+     "Ending the program",
+     "Repeating instructions"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "In most languages, list indexes start at…",
+    "options": [
+     "0",
+     "1",
+     "-1",
+     "10"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "Which value is a boolean?",
+    "options": [
+     "\"yes\"",
+     "42",
+     "true",
+     "3.14"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "What does `x = x + 1` do?",
+    "options": [
+     "Compares x with 1",
+     "Increases x by 1",
+     "Deletes x",
+     "Prints x"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "What is a bug?",
+    "options": [
+     "A fast computer",
+     "A type of variable",
+     "A programming language",
+     "An error in a program"
+    ],
+    "answer": 3
+   }
+  ],
+  "Spanish": [
+   {
+    "q": "¿Qué muestra `print(2 + 3 * 2)` en Python?",
+    "options": [
+     "10",
+     "8",
+     "7",
+     "12"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "¿Para qué sirve un bucle?",
+    "options": [
+     "Guardar un solo valor",
+     "Dibujar una ventana",
+     "Terminar el programa",
+     "Repetir instrucciones"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "En la mayoría de lenguajes, los índices de una lista empiezan en…",
+    "options": [
+     "0",
+     "1",
+     "-1",
+     "10"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "¿Qué valor es un booleano?",
+    "options": [
+     "\"sí\"",
+     "42",
+     "true",
+     "3.14"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "¿Qué hace `x = x + 1`?",
+    "options": [
+     "Compara x con 1",
+     "Aumenta x en 1",
+     "Borra x",
+     "Muestra x"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "¿Qué es un bug?",
+    "options": [
+     "Un ordenador rápido",
+     "Un tipo de variable",
+     "Un lenguaje de programación",
+     "Un error en un programa"
+    ],
+    "answer": 3
+   }
+  ],
+  "French": [
+   {
+    "q": "Qu'affiche `print(2 + 3 * 2)` en Python ?",
+    "options": [
+     "10",
+     "8",
+     "7",
+     "12"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "À quoi sert une boucle ?",
+    "options": [
+     "Stocker une seule valeur",
+     "Dessiner une fenêtre",
+     "Terminer le programme",
+     "Répéter des instructions"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "Dans la plupart des langages, les indices d'une liste commencent à…",
+    "options": [
+     "0",
+     "1",
+     "-1",
+     "10"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "Quelle valeur est un booléen ?",
+    "options": [
+     "\"oui\"",
+     "42",
+     "true",
+     "3.14"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Que fait `x = x + 1` ?",
+    "options": [
+     "Compare x à 1",
+     "Augmente x de 1",
+     "Supprime x",
+     "Affiche x"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "Qu'est-ce qu'un bug ?",
+    "options": [
+     "Un ordinateur rapide",
+     "Un type de variable",
+     "Un langage de programmation",
+     "Une erreur dans un programme"
+    ],
+    "answer": 3
+   }
+  ],
+  "Catalan": [
+   {
+    "q": "Què mostra `print(2 + 3 * 2)` en Python?",
+    "options": [
+     "10",
+     "8",
+     "7",
+     "12"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "Per a què serveix un bucle?",
+    "options": [
+     "Desar un sol valor",
+     "Dibuixar una finestra",
+     "Acabar el programa",
+     "Repetir instruccions"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "En la majoria de llenguatges, els índexs d'una llista comencen a…",
+    "options": [
+     "0",
+     "1",
+     "-1",
+     "10"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "Quin valor és un booleà?",
+    "options": [
+     "\"sí\"",
+     "42",
+     "true",
+     "3.14"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Què fa `x = x + 1`?",
+    "options": [
+     "Compara x amb 1",
+     "Augmenta x en 1",
+     "Esborra x",
+     "Mostra x"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "Què és un bug?",
+    "options": [
+     "Un ordinador ràpid",
+     "Un tipus de variable",
+     "Un llenguatge de programació",
+     "Un error en un programa"
+    ],
+    "answer": 3
+   }
+  ]
+ },
+ "Other": {
+  "English": [
+   {
+    "q": "What is the best way to remember a lesson in the long term?",
+    "options": [
+     "Reading it once the night before",
+     "Highlighting everything",
+     "Reviewing it several times over days",
+     "Copying it word for word"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "What helps most to concentrate while studying?",
+    "options": [
+     "Phone out of sight",
+     "Music videos",
+     "Studying in bed",
+     "Changing subject every 2 minutes"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "A summary should be…",
+    "options": [
+     "Longer than the text",
+     "Short, with the main ideas",
+     "Only the title",
+     "A copy of the first paragraph"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "Before an exam, the night before you should…",
+    "options": [
+     "Stay up all night",
+     "Learn a whole new topic",
+     "Skip dinner",
+     "Review briefly and sleep well"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "A study plan is useful because it…",
+    "options": [
+     "Removes the need to study",
+     "Makes exams easier",
+     "Spreads the work over time",
+     "Replaces the teacher"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "When you don't understand something in class, it's best to…",
+    "options": [
+     "Ask the teacher",
+     "Pretend you understood",
+     "Skip that topic",
+     "Wait for the exam"
+    ],
+    "answer": 0
+   }
+  ],
+  "Spanish": [
+   {
+    "q": "¿Cuál es la mejor forma de recordar una lección a largo plazo?",
+    "options": [
+     "Leerla una vez la noche antes",
+     "Subrayarlo todo",
+     "Repasarla varias veces durante días",
+     "Copiarla palabra por palabra"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "¿Qué ayuda más a concentrarse al estudiar?",
+    "options": [
+     "El móvil fuera de la vista",
+     "Ver vídeos musicales",
+     "Estudiar en la cama",
+     "Cambiar de asignatura cada 2 minutos"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "Un resumen debe ser…",
+    "options": [
+     "Más largo que el texto",
+     "Corto, con las ideas principales",
+     "Solo el título",
+     "Una copia del primer párrafo"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "La noche antes de un examen conviene…",
+    "options": [
+     "No dormir",
+     "Aprender un tema nuevo entero",
+     "No cenar",
+     "Repasar un poco y dormir bien"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "Un plan de estudio es útil porque…",
+    "options": [
+     "Evita tener que estudiar",
+     "Hace los exámenes más fáciles",
+     "Reparte el trabajo en el tiempo",
+     "Sustituye al profesor"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Cuando no entiendes algo en clase, lo mejor es…",
+    "options": [
+     "Preguntar al profesor",
+     "Hacer como que lo entiendes",
+     "Saltarte ese tema",
+     "Esperar al examen"
+    ],
+    "answer": 0
+   }
+  ],
+  "French": [
+   {
+    "q": "Quelle est la meilleure façon de retenir une leçon sur le long terme ?",
+    "options": [
+     "La lire une fois la veille",
+     "Tout surligner",
+     "La revoir plusieurs fois sur plusieurs jours",
+     "La recopier mot à mot"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Qu'est-ce qui aide le plus à se concentrer ?",
+    "options": [
+     "Le téléphone hors de vue",
+     "Regarder des clips",
+     "Réviser au lit",
+     "Changer de matière toutes les 2 minutes"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "Un résumé doit être…",
+    "options": [
+     "Plus long que le texte",
+     "Court, avec les idées principales",
+     "Seulement le titre",
+     "Une copie du premier paragraphe"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "La veille d'un examen, il vaut mieux…",
+    "options": [
+     "Ne pas dormir",
+     "Apprendre un nouveau chapitre",
+     "Sauter le dîner",
+     "Réviser un peu et bien dormir"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "Un planning de révisions est utile car il…",
+    "options": [
+     "Évite de réviser",
+     "Rend les examens plus faciles",
+     "Répartit le travail dans le temps",
+     "Remplace le professeur"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Quand tu ne comprends pas quelque chose en classe, le mieux est de…",
+    "options": [
+     "Demander au professeur",
+     "Faire semblant d'avoir compris",
+     "Sauter ce chapitre",
+     "Attendre l'examen"
+    ],
+    "answer": 0
+   }
+  ],
+  "Catalan": [
+   {
+    "q": "Quina és la millor manera de recordar una lliçó a llarg termini?",
+    "options": [
+     "Llegir-la un cop la nit abans",
+     "Subratllar-ho tot",
+     "Repassar-la diverses vegades durant dies",
+     "Copiar-la paraula per paraula"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Què ajuda més a concentrar-se estudiant?",
+    "options": [
+     "El mòbil fora de la vista",
+     "Mirar vídeos musicals",
+     "Estudiar al llit",
+     "Canviar d'assignatura cada 2 minuts"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "Un resum ha de ser…",
+    "options": [
+     "Més llarg que el text",
+     "Curt, amb les idees principals",
+     "Només el títol",
+     "Una còpia del primer paràgraf"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "La nit abans d'un examen convé…",
+    "options": [
+     "No dormir",
+     "Aprendre un tema nou sencer",
+     "No sopar",
+     "Repassar una mica i dormir bé"
+    ],
+    "answer": 3
+   },
+   {
+    "q": "Un pla d'estudi és útil perquè…",
+    "options": [
+     "Evita haver d'estudiar",
+     "Fa els exàmens més fàcils",
+     "Reparteix la feina en el temps",
+     "Substitueix el professor"
+    ],
+    "answer": 2
+   },
+   {
+    "q": "Quan no entens alguna cosa a classe, el millor és…",
+    "options": [
+     "Preguntar al professor",
+     "Fer veure que ho entens",
+     "Saltar-te aquest tema",
+     "Esperar l'examen"
+    ],
+    "answer": 0
+   }
+  ]
+ }
 }

@@ -40,7 +40,7 @@ public static class DependencyInjection
         AddOpenAiCompatible(services, configuration, OpenAiCompatibleOptions.OpenAi, TutorEngines.OpenAiId,
             "gpt-5-mini", "https://api.openai.com/v1/", "OPENAI_API_KEY");
         AddOpenAiCompatible(services, configuration, OpenAiCompatibleOptions.Gemini, TutorEngines.GeminiId,
-            "gemini-2.5-flash", "https://generativelanguage.googleapis.com/v1beta/openai/", "GEMINI_API_KEY");
+            "gemini-flash-latest", "https://generativelanguage.googleapis.com/v1beta/", "GEMINI_API_KEY", googleKeyHeader: true);
         AddOpenAiCompatible(services, configuration, OpenAiCompatibleOptions.Ollama, TutorEngines.OllamaId,
             "llama3.2", "http://localhost:11434/v1/", apiKeyVariable: null);
 
@@ -64,7 +64,7 @@ public static class DependencyInjection
     }
 
     private static void AddOpenAiCompatible(IServiceCollection services, IConfiguration configuration,
-        string section, string clientName, string defaultModel, string defaultBaseUrl, string? apiKeyVariable)
+        string section, string clientName, string defaultModel, string defaultBaseUrl, string? apiKeyVariable, bool googleKeyHeader = false)
     {
         services.AddOptions<OpenAiCompatibleOptions>(section)
             .Configure(o =>
@@ -86,7 +86,12 @@ public static class DependencyInjection
             var options = sp.GetRequiredService<IOptionsMonitor<OpenAiCompatibleOptions>>().Get(section);
             client.BaseAddress = options.BaseUrl;
             client.Timeout = options.Timeout;
-            if (!string.IsNullOrWhiteSpace(options.ApiKey))
+            if (!string.IsNullOrWhiteSpace(options.ApiKey) && googleKeyHeader)
+            {
+                // Native Gemini API: works with both the old "AIza" keys and the new "AQ." keys.
+                client.DefaultRequestHeaders.Add("x-goog-api-key", options.ApiKey);
+            }
+            else if (!string.IsNullOrWhiteSpace(options.ApiKey))
             {
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", options.ApiKey);
             }

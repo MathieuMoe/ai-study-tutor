@@ -1,7 +1,7 @@
 namespace TutorForge.Infrastructure.OpenAi;
 
 /// <summary>
-/// Settings for any OpenAI-compatible chat API: OpenAI (ChatGPT), Google Gemini (OpenAI compatibility endpoint)
+/// Settings for any OpenAI-compatible chat API: OpenAI (ChatGPT), Google Gemini (native API, same settings)
 /// or a local Ollama server. One implementation, three providers.
 /// </summary>
 public sealed class OpenAiCompatibleOptions

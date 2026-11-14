@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using TutorForge.Core.Abstractions;
 using TutorForge.Infrastructure.Claude;
 using TutorForge.Infrastructure.Demo;
+using TutorForge.Infrastructure.Gemini;
 using TutorForge.Infrastructure.OpenAi;
 
 namespace TutorForge.Infrastructure.Engines;
@@ -56,8 +57,9 @@ public sealed class TutorEngines
             var options = openAi.Get(section);
             if (options.IsConfigured)
             {
-                engines.Add(new(id, name, false, () =>
-                    new OpenAiCompatibleTutor(httpClientFactory.CreateClient(id), options, name, loggerFactory.CreateLogger<OpenAiCompatibleTutor>())));
+                engines.Add(new(id, name, false, id == GeminiId
+                    ? () => new GeminiTutor(httpClientFactory.CreateClient(id), options, loggerFactory.CreateLogger<GeminiTutor>())
+                    : () => new OpenAiCompatibleTutor(httpClientFactory.CreateClient(id), options, name, loggerFactory.CreateLogger<OpenAiCompatibleTutor>())));
             }
         }
 

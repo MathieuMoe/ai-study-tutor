@@ -20,6 +20,7 @@ Built with **ASP.NET Core (.NET 10)**, your choice of AI (**Claude, ChatGPT, Gem
 
 - 💬 **Chat with streaming**: the answer appears word by word, with a Stop button
 - 🎯 **Assess my level**: the tutor starts by itself with an adaptive test (questions get harder or easier with each answer), gives a 0-10 level report, then keeps training and updates the level as the student improves
+- 🔘 **Answer buttons**: multiple-choice questions (A-D) appear as clickable cards with every engine, including the demo, and the level test can be restarted at the end of any conversation
 - 🧭 **More teaching modes**: *Guide me* (hints, no direct answer), *Explain*, *Check my answer*, *Practise* (adaptive exercises)
 - 📌 Optional topic (e.g. "linear equations") to focus the session
 - 🎓 Subject (maths, sciences, history, languages, programming…) and level (primary to university)
@@ -31,7 +32,7 @@ Built with **ASP.NET Core (.NET 10)**, your choice of AI (**Claude, ChatGPT, Gem
 - 📥 Download the conversation as Markdown to keep your notes
 - 🌗 Responsive layout with dark mode
 - 🤖 **Choose your AI**: Claude, ChatGPT, Gemini or Ollama (free, local) from a selector in the header; each engine appears once its key is configured
-- 🧪 **Offline demo mode**: works without an API key, with a sample question bank per subject and language (random order per session) so anyone can try it
+- 🧪 **Offline demo mode**: works without an API key, with a multiple-choice question bank per subject and language (random order per session, answers checked) so anyone can try it
 
 ## How it works
 
@@ -40,7 +41,9 @@ flowchart LR
     B[Browser<br/>conversation in memory] -->|POST /api/tutor/stream<br/>whole history| E[Minimal API<br/>validation + rate limit]
     E --> T{ITutor}
     T -->|Claude key| C[ClaudeTutor<br/>Messages API, stream: true]
-    T -->|OpenAI / Gemini key<br/>or Ollama| O[OpenAiCompatibleTutor<br/>Chat Completions, stream: true]
+    T -->|OpenAI key or Ollama| O[OpenAiCompatibleTutor<br/>Chat Completions, stream: true]
+    T -->|Gemini key| G[GeminiTutor<br/>streamGenerateContent, SSE]
+    G -->|server-sent events| E
     T -->|always| D[DemoTutor<br/>offline question bank]
     O -->|server-sent events| E
     C -->|server-sent events| E
@@ -53,7 +56,7 @@ Technical choices worth noting:
 - **Pedagogy in the prompt.** `TutorPromptBuilder` builds a system prompt per mode (Socratic guidance, explanation structure, error-finding, adaptive practice) plus permanent safety rules. It's covered by tests.
 - **Stateless chat, persistent progress.** The chat endpoint is stateless (the browser sends the history; `ConversationNormalizer` makes it valid for the API). Progress goes through `ProgressService` and the `IStudentProgressStore` repository: the demo writes atomic JSON files (`FileStudentProgressStore`), and [docs/database.sql](docs/database.sql) contains the SQL Server schema for a production implementation, without changing anything else.
 - **Anonymous identity.** A random id in an HttpOnly cookie identifies the student; with real authentication it simply becomes the user id. A background service purges inactive students after 90 days.
-- **Pluggable AI engines.** `TutorEngines` is a registry of the configured providers; the header selector stores the choice in a cookie and the stream endpoint resolves it per request. One `OpenAiCompatibleTutor` covers ChatGPT, Gemini (OpenAI-compatible endpoint) and Ollama, with the same prompts as Claude.
+- **Pluggable AI engines.** `TutorEngines` is a registry of the configured providers; the header selector stores the choice in a cookie and the stream endpoint resolves it per request. One `OpenAiCompatibleTutor` covers ChatGPT and Ollama, and `GeminiTutor` uses Gemini's native API (works with the new `AQ.` keys), all with the same prompts as Claude.
 - **End-to-end streaming.** Claude's SSE stream is parsed (`content_block_delta`) and re-emitted as SSE to the browser, which renders Markdown progressively. Cancelling in the UI aborts the request to the AI too.
 - **Safe rendering.** Model output is Markdown converted with `marked` and sanitized with `DOMPurify` before touching the DOM; math is protected from the Markdown parser and rendered with KaTeX.
 - **Cost protection.** Rate limiting (20 messages/minute per IP), message and conversation size limits.
@@ -91,7 +94,7 @@ dotnet user-secrets set "Claude:ApiKey" "sk-ant-..." --project src/TutorForge.We
 # ChatGPT - https://platform.openai.com/api-keys
 dotnet user-secrets set "OpenAI:ApiKey" "sk-..." --project src/TutorForge.Web
 # Gemini (free tier available) - https://aistudio.google.com/apikey
-dotnet user-secrets set "Gemini:ApiKey" "AIza..." --project src/TutorForge.Web
+dotnet user-secrets set "Gemini:ApiKey" "AQ...." --project src/TutorForge.Web
 # Ollama (free, runs on your machine) - https://ollama.com, then: ollama pull llama3.2
 dotnet user-secrets set "Ollama:Enabled" "true" --project src/TutorForge.Web
 # Optional: engine selected by default
@@ -107,7 +110,7 @@ With Docker: `OPENAI_API_KEY=sk-... docker compose up --build` (or `ANTHROPIC_AP
 | `Claude:Model` | `claude-sonnet-4-5` | Any model from the [models list](https://docs.claude.com/en/docs/about-claude/models). |
 | `Claude:MaxTokens` | `2048` | Maximum answer size. |
 | `OpenAI:ApiKey` / `OPENAI_API_KEY` | – | Enables ChatGPT. `OpenAI:Model` defaults to `gpt-5-mini`. |
-| `Gemini:ApiKey` / `GEMINI_API_KEY` | – | Enables Gemini. `Gemini:Model` defaults to `gemini-2.5-flash`. |
+| `Gemini:ApiKey` / `GEMINI_API_KEY` | – | Enables Gemini. `Gemini:Model` defaults to `gemini-flash-latest`. |
 | `Ollama:Enabled` | `false` | Enables a local Ollama model (`Ollama:Model`, `Ollama:BaseUrl`). |
 | `Progress:Directory` | `App_Data/progress` | Where the demo progress store writes (excluded from git). |
 | `Progress:Retention` | `90.00:00:00` | Inactive students are deleted after this time. |

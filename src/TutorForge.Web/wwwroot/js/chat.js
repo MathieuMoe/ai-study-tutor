@@ -11,6 +11,7 @@ const t = (key, ...args) => (strings[key] ?? key).replace(/\{(\d+)\}/g, (_, i) =
 const $ = (id) => document.getElementById(id);
 const messagesEl = $("messages");
 const welcome = $("welcome");
+const assessAgain = $("assess-again");
 const form = $("composer");
 const prompt = $("prompt");
 const sendBtn = $("send-btn");
@@ -120,6 +121,116 @@ function renderMarkdown(element, markdown) {
 
 const escapeHtml = (s) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
+// ---------- Multiple-choice answers ----------
+// Every engine (Claude, ChatGPT, Gemini, Ollama, demo) writes options as "A) ...", one per line.
+// They are shown as answer buttons, like in MatGPT Quiz; clicking one sends the answer.
+
+/** "A) text", "**A)** text", "- B. text", "(C) text"... -> [letter, text] */
+const OPTION_LINE = /^\s*(?:[-*•]\s+)?(?:\*\*)?\(?([A-F])(?:\*\*)?\s*[).:]\s*(?:\*\*)?\s*(.+?)\s*$/;
+const ANSWER_LETTER = /^\W*([A-Fa-f])(?:\W|$)/;
+
+/** Splits "A) x · B) y · C) z" written on one line into one line per option. */
+function expandInlineOptions(line) {
+  if (!/(?:^|\s)A\)\s.+?\s[·|]\s+B\)\s/.test(line)) return [line];
+  const start = line.search(/(?:^|\s)A\)\s/);
+  const prefix = line.slice(0, start).trim();
+  const options = line.slice(start).trim().split(/\s+[·|]\s+(?=[B-F]\)\s)/);
+  return prefix ? [prefix, "", ...options] : options;
+}
+
+/** Finds the last block of options A, B, C... (at least 2) and returns the text around it. */
+function splitOptions(markdown) {
+  const lines = stripTags(markdown).split("\n").flatMap(expandInlineOptions);
+  let found = null;
+  for (let i = 0; i < lines.length; i++) {
+    if (OPTION_LINE.exec(lines[i])?.[1] !== "A") continue;
+    const options = [];
+    let j = i;
+    for (; j < lines.length; j++) {
+      if (!lines[j].trim()) continue; // blank lines between options are fine
+      const m = OPTION_LINE.exec(lines[j]);
+      if (!m || m[1].charCodeAt(0) - 65 !== options.length) break;
+      options.push({ letter: m[1], text: m[2].replace(/\*\*$/, "").trim() });
+    }
+    if (options.length >= 2) found = { start: i, end: j, options };
+    i = Math.max(i, j - 1);
+  }
+  if (!found) return null;
+  return {
+    before: lines.slice(0, found.start).join("\n"),
+    options: found.options,
+    after: lines.slice(found.end).join("\n"),
+  };
+}
+
+const OPTION_CLASS =
+  "group/opt w-full flex items-center gap-x-3 py-2.5 px-3 text-sm text-start text-foreground bg-layer border border-layer-line rounded-lg " +
+  "hover:border-primary focus:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30 aria-pressed:border-primary aria-pressed:bg-primary/5 " +
+  "disabled:cursor-default disabled:hover:border-layer-line disabled:aria-pressed:border-primary disabled:not-aria-pressed:opacity-60";
+const LETTER_CLASS =
+  "shrink-0 size-6 grid place-items-center rounded-full bg-surface text-xs font-semibold text-muted-foreground-2 " +
+  "group-aria-pressed/opt:bg-primary group-aria-pressed/opt:text-primary-foreground";
+
+/**
+ * Renders an answer of the tutor; multiple-choice options become buttons.
+ * interactive: the student can still click (latest message only). chosen: letter already answered.
+ */
+function renderAnswer(element, markdown, { interactive = false, chosen = null } = {}) {
+  const parts = splitOptions(markdown);
+  if (!parts) {
+    renderMarkdown(element, markdown);
+    return;
+  }
+
+  element.replaceChildren();
+  if (parts.before.trim()) {
+    const before = document.createElement("div");
+    renderMarkdown(before, parts.before);
+    element.append(before);
+  }
+
+  const group = document.createElement("div");
+  group.className = "answer-options grid gap-2";
+  group.setAttribute("role", "group");
+  group.setAttribute("aria-label", t("ChooseAnswer"));
+  for (const option of parts.options) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = OPTION_CLASS;
+    button.dataset.letter = option.letter;
+    button.setAttribute("aria-pressed", String(option.letter === chosen));
+    button.disabled = !interactive || chosen !== null;
+    const letter = document.createElement("span");
+    letter.className = LETTER_CLASS;
+    letter.textContent = option.letter;
+    const text = document.createElement("span");
+    text.className = "min-w-0";
+    renderMarkdown(text, option.text);
+    // Inline content: unwrap the single <p> produced by Markdown
+    if (text.children.length === 1 && text.firstElementChild.tagName === "P") text.innerHTML = text.firstElementChild.innerHTML;
+    button.append(letter, text);
+    button.addEventListener("click", () => {
+      if (controller) return;
+      group.querySelectorAll("button").forEach((b) => {
+        b.setAttribute("aria-pressed", String(b === button));
+        b.disabled = true;
+      });
+      send(`${option.letter}) ${option.text}`);
+    });
+    group.append(button);
+  }
+  element.append(group);
+
+  if (parts.after.trim()) {
+    const after = document.createElement("div");
+    renderMarkdown(after, parts.after);
+    element.append(after);
+  }
+}
+
+/** Once the student answers (button or keyboard), older options can no longer be clicked. */
+const lockOptions = () => messagesEl.querySelectorAll(".answer-options button").forEach((b) => (b.disabled = true));
+
 function addMessage(role, content = "") {
   welcome.hidden = true;
   const tpl = document.getElementById(role === "User" ? "tpl-user" : "tpl-assistant");
@@ -127,7 +238,7 @@ function addMessage(role, content = "") {
   const contentEl = node.querySelector("[data-content]");
   if (role === "User") contentEl.textContent = content;
   else if (content) renderMarkdown(contentEl, content);
-  messagesEl.append(node);
+  messagesEl.insertBefore(node, assessAgain);
   scrollToBottom();
   return { node, contentEl };
 }
@@ -159,7 +270,20 @@ const setBusy = (busy) => {
   stopBtn.hidden = !busy;
   prompt.disabled = busy;
   exportBtn.disabled = busy || history.length === 0;
+  updateAssessAgain(busy);
 };
+
+/**
+ * "Test my level again" card at the end of the conversation: shown when there is a conversation
+ * (restored subject, finished test, other modes), hidden while a level test is still running.
+ */
+function updateAssessAgain(busy = controller !== null) {
+  const mode = document.querySelector('input[name="mode"]:checked')?.value;
+  const last = history.at(-1);
+  const testRunning = mode === "Assess" && !(last?.role === "Assistant" && /\[\[LEVEL:\d{1,2}\]\]/.test(last.content));
+  const waitingForAnswer = last?.role === "Assistant" && splitOptions(last.content) !== null;
+  assessAgain.hidden = busy || history.length === 0 || testRunning || waitingForAnswer;
+}
 
 // ---------- Sending ----------
 
@@ -169,7 +293,8 @@ async function send(text) {
   showError("");
 
   history.push({ role: "User", content: text });
-  addMessage("User", text);
+  lockOptions();
+  const { node: userNode } = addMessage("User", text);
   prompt.value = "";
   autoResize();
 
@@ -231,7 +356,7 @@ async function send(text) {
   } finally {
     controller = null;
     if (answer) {
-      renderMarkdown(contentEl, answer);
+      renderAnswer(contentEl, answer, { interactive: true });
       readLevel(answer);
       history.push({ role: "Assistant", content: answer });
       finishAssistantNode(node, answer);
@@ -241,7 +366,7 @@ async function send(text) {
       if (failed) {
         // Let the student retry: put their message back in the box
         history.pop();
-        messagesEl.lastElementChild?.remove();
+        userNode.remove();
         prompt.value = text;
       }
     }
@@ -279,7 +404,7 @@ function finishAssistantNode(node, answer) {
 function clearChat() {
   controller?.abort();
   history = [];
-  messagesEl.querySelectorAll(":scope > :not(#welcome)").forEach((n) => n.remove());
+  messagesEl.querySelectorAll(":scope > :not(#welcome):not(#assess-again)").forEach((n) => n.remove());
   welcome.hidden = false;
   showError("");
   setBusy(false);
@@ -354,11 +479,17 @@ function showSubject(subject) {
     resetLevel();
   }
 
-  for (const m of state?.messages ?? []) {
+  const messages = state?.messages ?? [];
+  messages.forEach((m, i) => {
     history.push(m);
-    const { node } = addMessage(m.role, m.content);
-    if (m.role === "Assistant") finishAssistantNode(node, m.content);
-  }
+    const { node, contentEl } = addMessage(m.role, m.role === "User" ? m.content : "");
+    if (m.role === "Assistant") {
+      // The answer the student gave to these options (next message), if any
+      const chosen = ANSWER_LETTER.exec(messages[i + 1]?.content ?? "")?.[1]?.toUpperCase() ?? null;
+      renderAnswer(contentEl, m.content, { interactive: i === messages.length - 1, chosen });
+      finishAssistantNode(node, m.content);
+    }
+  });
 
   updateContext();
   updateAssessSubject();
@@ -442,10 +573,11 @@ function startAssessment() {
 
 const updateAssessSubject = () => {
   const topic = settings.topic.value.trim();
-  $("assess-subject").textContent = topic ? `${selectedText(settings.subject)} · ${topic}` : selectedText(settings.subject);
+  const label = topic ? `${selectedText(settings.subject)} · ${topic}` : selectedText(settings.subject);
+  document.querySelectorAll(".assess-subject").forEach((el) => (el.textContent = label));
 };
 
-$("assess-btn").addEventListener("click", startAssessment);
+document.querySelectorAll("[data-assess]").forEach((b) => b.addEventListener("click", startAssessment));
 
 // Changing the subject saves nothing new (each answer is already saved) and shows that subject:
 // its saved conversation and level, or the welcome screen with the level test, like a fresh page.
@@ -467,6 +599,7 @@ settings.topic.addEventListener("input", () => {
 document.querySelectorAll('input[name="mode"]').forEach((r) =>
   r.addEventListener("change", () => {
     updateContext();
+    updateAssessAgain();
     // Choosing "Assess my level" on an empty conversation starts the test right away
     if (r.value === "Assess" && r.checked && history.length === 0) startAssessment();
     else if (saved[currentSubject] || history.length) saveProgress(400);

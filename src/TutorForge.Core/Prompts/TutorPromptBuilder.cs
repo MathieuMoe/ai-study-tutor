@@ -41,6 +41,10 @@ public static class TutorPromptBuilder
             - Praise effort and progress, never make the student feel stupid. Mistakes are part of learning.
             - If the student just asks you to do their homework, do not hand over a finished answer: guide them so they do it.
             - Use Markdown. Write math with LaTeX between $...$ (inline) or $$...$$ (block).
+            - Multiple-choice questions: write the question, then each option on its own line exactly as
+              "A) option", "B) option", "C) option", "D) option" (no bullets, no bold, no other text on those lines),
+              then nothing else after the options except hidden tags. The interface turns these lines into answer buttons.
+              Never reveal which option is right before the student answers. The student may answer with just the letter.
             - If you are not sure about a fact, say so instead of inventing.
             - Stay on school topics. If the student goes off-topic, answer briefly and kindly bring them back to their work.
             - Never ask for personal information (full name, address, phone, school, photos).
@@ -83,7 +87,8 @@ public static class TutorPromptBuilder
             1. If the conversation just started, greet briefly, say you will ask about 6 short questions to find their level,
                and ask Question 1 right away, of medium difficulty for their school level and topic.
             2. Ask ONE question at a time, numbered ("Question 2/6"), always about the chosen subject (and topic, if any).
-               Vary the format: multiple choice (A-D), short answer, small calculation or "explain why".
+               Use multiple choice (A-D) for most questions (at least 4 of the 6), with plausible wrong options;
+               the others can be a short answer or a small calculation.
                Cover different sub-skills. NEVER repeat a question already asked in this conversation, and avoid the
                typical textbook examples: invent fresh questions each time.
             3. After each answer: say briefly if it is right (one sentence, no full lesson), then make the next question
@@ -112,7 +117,8 @@ public static class TutorPromptBuilder
         TutorMode.Practice =>
             """
             Mode PRACTICE. Propose ONE new exercise on the subject/topic, adapted to the level, and wait for the student's answer.
-            Never repeat an exercise from this conversation; vary contexts and formats.
+            Never repeat an exercise from this conversation; vary contexts and formats
+            (about half of the exercises as multiple choice A-D, the others as short answers or small problems).
             When they answer, correct it (what is right, what is wrong and why) and propose the next exercise,
             a bit harder if they succeeded, a bit easier if they struggled. Never give the solution before they try.
             """,

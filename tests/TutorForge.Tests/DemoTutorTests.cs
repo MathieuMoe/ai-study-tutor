@@ -106,7 +106,7 @@ public class DemoTutorTests
     public void The_five_questions_of_a_test_are_all_different()
     {
         var questions = Enumerable.Range(1, 5)
-            .Select(turn => QuestionLine(DemoTutor.BuildReply(Conversation(turn, Subject.Biology), 99)).Split(' ', 3)[2])
+            .Select(turn => QuestionLine(DemoTutor.BuildReply(Conversation(turn, Subject.Biology, seed: 99), 99)).Split(' ', 3)[2])
             .ToList();
 
         Assert.Equal(5, questions.Distinct().Count());
@@ -153,5 +153,35 @@ public class DemoTutorTests
     public void Shuffle_is_a_permutation()
     {
         Assert.Equal(Enumerable.Range(0, 7), DemoTutor.Shuffle(7, 3).Order());
+    }
+
+    [Fact]
+    public void Questions_are_multiple_choice_with_one_option_per_line()
+    {
+        var reply = DemoTutor.BuildReply(Conversation(1, Subject.Biology), 42);
+        foreach (var letter in new[] { "A) ", "B) ", "C) ", "D) " })
+        {
+            Assert.Contains("\n" + letter, reply, StringComparison.Ordinal);
+        }
+    }
+
+    [Theory]
+    [InlineData("B", true)]
+    [InlineData("b) Herbivores", true)]
+    [InlineData("**B**", true)]
+    [InlineData("A) Carnivores", false)]
+    [InlineData("I don't know", false)]
+    public void The_chosen_letter_is_checked(string answer, bool right)
+    {
+        var question = new DemoTutor.DemoQuestion("Animals that eat only plants are…", ["Carnivores", "Herbivores", "Omnivores", "Decomposers"], 1);
+        var texts = DemoTutor.BuildTexts(TutorLanguage.English);
+
+        var feedback = DemoTutor.Feedback(question, answer, texts);
+
+        Assert.Equal(right, feedback.StartsWith("✅", StringComparison.Ordinal));
+        if (!right)
+        {
+            Assert.Contains("B) Herbivores", feedback, StringComparison.Ordinal);
+        }
     }
 }

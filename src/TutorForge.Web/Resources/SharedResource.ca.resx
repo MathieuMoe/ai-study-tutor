@@ -43,6 +43,9 @@
   <data name="Assess_Title" xml:space="preserve"><value>Descobreix el teu nivell en</value></data>
   <data name="Assess_Text" xml:space="preserve"><value>No cal preguntar res: el tutor et fa preguntes adaptades, estima el teu nivell i després entrena amb tu, pas a pas.</value></data>
   <data name="Assess_Button" xml:space="preserve"><value>Avaluar el meu nivell</value></data>
+  <data name="Assess_AgainTitle" xml:space="preserve"><value>Torna a avaluar el teu nivell en</value></data>
+  <data name="Assess_AgainText" xml:space="preserve"><value>Un test adaptatiu nou amb altres preguntes. Es conserva el teu historial de nivell.</value></data>
+  <data name="Js_ChooseAnswer" xml:space="preserve"><value>Tria una resposta</value></data>
   <data name="Welcome_OrAsk" xml:space="preserve"><value>O comença amb una pregunta:</value></data>
   <data name="Level_Label" xml:space="preserve"><value>Nivell estimat</value></data>
   <data name="Level_Hint" xml:space="preserve"><value>S'actualitza a mesura que avances. És només una estimació.</value></data>

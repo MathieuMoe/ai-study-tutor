@@ -136,10 +136,10 @@
                         <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></svg>
                     </span>
                     <div class="flex-1">
-                        <h3 class="text-sm font-semibold text-foreground">@L["Assess_Title"] <span id="assess-subject" class="text-primary"></span></h3>
+                        <h3 class="text-sm font-semibold text-foreground">@L["Assess_Title"] <span class="assess-subject text-primary"></span></h3>
                         <p class="mt-0.5 text-sm text-muted-foreground-1">@L["Assess_Text"]</p>
                     </div>
-                    <button type="button" id="assess-btn" class="shrink-0 py-2.5 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg bg-primary text-primary-foreground hover:bg-primary-hover focus:outline-hidden">
+                    <button type="button" data-assess class="shrink-0 py-2.5 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg bg-primary text-primary-foreground hover:bg-primary-hover focus:outline-hidden">
                         @L["Assess_Button"]
                     </button>
                 </div>
@@ -152,6 +152,21 @@
                             @L[$"Suggestion_{i}"]
                         </button>
                     }
+                </div>
+            </div>
+            <!-- Same call-to-action at the end of a conversation: test the level again (after a test or on a saved subject) -->
+            <div id="assess-again" class="max-w-2xl mx-auto" hidden>
+                <div class="p-4 sm:p-5 rounded-xl border border-primary/30 bg-primary/5 text-start flex flex-col sm:flex-row sm:items-center gap-4">
+                    <span class="shrink-0 size-11 grid place-items-center rounded-full bg-primary text-primary-foreground">
+                        <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></svg>
+                    </span>
+                    <div class="flex-1">
+                        <h3 class="text-sm font-semibold text-foreground">@L["Assess_AgainTitle"] <span class="assess-subject text-primary"></span></h3>
+                        <p class="mt-0.5 text-sm text-muted-foreground-1">@L["Assess_AgainText"]</p>
+                    </div>
+                    <button type="button" data-assess class="shrink-0 py-2.5 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg bg-primary text-primary-foreground hover:bg-primary-hover focus:outline-hidden">
+                        @L["Assess_Button"]
+                    </button>
                 </div>
             </div>
         </div>

@@ -43,6 +43,9 @@
   <data name="Assess_Title" xml:space="preserve"><value>Découvre ton niveau en</value></data>
   <data name="Assess_Text" xml:space="preserve"><value>Pas besoin de poser de question : le tuteur te pose des questions adaptées, estime ton niveau puis s'entraîne avec toi, pas à pas.</value></data>
   <data name="Assess_Button" xml:space="preserve"><value>Évaluer mon niveau</value></data>
+  <data name="Assess_AgainTitle" xml:space="preserve"><value>Refais le test de niveau en</value></data>
+  <data name="Assess_AgainText" xml:space="preserve"><value>Un nouveau test adaptatif avec d'autres questions. Ton historique de niveau est conservé.</value></data>
+  <data name="Js_ChooseAnswer" xml:space="preserve"><value>Choisis une réponse</value></data>
   <data name="Welcome_OrAsk" xml:space="preserve"><value>Ou commence par une question :</value></data>
   <data name="Level_Label" xml:space="preserve"><value>Niveau estimé</value></data>
   <data name="Level_Hint" xml:space="preserve"><value>Mis à jour au fil de tes progrès. C'est une estimation.</value></data>

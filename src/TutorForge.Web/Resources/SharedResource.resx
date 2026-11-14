@@ -4,11 +4,70 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Nav_Progress" xml:space="preserve"><value>My progress</value></data>
+  <data name="Progress_Heading" xml:space="preserve"><value>My progress</value></data>
+  <data name="Progress_Subtitle" xml:space="preserve"><value>Your record: courses, results, study sessions and the next steps the tutor recommends. The tutor reads it to remember what you did.</value></data>
+  <data name="Progress_Sample" xml:space="preserve"><value>Load a sample student</value></data>
+  <data name="Progress_Export" xml:space="preserve"><value>Download my data (.json)</value></data>
+  <data name="Progress_EmptyTitle" xml:space="preserve"><value>No history yet</value></data>
+  <data name="Progress_EmptyText" xml:space="preserve"><value>Talk with the tutor and your sessions will appear here. On a real platform, your courses and results would come from it: load the sample student to see how the tutor uses them.</value></data>
+  <data name="Progress_Objective" xml:space="preserve"><value>Objective</value></data>
+  <data name="Progress_Subjects" xml:space="preserve"><value>Subjects</value></data>
+  <data name="Progress_NoLevel" xml:space="preserve"><value>No level yet</value></data>
+  <data name="Progress_OpenTutor" xml:space="preserve"><value>Practise with the tutor</value></data>
+  <data name="Kpi_Exam" xml:space="preserve"><value>Days to the exam</value></data>
+  <data name="Kpi_NoExam" xml:space="preserve"><value>no exam date</value></data>
+  <data name="Kpi_Study" xml:space="preserve"><value>Study time</value></data>
+  <data name="Kpi_Last30" xml:space="preserve"><value>last 30 days</value></data>
+  <data name="Kpi_Sessions" xml:space="preserve"><value>Tutor sessions</value></data>
+  <data name="Kpi_WithTutor" xml:space="preserve"><value>logged automatically</value></data>
+  <data name="Kpi_Topics" xml:space="preserve"><value>Topics</value></data>
+  <data name="Kpi_Completed" xml:space="preserve"><value>completed</value></data>
+  <data name="Guide_Title" xml:space="preserve"><value>Your guide: next steps</value></data>
+  <data name="Guide_Subtitle" xml:space="preserve"><value>Computed from your results, topics and activity. Each step opens the tutor ready to work.</value></data>
+  <data name="Guide_Empty" xml:space="preserve"><value>Nothing pending: keep practising or load the sample student.</value></data>
+  <data name="Guide_Start" xml:space="preserve"><value>Start</value></data>
+  <data name="Rec_ReviewWeak" xml:space="preserve"><value>Review "{0}": you scored {2}/10 in "{1}".</value></data>
+  <data name="Rec_Continue" xml:space="preserve"><value>Continue "{0}" (mastery {2}/10).</value></data>
+  <data name="Rec_AssessLevel" xml:space="preserve"><value>Take the level test in {0} so the tutor can adapt.</value></data>
+  <data name="Rec_StartNext" xml:space="preserve"><value>Start the next topic: "{0}".</value></data>
+  <data name="Rec_ComeBack" xml:space="preserve"><value>You haven't practised "{0}" for {2} days: a short review.</value></data>
+  <data name="Rec_ExamSoon" xml:space="preserve"><value>Exam in {2} days: practise exam-style questions in {0}.</value></data>
+  <data name="Status_NotStarted" xml:space="preserve"><value>Not started</value></data>
+  <data name="Status_InProgress" xml:space="preserve"><value>In progress</value></data>
+  <data name="Status_Completed" xml:space="preserve"><value>Completed</value></data>
+  <data name="Results_Title" xml:space="preserve"><value>Results</value></data>
+  <data name="Results_Empty" xml:space="preserve"><value>No results yet.</value></data>
+  <data name="Kind_Test" xml:space="preserve"><value>Test</value></data>
+  <data name="Kind_Exam" xml:space="preserve"><value>Exam</value></data>
+  <data name="Kind_Homework" xml:space="preserve"><value>Homework</value></data>
+  <data name="Kind_MockExam" xml:space="preserve"><value>Mock exam</value></data>
+  <data name="Kind_LevelTest" xml:space="preserve"><value>Level test</value></data>
+  <data name="Activity_Title" xml:space="preserve"><value>Activity</value></data>
+  <data name="Activity_Empty" xml:space="preserve"><value>Your sessions with the tutor will be logged here automatically.</value></data>
+  <data name="Activity_TutorSession" xml:space="preserve"><value>Tutor session</value></data>
+  <data name="Activity_Lesson" xml:space="preserve"><value>Lesson</value></data>
+  <data name="Activity_Test" xml:space="preserve"><value>Test</value></data>
+  <data name="Activity_Video" xml:space="preserve"><value>Video</value></data>
+  <data name="Activity_Assignment" xml:space="preserve"><value>Assignment</value></data>
+  <data name="Activity_Turns" xml:space="preserve"><value>{0} answers</value></data>
+  <data name="Notes_Title" xml:space="preserve"><value>Teacher notes</value></data>
+  <data name="Data_Title" xml:space="preserve"><value>Student data (JSON)</value></data>
+  <data name="Data_Subtitle" xml:space="preserve"><value>What a platform would send to the tutor: profile, courses, results, activity, goals and notes. Edit it or import a file.</value></data>
+  <data name="Data_Save" xml:space="preserve"><value>Save</value></data>
+  <data name="Data_Import" xml:space="preserve"><value>Import .json</value></data>
+  <data name="Data_Delete" xml:space="preserve"><value>Delete record</value></data>
+  <data name="Js_StartTopic" xml:space="preserve"><value>Let's work on: {0}</value></data>
+  <data name="Js_StartSubject" xml:space="preserve"><value>Let's continue with {0} where we left off.</value></data>
+  <data name="Js_InvalidJson" xml:space="preserve"><value>The JSON is not valid.</value></data>
+  <data name="Js_RecordSaved" xml:space="preserve"><value>Record saved.</value></data>
+  <data name="Js_ImportReady" xml:space="preserve"><value>File loaded: check it and press Save.</value></data>
+  <data name="Js_ConfirmDelete" xml:space="preserve"><value>Press again to delete</value></data>
+  <data name="Js_DeleteRecord" xml:space="preserve"><value>Delete record</value></data>
   <data name="Nav_Tutor" xml:space="preserve"><value>Tutor</value></data>
   <data name="Nav_About" xml:space="preserve"><value>How it works</value></data>
   <data name="Nav_Resources" xml:space="preserve"><value>Resources</value></data>
   <data name="Nav_SourceCode" xml:space="preserve"><value>Source code</value></data>
-  <data name="Nav_ClaudeDocs" xml:space="preserve"><value>Claude docs</value></data>
   <data name="Nav_OpenMenu" xml:space="preserve"><value>Open menu</value></data>
   <data name="Nav_ToggleTheme" xml:space="preserve"><value>Toggle dark mode</value></data>
   <data name="Nav_EngineTooltip" xml:space="preserve"><value>AI engine used by the tutor</value></data>

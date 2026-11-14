@@ -1,5 +1,6 @@
 using TutorForge.Core.Models;
 using TutorForge.Core.Progress;
+using TutorForge.Core.Records;
 
 namespace TutorForge.Web;
 
@@ -60,12 +61,13 @@ public static class ProgressEndpoints
                 : Results.BadRequest(new { code = errors[0].Code, detail = errors[0].Message });
         });
 
-        // "Forget me": deletes the student's data and the cookie.
-        group.MapDelete("/", async (HttpContext context, ProgressService progress, CancellationToken ct) =>
+        // "Forget me": deletes the student's progress, record and the cookie.
+        group.MapDelete("/", async (HttpContext context, ProgressService progress, IStudentRecordStore records, CancellationToken ct) =>
         {
             if (StudentIdentity.Get(context) is { } id)
             {
                 await progress.DeleteAsync(id, ct);
+                await records.DeleteAsync(id, ct);
             }
 
             StudentIdentity.Forget(context);

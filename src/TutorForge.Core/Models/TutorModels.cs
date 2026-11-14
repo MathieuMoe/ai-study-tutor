@@ -69,6 +69,13 @@ public sealed record TutorRequest(
 {
     public const int MaxTopicLength = 120;
 
+    /// <summary>
+    /// What the platform knows about the student (record + progress), added by the server before calling the AI.
+    /// Never read from the browser: [JsonIgnore] makes model binding skip it.
+    /// </summary>
+    [System.Text.Json.Serialization.JsonIgnore]
+    public string? StudentContext { get; init; }
+
     public const int MaxMessageLength = 4_000;
     public const int MaxMessages = 40;
     public const int MaxTotalLength = 40_000;

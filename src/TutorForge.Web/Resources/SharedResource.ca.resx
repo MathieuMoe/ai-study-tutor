@@ -4,11 +4,70 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Nav_Progress" xml:space="preserve"><value>El meu progrés</value></data>
+  <data name="Progress_Heading" xml:space="preserve"><value>El meu progrés</value></data>
+  <data name="Progress_Subtitle" xml:space="preserve"><value>El teu expedient: cursos, resultats, sessions d'estudi i els propers passos que recomana el tutor. El tutor el llegeix per recordar què has fet.</value></data>
+  <data name="Progress_Sample" xml:space="preserve"><value>Carregar alumne d'exemple</value></data>
+  <data name="Progress_Export" xml:space="preserve"><value>Descarregar les meves dades (.json)</value></data>
+  <data name="Progress_EmptyTitle" xml:space="preserve"><value>Encara no hi ha historial</value></data>
+  <data name="Progress_EmptyText" xml:space="preserve"><value>Parla amb el tutor i les sessions apareixeran aquí. En una plataforma real, els cursos i notes vindrien d'ella: carrega l'alumne d'exemple per veure com els fa servir el tutor.</value></data>
+  <data name="Progress_Objective" xml:space="preserve"><value>Objectiu</value></data>
+  <data name="Progress_Subjects" xml:space="preserve"><value>Assignatures</value></data>
+  <data name="Progress_NoLevel" xml:space="preserve"><value>Sense nivell encara</value></data>
+  <data name="Progress_OpenTutor" xml:space="preserve"><value>Practicar amb el tutor</value></data>
+  <data name="Kpi_Exam" xml:space="preserve"><value>Dies a l'examen</value></data>
+  <data name="Kpi_NoExam" xml:space="preserve"><value>sense data d'examen</value></data>
+  <data name="Kpi_Study" xml:space="preserve"><value>Temps d'estudi</value></data>
+  <data name="Kpi_Last30" xml:space="preserve"><value>últims 30 dies</value></data>
+  <data name="Kpi_Sessions" xml:space="preserve"><value>Sessions amb el tutor</value></data>
+  <data name="Kpi_WithTutor" xml:space="preserve"><value>registrades automàticament</value></data>
+  <data name="Kpi_Topics" xml:space="preserve"><value>Temes</value></data>
+  <data name="Kpi_Completed" xml:space="preserve"><value>completats</value></data>
+  <data name="Guide_Title" xml:space="preserve"><value>La teva guia: propers passos</value></data>
+  <data name="Guide_Subtitle" xml:space="preserve"><value>Calculats amb els teus resultats, temes i activitat. Cada pas obre el tutor llest per treballar.</value></data>
+  <data name="Guide_Empty" xml:space="preserve"><value>Res pendent: continua practicant o carrega l'alumne d'exemple.</value></data>
+  <data name="Guide_Start" xml:space="preserve"><value>Començar</value></data>
+  <data name="Rec_ReviewWeak" xml:space="preserve"><value>Repassa «{0}»: vas treure un {2}/10 a «{1}».</value></data>
+  <data name="Rec_Continue" xml:space="preserve"><value>Continua amb «{0}» (domini {2}/10).</value></data>
+  <data name="Rec_AssessLevel" xml:space="preserve"><value>Fes el test de nivell de {0} perquè el tutor s'adapti.</value></data>
+  <data name="Rec_StartNext" xml:space="preserve"><value>Comença el tema següent: «{0}».</value></data>
+  <data name="Rec_ComeBack" xml:space="preserve"><value>Fa {2} dies que no practiques «{0}»: un repàs curt.</value></data>
+  <data name="Rec_ExamSoon" xml:space="preserve"><value>Examen d'aquí a {2} dies: practica preguntes tipus examen de {0}.</value></data>
+  <data name="Status_NotStarted" xml:space="preserve"><value>Sense començar</value></data>
+  <data name="Status_InProgress" xml:space="preserve"><value>En curs</value></data>
+  <data name="Status_Completed" xml:space="preserve"><value>Completat</value></data>
+  <data name="Results_Title" xml:space="preserve"><value>Resultats</value></data>
+  <data name="Results_Empty" xml:space="preserve"><value>Encara no hi ha resultats.</value></data>
+  <data name="Kind_Test" xml:space="preserve"><value>Test</value></data>
+  <data name="Kind_Exam" xml:space="preserve"><value>Examen</value></data>
+  <data name="Kind_Homework" xml:space="preserve"><value>Treball</value></data>
+  <data name="Kind_MockExam" xml:space="preserve"><value>Simulacre</value></data>
+  <data name="Kind_LevelTest" xml:space="preserve"><value>Test de nivell</value></data>
+  <data name="Activity_Title" xml:space="preserve"><value>Activitat</value></data>
+  <data name="Activity_Empty" xml:space="preserve"><value>Les sessions amb el tutor es registraran aquí automàticament.</value></data>
+  <data name="Activity_TutorSession" xml:space="preserve"><value>Sessió amb el tutor</value></data>
+  <data name="Activity_Lesson" xml:space="preserve"><value>Classe</value></data>
+  <data name="Activity_Test" xml:space="preserve"><value>Test</value></data>
+  <data name="Activity_Video" xml:space="preserve"><value>Vídeo</value></data>
+  <data name="Activity_Assignment" xml:space="preserve"><value>Tasca</value></data>
+  <data name="Activity_Turns" xml:space="preserve"><value>{0} respostes</value></data>
+  <data name="Notes_Title" xml:space="preserve"><value>Notes del professor</value></data>
+  <data name="Data_Title" xml:space="preserve"><value>Dades de l'alumne (JSON)</value></data>
+  <data name="Data_Subtitle" xml:space="preserve"><value>El que una plataforma enviaria al tutor: perfil, cursos, resultats, activitat, objectius i notes. Edita-ho o importa un fitxer.</value></data>
+  <data name="Data_Save" xml:space="preserve"><value>Desar</value></data>
+  <data name="Data_Import" xml:space="preserve"><value>Importar .json</value></data>
+  <data name="Data_Delete" xml:space="preserve"><value>Esborrar expedient</value></data>
+  <data name="Js_StartTopic" xml:space="preserve"><value>Treballem: {0}</value></data>
+  <data name="Js_StartSubject" xml:space="preserve"><value>Continuem amb {0} on ho vam deixar.</value></data>
+  <data name="Js_InvalidJson" xml:space="preserve"><value>El JSON no és vàlid.</value></data>
+  <data name="Js_RecordSaved" xml:space="preserve"><value>Expedient desat.</value></data>
+  <data name="Js_ImportReady" xml:space="preserve"><value>Fitxer carregat: revisa'l i prem Desar.</value></data>
+  <data name="Js_ConfirmDelete" xml:space="preserve"><value>Prem un altre cop per esborrar</value></data>
+  <data name="Js_DeleteRecord" xml:space="preserve"><value>Esborrar expedient</value></data>
   <data name="Nav_Tutor" xml:space="preserve"><value>Tutor</value></data>
   <data name="Nav_About" xml:space="preserve"><value>Com funciona</value></data>
   <data name="Nav_Resources" xml:space="preserve"><value>Recursos</value></data>
   <data name="Nav_SourceCode" xml:space="preserve"><value>Codi font</value></data>
-  <data name="Nav_ClaudeDocs" xml:space="preserve"><value>Documentació de Claude</value></data>
   <data name="Nav_OpenMenu" xml:space="preserve"><value>Obrir el menú</value></data>
   <data name="Nav_ToggleTheme" xml:space="preserve"><value>Canviar el mode fosc</value></data>
   <data name="Nav_EngineTooltip" xml:space="preserve"><value>Motor d'IA utilitzat pel tutor</value></data>

@@ -5,9 +5,10 @@ using TutorForge.Core.Progress;
 
 namespace TutorForge.Infrastructure.Progress;
 
-/// <summary>Once a day, deletes the progress of students inactive for longer than the retention period.</summary>
+/// <summary>Once a day, deletes the progress and records of students inactive for longer than the retention period.</summary>
 public sealed partial class ProgressCleanupService(
     IStudentProgressStore store,
+    Core.Records.IStudentRecordStore records,
     IOptions<ProgressStoreOptions> options,
     ILogger<ProgressCleanupService> logger) : BackgroundService
 {
@@ -18,7 +19,8 @@ public sealed partial class ProgressCleanupService(
         {
             try
             {
-                var deleted = await store.PurgeInactiveAsync(options.Value.Retention, stoppingToken).ConfigureAwait(false);
+                var deleted = await store.PurgeInactiveAsync(options.Value.Retention, stoppingToken).ConfigureAwait(false)
+                    + await records.PurgeInactiveAsync(options.Value.Retention, stoppingToken).ConfigureAwait(false);
                 LogPurged(logger, deleted);
             }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
@@ -29,7 +31,7 @@ public sealed partial class ProgressCleanupService(
         while (await timer.WaitForNextTickAsync(stoppingToken).ConfigureAwait(false));
     }
 
-    [LoggerMessage(Level = LogLevel.Information, Message = "Progress cleanup: {Count} inactive students deleted")]
+    [LoggerMessage(Level = LogLevel.Information, Message = "Progress cleanup: {Count} inactive documents deleted")]
     private static partial void LogPurged(ILogger logger, int count);
 
     [LoggerMessage(Level = LogLevel.Warning, Message = "Progress cleanup failed")]

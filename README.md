@@ -9,6 +9,8 @@ Built with **ASP.NET Core (.NET 10)**, your choice of AI (**Claude, ChatGPT, Gem
 
 ![MatGPT Tutor screenshot](docs/screenshot.png)
 
+![My progress](docs/screenshot-progress.png)
+
 <details>
 <summary>Dark mode</summary>
 
@@ -25,6 +27,9 @@ Built with **ASP.NET Core (.NET 10)**, your choice of AI (**Claude, ChatGPT, Gem
 - 📌 Optional topic (e.g. "linear equations") to focus the session
 - 🎓 Subject (maths, sciences, history, languages, programming…) and level (primary to university)
 - ➗ **Markdown and math** rendering: LaTeX formulas with KaTeX, sanitized with DOMPurify
+- 🧠 **A tutor with memory**: every answer is logged in the student's record (sessions, topic, level before → after) and the AI receives a briefing of the student's courses, results, mistakes, last sessions and teacher notes, so it continues where the student left off
+- 📈 **My progress**: study guide with the next steps (review weak results, continue topics, level tests, next topic, exam practice), level curve per subject, course topics, results with mistakes, activity, goals and teacher notes; each step opens the tutor ready to work
+- 🗂️ **Student record in JSON**: view, edit, import and export the record (the data a school platform would provide); a sample student shows it all at once
 - 💾 **Saved progress per subject**: conversation, settings and level history are restored when the student comes back or switches subject; changing to a new subject shows the welcome screen with the level test
 - 🔒 **Privacy by design**: anonymous cookie (no name, no email), 90-day retention with automatic cleanup, "Delete my progress" button
 - 🛡️ **Safe for young learners**: age-appropriate answers, never asks for personal data, encourages talking to a trusted adult if a student seems unwell
@@ -55,6 +60,7 @@ Technical choices worth noting:
 - **Hidden level tracking.** In Assess and Practice modes the model appends a hidden `[[LEVEL:n]]` tag; the UI strips it from the text and turns it into a level bar with a trend (▲ +1), without any database.
 - **Pedagogy in the prompt.** `TutorPromptBuilder` builds a system prompt per mode (Socratic guidance, explanation structure, error-finding, adaptive practice) plus permanent safety rules. It's covered by tests.
 - **Stateless chat, persistent progress.** The chat endpoint is stateless (the browser sends the history; `ConversationNormalizer` makes it valid for the API). Progress goes through `ProgressService` and the `IStudentProgressStore` repository: the demo writes atomic JSON files (`FileStudentProgressStore`), and [docs/database.sql](docs/database.sql) contains the SQL Server schema for a production implementation, without changing anything else.
+- **Memory = data + rules + prompt.** `StudentRecord` is one JSON document per student (profile, enrollments with topics, assessments with mistakes, activity, goals, teacher notes) behind `IStudentRecordStore`, with the SQL schema in [docs/database.sql](docs/database.sql). `RecordRules.TrackTutorTurn` logs each answer (sessions merged within 30 minutes), `StudentContextBuilder` turns the record into a short briefing for the AI (injected server-side through a `[JsonIgnore]` property, so the browser cannot forge it) and `ProgressionAdvisor` computes the explainable next steps.
 - **Anonymous identity.** A random id in an HttpOnly cookie identifies the student; with real authentication it simply becomes the user id. A background service purges inactive students after 90 days.
 - **Pluggable AI engines.** `TutorEngines` is a registry of the configured providers; the header selector stores the choice in a cookie and the stream endpoint resolves it per request. One `OpenAiCompatibleTutor` covers ChatGPT and Ollama, and `GeminiTutor` uses Gemini's native API (works with the new `AQ.` keys), all with the same prompts as Claude.
 - **End-to-end streaming.** Claude's SSE stream is parsed (`content_block_delta`) and re-emitted as SSE to the browser, which renders Markdown progressively. Cancelling in the UI aborts the request to the AI too.
@@ -65,8 +71,8 @@ Technical choices worth noting:
 
 ```
 src/
-  TutorForge.Core/            Models, validation, prompts (pedagogy + safety), progress service + store interface
-  TutorForge.Infrastructure/  Claude and OpenAI-compatible streaming tutors (HttpClient + SSE), engine registry, offline demo tutor, JSON progress store, cleanup job
+  TutorForge.Core/            Models, validation, prompts (pedagogy + safety), progress service, student record (rules, AI briefing, study guide, sample)
+  TutorForge.Infrastructure/  JSON record store, Claude and OpenAI-compatible streaming tutors (HttpClient + SSE), engine registry, offline demo tutor, JSON progress store, cleanup job
   TutorForge.Web/             Razor Pages UI, streaming minimal API, localization, rate limiting
     Resources/                UI translations (en, fr, es, ca)
     Styles/                   Tailwind CSS source + vendor copy script
@@ -126,7 +132,9 @@ curl -N -X POST http://localhost:5190/api/tutor/stream \
 
 Answers with `text/event-stream`: `data: {"text":"..."}` chunks, then `event: done` (or `event: error`).
 
-Progress: `GET /api/progress` (all subjects), `PUT /api/progress/{subject}` (save one subject), `DELETE /api/progress` (forget me).
+Progress: `GET /api/progress` (all subjects), `PUT /api/progress/{subject}` (save one subject), `DELETE /api/progress` (forget me: progress and record).
+
+Student record: `GET /api/record`, `PUT /api/record` (replace, sanitised), `POST /api/record/sample?language=Spanish` (demo student), `GET /api/record/export` (record + progress as one JSON file), `DELETE /api/record`.
 
 ## Front-end (optional)
 
@@ -146,7 +154,9 @@ dotnet test
 
 - [x] Choose between Claude, ChatGPT, Gemini and Ollama
 - [ ] Attach a photo or PDF of the exercise
-- [ ] SQL Server implementation of `IStudentProgressStore` (schema ready in docs/database.sql)
+- [x] Student record with memory, study guide and JSON import/export
+- [ ] SQL Server implementation of `IStudentProgressStore` and `IStudentRecordStore` (schema ready in docs/database.sql)
+- [ ] Connector to a school platform (courses, grades and activity feed the record automatically)
 - [ ] Teacher view: choose topics and see anonymous difficulty statistics
 - [ ] Voice input for younger students
 

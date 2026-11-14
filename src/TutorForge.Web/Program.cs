@@ -26,6 +26,7 @@ builder.Services.AddTutorForge(builder.Configuration);
 // Progress files live under the app's content root (App_Data is excluded from git).
 builder.Services.PostConfigure<TutorForge.Infrastructure.Progress.ProgressStoreOptions>(o =>
     o.Directory = Path.Combine(builder.Environment.ContentRootPath, o.Directory));
+builder.Services.AddScoped<StudentMemory>();
 builder.Services.AddHealthChecks();
 builder.Services.AddProblemDetails();
 builder.Services.ConfigureHttpJsonOptions(o => o.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
@@ -77,7 +78,7 @@ app.MapGet("/culture/{culture}", (string culture, string? returnUrl, HttpContext
 
 // Chat endpoint. Stateless: the browser sends the whole conversation, the server stores nothing.
 // The answer is streamed as server-sent events: data: {"text":"..."} ... event: done.
-app.MapPost("/api/tutor/stream", async (TutorRequest request, TutorEngines engines, HttpContext context, ILogger<Program> logger) =>
+app.MapPost("/api/tutor/stream", async (TutorRequest request, TutorEngines engines, StudentMemory memory, HttpContext context, ILogger<Program> logger) =>
 {
     // The engine chosen in the interface (Claude, ChatGPT, Gemini, Ollama or the demo)
     var tutor = EngineSelection.Current(context, engines).Create();
@@ -90,6 +91,11 @@ app.MapPost("/api/tutor/stream", async (TutorRequest request, TutorEngines engin
         return;
     }
 
+    // Memory: what the platform knows about the student goes to the AI (the cookie must be set before streaming starts)
+    var studentId = StudentIdentity.GetOrCreate(context);
+    request = request with { StudentContext = await memory.ContextAsync(studentId, request.Subject, context.RequestAborted) };
+    var answer = new System.Text.StringBuilder();
+
     var ct = context.RequestAborted;
     context.Response.ContentType = "text/event-stream";
     context.Response.Headers.CacheControl = "no-cache";
@@ -99,11 +105,15 @@ app.MapPost("/api/tutor/stream", async (TutorRequest request, TutorEngines engin
     {
         await foreach (var chunk in tutor.StreamReplyAsync(request, ct))
         {
+            answer.Append(chunk);
             await context.Response.WriteAsync($"data: {JsonSerializer.Serialize(new { text = chunk })}\n\n", ct);
             await context.Response.Body.FlushAsync(ct);
         }
 
         await context.Response.WriteAsync("event: done\ndata: {}\n\n", ct);
+
+        // ...and the session is written to the student's record, so the tutor never forgets what was done
+        await memory.TrackAsync(studentId, request, answer.ToString(), CancellationToken.None);
     }
     catch (OperationCanceledException) when (ct.IsCancellationRequested)
     {
@@ -118,6 +128,7 @@ app.MapPost("/api/tutor/stream", async (TutorRequest request, TutorEngines engin
 .RequireRateLimiting("chat");
 
 app.MapProgressEndpoints();
+app.MapRecordEndpoints();
 app.MapEngineSelection();
 
 await app.RunAsync();

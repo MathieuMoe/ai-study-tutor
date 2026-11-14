@@ -4,11 +4,70 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Nav_Progress" xml:space="preserve"><value>Ma progression</value></data>
+  <data name="Progress_Heading" xml:space="preserve"><value>Ma progression</value></data>
+  <data name="Progress_Subtitle" xml:space="preserve"><value>Ton dossier : cours, résultats, séances et prochaines étapes conseillées. Le tuteur le lit pour se souvenir de ce que tu as fait.</value></data>
+  <data name="Progress_Sample" xml:space="preserve"><value>Charger un élève d'exemple</value></data>
+  <data name="Progress_Export" xml:space="preserve"><value>Télécharger mes données (.json)</value></data>
+  <data name="Progress_EmptyTitle" xml:space="preserve"><value>Pas encore d'historique</value></data>
+  <data name="Progress_EmptyText" xml:space="preserve"><value>Discute avec le tuteur et tes séances apparaîtront ici. Sur une vraie plateforme, tes cours et résultats viendraient d'elle : charge l'élève d'exemple pour voir comment le tuteur s'en sert.</value></data>
+  <data name="Progress_Objective" xml:space="preserve"><value>Objectif</value></data>
+  <data name="Progress_Subjects" xml:space="preserve"><value>Matières</value></data>
+  <data name="Progress_NoLevel" xml:space="preserve"><value>Pas encore de niveau</value></data>
+  <data name="Progress_OpenTutor" xml:space="preserve"><value>S'entraîner avec le tuteur</value></data>
+  <data name="Kpi_Exam" xml:space="preserve"><value>Jours avant l'examen</value></data>
+  <data name="Kpi_NoExam" xml:space="preserve"><value>pas de date d'examen</value></data>
+  <data name="Kpi_Study" xml:space="preserve"><value>Temps d'étude</value></data>
+  <data name="Kpi_Last30" xml:space="preserve"><value>30 derniers jours</value></data>
+  <data name="Kpi_Sessions" xml:space="preserve"><value>Séances avec le tuteur</value></data>
+  <data name="Kpi_WithTutor" xml:space="preserve"><value>enregistrées automatiquement</value></data>
+  <data name="Kpi_Topics" xml:space="preserve"><value>Thèmes</value></data>
+  <data name="Kpi_Completed" xml:space="preserve"><value>terminés</value></data>
+  <data name="Guide_Title" xml:space="preserve"><value>Ton guide : prochaines étapes</value></data>
+  <data name="Guide_Subtitle" xml:space="preserve"><value>Calculées à partir de tes résultats, thèmes et activité. Chaque étape ouvre le tuteur prêt à travailler.</value></data>
+  <data name="Guide_Empty" xml:space="preserve"><value>Rien en attente : continue à t'entraîner ou charge l'élève d'exemple.</value></data>
+  <data name="Guide_Start" xml:space="preserve"><value>Commencer</value></data>
+  <data name="Rec_ReviewWeak" xml:space="preserve"><value>Revois « {0} » : tu as eu {2}/10 à « {1} ».</value></data>
+  <data name="Rec_Continue" xml:space="preserve"><value>Continue « {0} » (maîtrise {2}/10).</value></data>
+  <data name="Rec_AssessLevel" xml:space="preserve"><value>Fais le test de niveau en {0} pour que le tuteur s'adapte.</value></data>
+  <data name="Rec_StartNext" xml:space="preserve"><value>Commence le thème suivant : « {0} ».</value></data>
+  <data name="Rec_ComeBack" xml:space="preserve"><value>Tu n'as pas travaillé « {0} » depuis {2} jours : une petite révision.</value></data>
+  <data name="Rec_ExamSoon" xml:space="preserve"><value>Examen dans {2} jours : entraîne-toi sur des questions type examen en {0}.</value></data>
+  <data name="Status_NotStarted" xml:space="preserve"><value>Pas commencé</value></data>
+  <data name="Status_InProgress" xml:space="preserve"><value>En cours</value></data>
+  <data name="Status_Completed" xml:space="preserve"><value>Terminé</value></data>
+  <data name="Results_Title" xml:space="preserve"><value>Résultats</value></data>
+  <data name="Results_Empty" xml:space="preserve"><value>Pas encore de résultats.</value></data>
+  <data name="Kind_Test" xml:space="preserve"><value>Test</value></data>
+  <data name="Kind_Exam" xml:space="preserve"><value>Examen</value></data>
+  <data name="Kind_Homework" xml:space="preserve"><value>Devoir</value></data>
+  <data name="Kind_MockExam" xml:space="preserve"><value>Examen blanc</value></data>
+  <data name="Kind_LevelTest" xml:space="preserve"><value>Test de niveau</value></data>
+  <data name="Activity_Title" xml:space="preserve"><value>Activité</value></data>
+  <data name="Activity_Empty" xml:space="preserve"><value>Tes séances avec le tuteur seront enregistrées ici automatiquement.</value></data>
+  <data name="Activity_TutorSession" xml:space="preserve"><value>Séance avec le tuteur</value></data>
+  <data name="Activity_Lesson" xml:space="preserve"><value>Cours</value></data>
+  <data name="Activity_Test" xml:space="preserve"><value>Test</value></data>
+  <data name="Activity_Video" xml:space="preserve"><value>Vidéo</value></data>
+  <data name="Activity_Assignment" xml:space="preserve"><value>Devoir</value></data>
+  <data name="Activity_Turns" xml:space="preserve"><value>{0} réponses</value></data>
+  <data name="Notes_Title" xml:space="preserve"><value>Notes du professeur</value></data>
+  <data name="Data_Title" xml:space="preserve"><value>Données de l'élève (JSON)</value></data>
+  <data name="Data_Subtitle" xml:space="preserve"><value>Ce qu'une plateforme enverrait au tuteur : profil, cours, résultats, activité, objectifs et notes. Modifie-le ou importe un fichier.</value></data>
+  <data name="Data_Save" xml:space="preserve"><value>Enregistrer</value></data>
+  <data name="Data_Import" xml:space="preserve"><value>Importer .json</value></data>
+  <data name="Data_Delete" xml:space="preserve"><value>Supprimer le dossier</value></data>
+  <data name="Js_StartTopic" xml:space="preserve"><value>Travaillons : {0}</value></data>
+  <data name="Js_StartSubject" xml:space="preserve"><value>Reprenons {0} là où on s'était arrêtés.</value></data>
+  <data name="Js_InvalidJson" xml:space="preserve"><value>Le JSON n'est pas valide.</value></data>
+  <data name="Js_RecordSaved" xml:space="preserve"><value>Dossier enregistré.</value></data>
+  <data name="Js_ImportReady" xml:space="preserve"><value>Fichier chargé : vérifie-le et enregistre.</value></data>
+  <data name="Js_ConfirmDelete" xml:space="preserve"><value>Appuie encore pour supprimer</value></data>
+  <data name="Js_DeleteRecord" xml:space="preserve"><value>Supprimer le dossier</value></data>
   <data name="Nav_Tutor" xml:space="preserve"><value>Tuteur</value></data>
   <data name="Nav_About" xml:space="preserve"><value>Comment ça marche</value></data>
   <data name="Nav_Resources" xml:space="preserve"><value>Ressources</value></data>
   <data name="Nav_SourceCode" xml:space="preserve"><value>Code source</value></data>
-  <data name="Nav_ClaudeDocs" xml:space="preserve"><value>Documentation Claude</value></data>
   <data name="Nav_OpenMenu" xml:space="preserve"><value>Ouvrir le menu</value></data>
   <data name="Nav_ToggleTheme" xml:space="preserve"><value>Activer/désactiver le mode sombre</value></data>
   <data name="Nav_EngineTooltip" xml:space="preserve"><value>Moteur d'IA utilisé par le tuteur</value></data>

@@ -9,6 +9,8 @@ using TutorForge.Infrastructure.Demo;
 using TutorForge.Infrastructure.Engines;
 using TutorForge.Infrastructure.OpenAi;
 using TutorForge.Infrastructure.Progress;
+using TutorForge.Infrastructure.Records;
+using TutorForge.Core.Records;
 
 namespace TutorForge.Infrastructure;
 
@@ -26,6 +28,8 @@ public static class DependencyInjection
         services.TryAddSingleton(TimeProvider.System);
         services.AddOptions<ProgressStoreOptions>().Bind(configuration.GetSection(ProgressStoreOptions.SectionName));
         services.AddSingleton<IStudentProgressStore, FileStudentProgressStore>();
+        // Student record ("expediente"): profile, courses, results, activity, goals, teacher notes. JSON in the demo.
+        services.AddSingleton<IStudentRecordStore, FileStudentRecordStore>();
         services.AddSingleton<ProgressService>();
         services.AddHostedService<ProgressCleanupService>();
 

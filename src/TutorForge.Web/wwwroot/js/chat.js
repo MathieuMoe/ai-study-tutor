@@ -608,5 +608,26 @@ document.querySelectorAll('input[name="mode"]').forEach((r) =>
 $("forget-btn").addEventListener("click", (e) => forgetMe(e.currentTarget));
 
 await loadProgress();
+
+// Links from "My progress" (/?subject=Biology&mode=Practice&topic=...&start=1) open the tutor ready to work
+const params = new URLSearchParams(location.search);
+const wanted = params.get("subject");
+if (wanted && settings.subject.querySelector(`option[value="${CSS.escape(wanted)}"]`)) settings.subject.value = wanted;
 showSubject(settings.subject.value);
+
+if (params.has("start")) {
+  const mode = document.querySelector(`input[name="mode"][value="${CSS.escape(params.get("mode") ?? "")}"]`);
+  const topic = (params.get("topic") ?? "").slice(0, Number(settings.topic.maxLength) > 0 ? Number(settings.topic.maxLength) : 120);
+  settings.topic.value = topic;
+  updateAssessSubject();
+  if (mode?.value === "Assess") {
+    startAssessment();
+  } else {
+    if (mode) mode.checked = true;
+    if (history.length) clearChat();
+    updateContext();
+    send(topic ? t("StartTopic", topic) : t("StartSubject", selectedText(settings.subject)));
+  }
+  window.history.replaceState(null, "", "/");
+}
 prompt.focus();

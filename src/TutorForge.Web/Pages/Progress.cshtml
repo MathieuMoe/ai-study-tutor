@@ -1,0 +1,261 @@
+@page
+@model ProgressModel
+@using TutorForge.Core.Records
+@{
+    ViewData["Title"] = L["Nav_Progress"];
+    const string card = "bg-card border border-card-line shadow-2xs rounded-xl";
+    const string btn = "py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg focus:outline-hidden disabled:opacity-50";
+    const string btnLight = btn + " border border-layer-line bg-layer text-foreground shadow-2xs hover:bg-layer-hover";
+    var culture = System.Globalization.CultureInfo.CurrentUICulture;
+    var record = Model.Record;
+    var profile = record?.Profile;
+    string Date(DateOnly d) => d.ToString("d MMM yyyy", culture);
+    string Score(double v) => v.ToString("0.#", culture);
+    string ScoreClass(double v) => v >= 7 ? "text-teal-600 dark:text-teal-400" : v >= 5 ? "text-amber-600 dark:text-amber-400" : "text-red-600 dark:text-red-400";
+    string StatusClass(TopicStatus s) => s switch
+    {
+        TopicStatus.Completed => "bg-teal-50 text-teal-700 dark:bg-teal-500/10 dark:text-teal-400",
+        TopicStatus.InProgress => "bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400",
+        _ => "bg-surface text-muted-foreground-2",
+    };
+    var empty = record is null && (Model.Progress?.Subjects.Count ?? 0) == 0;
+}
+
+<div class="flex flex-wrap justify-between items-end gap-3">
+    <div>
+        <h1 class="text-2xl font-semibold text-foreground">@L["Progress_Heading"]@(profile?.DisplayName is { } name ? $" · {name}" : "")</h1>
+        <p class="mt-1 text-sm text-muted-foreground-1">@L["Progress_Subtitle"]</p>
+    </div>
+    <div class="flex flex-wrap gap-2">
+        <button type="button" id="sample-btn" class="@btnLight">@L["Progress_Sample"]</button>
+        <a href="/api/record/export" class="@btnLight">
+            <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" /></svg>
+            @L["Progress_Export"]
+        </a>
+    </div>
+</div>
+
+@if (empty)
+{
+    <div class="@card p-8 text-center">
+        <img src="~/img/logo.svg" alt="" class="mx-auto size-14 rounded-full" />
+        <h2 class="mt-4 text-base font-semibold text-foreground">@L["Progress_EmptyTitle"]</h2>
+        <p class="mt-1 text-sm text-muted-foreground-1 max-w-xl mx-auto">@L["Progress_EmptyText"]</p>
+    </div>
+}
+else
+{
+    <!-- KPIs -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        @{
+            var minutes = record?.Activity.Where(a => Model.Today.DayNumber - DateOnly.FromDateTime(a.Start.UtcDateTime).DayNumber <= 30).Sum(a => a.Minutes) ?? 0;
+            var sessions = record?.Activity.Count(a => a.Kind == ActivityKind.TutorSession) ?? 0;
+            var topicsDone = record?.Enrollments.Sum(e => e.Topics.Count(t => t.Status == TopicStatus.Completed)) ?? 0;
+            var topicsAll = record?.Enrollments.Sum(e => e.Topics.Count) ?? 0;
+            var examDays = profile?.ExamDate is { } exam && exam >= Model.Today ? exam.DayNumber - Model.Today.DayNumber : (int?)null;
+        }
+        @foreach (var (label, value, sub) in new[]
+        {
+            (L["Kpi_Exam"].Value, examDays?.ToString(culture) ?? "–", profile?.ExamDate is { } d ? Date(d) : L["Kpi_NoExam"].Value),
+            (L["Kpi_Study"].Value, $"{minutes / 60}h {minutes % 60:00}", L["Kpi_Last30"].Value),
+            (L["Kpi_Sessions"].Value, sessions.ToString(culture), L["Kpi_WithTutor"].Value),
+            (L["Kpi_Topics"].Value, topicsAll == 0 ? "–" : $"{topicsDone}/{topicsAll}", L["Kpi_Completed"].Value),
+        })
+        {
+            <div class="@card p-4">
+                <p class="text-xs uppercase text-muted-foreground-1">@label</p>
+                <p class="mt-1 text-2xl font-semibold tabular-nums text-foreground">@value</p>
+                <p class="text-xs text-muted-foreground-1">@sub</p>
+            </div>
+        }
+    </div>
+
+    @if (profile?.Objective is not null || record?.Goals.Count > 0)
+    {
+        <div class="@card p-4 md:p-5 flex flex-wrap gap-6">
+            @if (profile?.Objective is { } objective)
+            {
+                <div class="min-w-0 flex-1">
+                    <p class="text-xs font-medium text-primary">@L["Progress_Objective"]@(profile.Academy is { } academy ? $" · {academy}" : "")</p>
+                    <p class="mt-1 text-sm text-foreground">@objective</p>
+                </div>
+            }
+            @if (record?.Goals.Count > 0)
+            {
+                <ul class="min-w-0 flex-1 space-y-1 text-sm">
+                    @foreach (var g in record.Goals)
+                    {
+                        <li class="flex gap-2 @(g.Done ? "text-muted-foreground-1 line-through" : "text-foreground")"><span aria-hidden="true">@(g.Done ? "✅" : "🎯")</span><span>@g.Text@(g.Target is { } target ? $" · {Date(target)}" : "")</span></li>
+                    }
+                </ul>
+            }
+        </div>
+    }
+
+    <div class="grid lg:grid-cols-12 gap-4 sm:gap-6 items-start">
+        <!-- Guide -->
+        <section class="@card lg:col-span-5 min-w-0" aria-labelledby="guide-title">
+            <div class="py-3 px-4 md:px-5 border-b border-card-divider">
+                <h2 id="guide-title" class="text-base font-semibold text-foreground">@L["Guide_Title"]</h2>
+                <p class="text-xs text-muted-foreground-1">@L["Guide_Subtitle"]</p>
+            </div>
+            <ol class="p-3 md:p-4 space-y-2">
+                @if (Model.Recommendations.Count == 0)
+                {
+                    <li class="text-sm text-muted-foreground-1 p-2">@L["Guide_Empty"]</li>
+                }
+                @foreach (var r in Model.Recommendations)
+                {
+                    var text = string.Format(culture, L[$"Rec_{r.Code}"].Value, r.Topic ?? L[$"Subject_{r.Subject}"].Value, r.Detail ?? "", r.Value is { } v ? Score(v) : "");
+                    <li class="flex items-center gap-3 p-3 rounded-lg bg-surface">
+                        <span class="size-8 shrink-0 grid place-items-center rounded-full bg-primary/10 text-primary text-sm" aria-hidden="true">@(r.Code switch { "ReviewWeak" => "🔁", "Continue" => "▶️", "AssessLevel" => "🎯", "StartNext" => "📘", "ComeBack" => "⏰", _ => "📝" })</span>
+                        <div class="min-w-0 flex-1">
+                            <p class="text-sm text-foreground">@text</p>
+                            <p class="text-xs text-muted-foreground-1">@L[$"Subject_{r.Subject}"] · @L[$"Mode_{r.Mode}"]</p>
+                        </div>
+                        <a href="@ProgressModel.TutorLink(r.Subject, r.Mode, r.Topic)" class="@btn shrink-0 bg-primary text-primary-foreground hover:bg-primary-hover py-1.5! text-xs!">@L["Guide_Start"]</a>
+                    </li>
+                }
+            </ol>
+        </section>
+
+        <!-- Subjects -->
+        <section class="lg:col-span-7 min-w-0 grid sm:grid-cols-2 gap-4" aria-label="@L["Progress_Subjects"]">
+            @foreach (var subject in Model.Subjects)
+            {
+                var course = record?.Enrollments.FirstOrDefault(e => e.Subject == subject);
+                var sp = Model.Progress?.Subjects.GetValueOrDefault(subject);
+                // Level curve: saved progress, or else the levels logged in the sessions (oldest first)
+                IReadOnlyList<TutorForge.Core.Progress.LevelPoint> history = sp?.LevelHistory is { Count: >= 2 } saved ? saved
+                    : (record?.Activity.Where(a => a.Subject == subject && a.LevelAfter is not null).OrderBy(a => a.End)
+                        .Select(a => new TutorForge.Core.Progress.LevelPoint(a.LevelAfter!.Value, a.End)).ToList() ?? []);
+                var level = ProgressionAdvisor.LatestLevel(record, Model.Progress, subject);
+                var done = course?.Topics.Count(t => t.Status == TopicStatus.Completed) ?? 0;
+                var total = course?.Topics.Count ?? 0;
+                <article class="@card p-4 space-y-3">
+                    <div class="flex items-start justify-between gap-2">
+                        <div class="min-w-0">
+                            <h3 class="text-sm font-semibold text-foreground truncate">@(course?.Course ?? L[$"Subject_{subject}"].Value)</h3>
+                            <p class="text-xs text-muted-foreground-1">@L[$"Subject_{subject}"]@(course?.Teacher is { } teacher ? $" · {teacher}" : "")</p>
+                        </div>
+                        <span class="shrink-0 py-0.5 px-2 rounded-md text-xs font-semibold bg-primary/10 text-primary">@(level is { } l ? $"{L["Level_Label"].Value} {l}/10" : L["Progress_NoLevel"].Value)</span>
+                    </div>
+                    @if (history.Count >= 2)
+                    {
+                        var pts = string.Join(" ", history.TakeLast(12).Select((p, i) => $"{(i * 100.0 / Math.Max(1, Math.Min(12, history.Count) - 1)).ToString("0.#", System.Globalization.CultureInfo.InvariantCulture)},{(22 - p.Level * 2).ToString(System.Globalization.CultureInfo.InvariantCulture)}"));
+                        <svg viewBox="0 0 100 24" class="w-full h-8 text-primary" preserveAspectRatio="none" aria-hidden="true"><polyline points="@pts" fill="none" stroke="currentColor" stroke-width="2" vector-effect="non-scaling-stroke" /></svg>
+                    }
+                    @if (total > 0)
+                    {
+                        <div>
+                            <div class="flex justify-between text-xs text-muted-foreground-1"><span>@L["Kpi_Topics"]</span><span class="tabular-nums">@done/@total</span></div>
+                            <div class="mt-1 h-1.5 rounded-full bg-surface overflow-hidden"><div class="h-full rounded-full bg-teal-500" style="width:@(done * 100 / total)%"></div></div>
+                        </div>
+                        <ul class="flex flex-wrap gap-1.5">
+                            @foreach (var t in course!.Topics)
+                            {
+                                <li class="py-0.5 px-2 rounded-md text-xs @StatusClass(t.Status)" title="@L[$"Status_{t.Status}"]@(t.Mastery is { } m ? $" · {m}/10" : "")">@t.Name</li>
+                            }
+                        </ul>
+                    }
+                    <a href="@ProgressModel.TutorLink(subject, TutorMode.Practice, null)" class="inline-flex text-xs font-medium text-primary hover:underline">@L["Progress_OpenTutor"] →</a>
+                </article>
+            }
+        </section>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-4 sm:gap-6 items-start">
+        <!-- Results -->
+        <section class="@card min-w-0" aria-labelledby="results-title">
+            <h2 id="results-title" class="py-3 px-4 md:px-5 border-b border-card-divider text-base font-semibold text-foreground">@L["Results_Title"]</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full text-sm">
+                    <tbody class="divide-y divide-card-divider">
+                        @if (record is null || record.Assessments.Count == 0)
+                        {
+                            <tr><td class="p-4 text-muted-foreground-1">@L["Results_Empty"]</td></tr>
+                        }
+                        @foreach (var a in record?.Assessments.Take(12) ?? [])
+                        {
+                            <tr class="align-top">
+                                <td class="py-2.5 px-4 whitespace-nowrap text-xs text-muted-foreground-1">@Date(a.Date)</td>
+                                <td class="py-2.5 px-2">
+                                    <p class="font-medium text-foreground">@a.Title</p>
+                                    <p class="text-xs text-muted-foreground-1">@L[$"Subject_{a.Subject}"] · @L[$"Kind_{a.Kind}"]@(a.Topic is { } t ? $" · {t}" : "")</p>
+                                    @foreach (var m in a.Mistakes)
+                                    {
+                                        <p class="text-xs text-red-600 dark:text-red-400">✗ @m</p>
+                                    }
+                                </td>
+                                <td class="py-2.5 px-4 text-end font-semibold tabular-nums @ScoreClass(a.OnTen)">@Score(a.OnTen)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Activity -->
+        <section class="@card min-w-0" aria-labelledby="activity-title">
+            <h2 id="activity-title" class="py-3 px-4 md:px-5 border-b border-card-divider text-base font-semibold text-foreground">@L["Activity_Title"]</h2>
+            <ol class="p-4 md:p-5 space-y-3">
+                @if (record is null || record.Activity.Count == 0)
+                {
+                    <li class="text-sm text-muted-foreground-1">@L["Activity_Empty"]</li>
+                }
+                @foreach (var a in record?.Activity.Take(12) ?? [])
+                {
+                    <li class="flex gap-3">
+                        <span class="mt-1 size-2.5 shrink-0 rounded-full @(a.Kind == ActivityKind.TutorSession ? "bg-primary" : "bg-muted-foreground")"></span>
+                        <div class="min-w-0">
+                            <p class="text-sm text-foreground"><span class="font-medium">@L[$"Activity_{a.Kind}"]</span> · @L[$"Subject_{a.Subject}"]@(a.Topic is { } t ? $" · {t}" : "")</p>
+                            <p class="text-xs text-muted-foreground-1">
+                                @a.Start.ToLocalTime().ToString("g", culture) · @a.Minutes min
+                                @if (a.Turns > 0) { <text> · @string.Format(culture, L["Activity_Turns"].Value, a.Turns)</text> }
+                                @if (a.LevelAfter is { } after) { <text> · @L["Level_Label"] @(a.LevelBefore?.ToString(culture) ?? "?")→@after</text> }
+                            </p>
+                            @if (a.Summary is { } s) { <p class="text-xs italic text-muted-foreground-1 truncate">“@s”</p> }
+                        </div>
+                    </li>
+                }
+            </ol>
+        </section>
+    </div>
+
+    @if (record?.TeacherNotes.Count > 0)
+    {
+        <section class="@card p-4 md:p-5" aria-labelledby="notes-title">
+            <h2 id="notes-title" class="text-base font-semibold text-foreground">@L["Notes_Title"]</h2>
+            <ul class="mt-3 grid md:grid-cols-2 gap-3">
+                @foreach (var n in record.TeacherNotes)
+                {
+                    <li class="p-3 rounded-lg border-s-4 border-amber-400 bg-amber-50 dark:bg-amber-500/10 text-sm text-foreground">@n.Text <span class="block mt-1 text-xs text-muted-foreground-1">@n.Author · @Date(n.Date)</span></li>
+                }
+            </ul>
+        </section>
+    }
+}
+
+<!-- The record as JSON: what a platform would send to the tutor -->
+<details class="@card group" id="data-panel">
+    <summary class="py-3 px-4 md:px-5 flex items-center justify-between cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+        <span>
+            <span class="text-base font-semibold text-foreground">@L["Data_Title"]</span>
+            <span class="block text-xs text-muted-foreground-1">@L["Data_Subtitle"]</span>
+        </span>
+        <svg class="size-4 text-muted-foreground transition-transform group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6" /></svg>
+    </summary>
+    <div class="px-4 md:px-5 pb-5 space-y-3">
+        <textarea id="record-json" rows="18" spellcheck="false" class="block w-full p-3 bg-layer border border-layer-line rounded-lg font-mono text-xs text-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-hidden">@Model.RecordJson</textarea>
+        <p id="data-status" class="text-xs" role="status"></p>
+        <div class="flex flex-wrap gap-2">
+            <button type="button" id="save-json" class="@btn bg-primary text-primary-foreground hover:bg-primary-hover">@L["Data_Save"]</button>
+            <label class="@btnLight cursor-pointer">@L["Data_Import"]<input type="file" id="import-json" accept=".json,application/json" class="sr-only" /></label>
+            <button type="button" id="delete-record" class="@btnLight hover:text-red-600">@L["Data_Delete"]</button>
+        </div>
+    </div>
+</details>
+
+@section Scripts {
+    <script type="module" src="~/js/progress.js" asp-append-version="true"></script>
+}

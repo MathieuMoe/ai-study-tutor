@@ -48,7 +48,8 @@ const dateFormat = new Intl.DateTimeFormat(document.documentElement.lang || unde
 const LEVEL_TAG = /\[\[LEVEL:(\d{1,2})\]\]/g;
 
 /** Removes level tags (and a tag still being streamed) from the text shown to the student. */
-const stripTags = (text) => text.replace(LEVEL_TAG, "").replace(/\[\[[A-Z:]*\d*\]?$/, "").trimEnd();
+const HIDDEN_TAGS = /\[\[(?:LEVEL|SEED):\d+\]\]/g;
+const stripTags = (text) => text.replace(HIDDEN_TAGS, "").replace(/\[\[[A-Z:]*\d*\]?$/, "").trimEnd();
 
 function readLevel(text) {
   const matches = [...text.matchAll(LEVEL_TAG)];

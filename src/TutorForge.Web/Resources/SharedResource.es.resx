@@ -57,6 +57,8 @@
   <data name="Js_Saved" xml:space="preserve"><value>✓ Progreso guardado</value></data>
   <data name="Js_NotSaved" xml:space="preserve"><value>No se pudo guardar el progreso</value></data>
   <data name="Js_LastUpdate" xml:space="preserve"><value>Actualizado el {0}.</value></data>
+  <data name="Engine_Choose" xml:space="preserve"><value>Motor de IA</value></data>
+  <data name="Engine_Hint" xml:space="preserve"><value>Aparecen más motores al configurar su clave de API (ver README).</value></data>
   <data name="Mode_Guide" xml:space="preserve"><value>Guíame</value></data>
   <data name="Mode_Guide_Desc" xml:space="preserve"><value>Pistas paso a paso, sin darte la respuesta</value></data>
   <data name="Mode_Explain" xml:space="preserve"><value>Explícame</value></data>

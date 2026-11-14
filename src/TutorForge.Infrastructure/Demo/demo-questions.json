@@ -1,0 +1,306 @@
+{
+  "Mathematics": {
+    "English": [
+      "What is $\\frac{1}{2} + \\frac{1}{4}$?\n\nA) $\\frac{2}{6}$ · B) $\\frac{3}{4}$ · C) $\\frac{1}{6}$ · D) $\\frac{2}{4}$",
+      "Solve: $3x - 4 = 11$",
+      "A pair of trousers costs €40 with a 25% discount. How much do you pay?",
+      "What is the area of a rectangle 6 cm long and 4 cm wide?",
+      "Explain in your own words why $(-2) \\times (-3)$ is positive.",
+      "Solve the system: $x + y = 10$, $x - y = 2$",
+      "What is $2^5$? And $\\sqrt{81}$?"
+    ],
+    "Spanish": [
+      "¿Cuánto es $\\frac{1}{2} + \\frac{1}{4}$?\n\nA) $\\frac{2}{6}$ · B) $\\frac{3}{4}$ · C) $\\frac{1}{6}$ · D) $\\frac{2}{4}$",
+      "Resuelve: $3x - 4 = 11$",
+      "Un pantalón cuesta 40 € y tiene un 25 % de descuento. ¿Cuánto pagas?",
+      "¿Cuál es el área de un rectángulo de 6 cm de largo y 4 cm de ancho?",
+      "Explica con tus palabras por qué $(-2) \\cdot (-3)$ es positivo.",
+      "Resuelve el sistema: $x + y = 10$, $x - y = 2$",
+      "¿Cuánto es $2^5$? ¿Y $\\sqrt{81}$?"
+    ],
+    "French": [
+      "Combien font $\\frac{1}{2} + \\frac{1}{4}$ ?\n\nA) $\\frac{2}{6}$ · B) $\\frac{3}{4}$ · C) $\\frac{1}{6}$ · D) $\\frac{2}{4}$",
+      "Résous : $3x - 4 = 11$",
+      "Un pantalon coûte 40 € avec 25 % de réduction. Combien paies-tu ?",
+      "Quelle est l'aire d'un rectangle de 6 cm de long et 4 cm de large ?",
+      "Explique avec tes mots pourquoi $(-2) \\times (-3)$ est positif.",
+      "Résous le système : $x + y = 10$, $x - y = 2$",
+      "Combien font $2^5$ ? Et $\\sqrt{81}$ ?"
+    ],
+    "Catalan": [
+      "Quant és $\\frac{1}{2} + \\frac{1}{4}$?\n\nA) $\\frac{2}{6}$ · B) $\\frac{3}{4}$ · C) $\\frac{1}{6}$ · D) $\\frac{2}{4}$",
+      "Resol: $3x - 4 = 11$",
+      "Uns pantalons costen 40 € i tenen un 25 % de descompte. Quant pagues?",
+      "Quina és l'àrea d'un rectangle de 6 cm de llarg i 4 cm d'ample?",
+      "Explica amb les teves paraules per què $(-2) \\cdot (-3)$ és positiu.",
+      "Resol el sistema: $x + y = 10$, $x - y = 2$",
+      "Quant és $2^5$? I $\\sqrt{81}$?"
+    ]
+  },
+  "PhysicsChemistry": {
+    "English": [
+      "What is the SI unit of force?\n\nA) Joule · B) Newton · C) Watt · D) Pascal",
+      "A car travels 120 km in 2 hours. What is its average speed?",
+      "What is the chemical symbol of sodium?",
+      "What is the difference between a physical change and a chemical change? Give an example of each.",
+      "At what temperature does water boil at sea level?",
+      "What is the formula of water and how many atoms does one molecule have?",
+      "Why does an ice cube float on water?"
+    ],
+    "Spanish": [
+      "¿Cuál es la unidad de fuerza en el Sistema Internacional?\n\nA) Julio · B) Newton · C) Vatio · D) Pascal",
+      "Un coche recorre 120 km en 2 horas. ¿Cuál es su velocidad media?",
+      "¿Cuál es el símbolo químico del sodio?",
+      "¿Qué diferencia hay entre un cambio físico y un cambio químico? Pon un ejemplo de cada uno.",
+      "¿A qué temperatura hierve el agua a nivel del mar?",
+      "¿Cuál es la fórmula del agua y cuántos átomos tiene una molécula?",
+      "¿Por qué un cubito de hielo flota en el agua?"
+    ],
+    "French": [
+      "Quelle est l'unité de force dans le Système international ?\n\nA) Joule · B) Newton · C) Watt · D) Pascal",
+      "Une voiture parcourt 120 km en 2 heures. Quelle est sa vitesse moyenne ?",
+      "Quel est le symbole chimique du sodium ?",
+      "Quelle est la différence entre une transformation physique et une transformation chimique ? Donne un exemple de chaque.",
+      "À quelle température l'eau bout-elle au niveau de la mer ?",
+      "Quelle est la formule de l'eau et combien d'atomes a une molécule ?",
+      "Pourquoi un glaçon flotte-t-il sur l'eau ?"
+    ],
+    "Catalan": [
+      "Quina és la unitat de força al Sistema Internacional?\n\nA) Joule · B) Newton · C) Watt · D) Pascal",
+      "Un cotxe recorre 120 km en 2 hores. Quina és la seva velocitat mitjana?",
+      "Quin és el símbol químic del sodi?",
+      "Quina diferència hi ha entre un canvi físic i un canvi químic? Posa un exemple de cadascun.",
+      "A quina temperatura bull l'aigua al nivell del mar?",
+      "Quina és la fórmula de l'aigua i quants àtoms té una molècula?",
+      "Per què un glaçó flota a l'aigua?"
+    ]
+  },
+  "Biology": {
+    "English": [
+      "In which organelle does photosynthesis take place?\n\nA) Mitochondria · B) Chloroplast · C) Nucleus · D) Ribosome",
+      "What is the function of red blood cells?",
+      "What is the difference between a prokaryotic and a eukaryotic cell?",
+      "How many chromosomes does a human body cell have?",
+      "Name the four bases of DNA.",
+      "What is an ecosystem? Give an example.",
+      "What do herbivores, carnivores and omnivores eat?"
+    ],
+    "Spanish": [
+      "¿En qué orgánulo se realiza la fotosíntesis?\n\nA) Mitocondria · B) Cloroplasto · C) Núcleo · D) Ribosoma",
+      "¿Cuál es la función de los glóbulos rojos?",
+      "¿Qué diferencia hay entre una célula procariota y una eucariota?",
+      "¿Cuántos cromosomas tiene una célula del cuerpo humano?",
+      "Nombra las cuatro bases del ADN.",
+      "¿Qué es un ecosistema? Pon un ejemplo.",
+      "¿Qué comen los animales herbívoros, carnívoros y omnívoros?"
+    ],
+    "French": [
+      "Dans quel organite se déroule la photosynthèse ?\n\nA) Mitochondrie · B) Chloroplaste · C) Noyau · D) Ribosome",
+      "Quel est le rôle des globules rouges ?",
+      "Quelle est la différence entre une cellule procaryote et une cellule eucaryote ?",
+      "Combien de chromosomes possède une cellule du corps humain ?",
+      "Cite les quatre bases de l'ADN.",
+      "Qu'est-ce qu'un écosystème ? Donne un exemple.",
+      "Que mangent les herbivores, les carnivores et les omnivores ?"
+    ],
+    "Catalan": [
+      "En quin orgànul es fa la fotosíntesi?\n\nA) Mitocondri · B) Cloroplast · C) Nucli · D) Ribosoma",
+      "Quina és la funció dels glòbuls vermells?",
+      "Quina diferència hi ha entre una cèl·lula procariota i una eucariota?",
+      "Quants cromosomes té una cèl·lula del cos humà?",
+      "Anomena les quatre bases de l'ADN.",
+      "Què és un ecosistema? Posa un exemple.",
+      "Què mengen els animals herbívors, carnívors i omnívors?"
+    ]
+  },
+  "HistoryGeography": {
+    "English": [
+      "In which year did the Second World War end?",
+      "What is the capital of Australia?\n\nA) Sydney · B) Melbourne · C) Canberra · D) Perth",
+      "Explain one cause of the French Revolution.",
+      "What is the longest river in Europe?",
+      "What was the Renaissance? Name one artist from that period.",
+      "Which civilisation built Machu Picchu?",
+      "What is the difference between weather and climate?"
+    ],
+    "Spanish": [
+      "¿En qué año terminó la Segunda Guerra Mundial?",
+      "¿Cuál es la capital de Australia?\n\nA) Sídney · B) Melbourne · C) Canberra · D) Perth",
+      "Explica una causa de la Revolución francesa.",
+      "¿Cuál es el río más largo de Europa?",
+      "¿Qué fue el Renacimiento? Nombra un artista de esa época.",
+      "¿Qué civilización construyó Machu Picchu?",
+      "¿Qué diferencia hay entre el tiempo atmosférico y el clima?"
+    ],
+    "French": [
+      "En quelle année la Seconde Guerre mondiale s'est-elle terminée ?",
+      "Quelle est la capitale de l'Australie ?\n\nA) Sydney · B) Melbourne · C) Canberra · D) Perth",
+      "Explique une cause de la Révolution française.",
+      "Quel est le plus long fleuve d'Europe ?",
+      "Qu'est-ce que la Renaissance ? Cite un artiste de cette époque.",
+      "Quelle civilisation a construit le Machu Picchu ?",
+      "Quelle est la différence entre la météo et le climat ?"
+    ],
+    "Catalan": [
+      "En quin any va acabar la Segona Guerra Mundial?",
+      "Quina és la capital d'Austràlia?\n\nA) Sydney · B) Melbourne · C) Canberra · D) Perth",
+      "Explica una causa de la Revolució francesa.",
+      "Quin és el riu més llarg d'Europa?",
+      "Què va ser el Renaixement? Anomena un artista d'aquella època.",
+      "Quina civilització va construir Machu Picchu?",
+      "Quina diferència hi ha entre el temps atmosfèric i el clima?"
+    ]
+  },
+  "LanguageLiterature": {
+    "English": [
+      "Give a synonym and an antonym of \"fast\".",
+      "What is the subject of this sentence: \"The students are studying for the exam\"?",
+      "Who wrote \"Romeo and Juliet\"?",
+      "Which figure of speech is \"her teeth were pearls\"?\n\nA) Simile · B) Metaphor · C) Hyperbole · D) Alliteration",
+      "Complete with their / there / they're: \"___ going to ___ house over ___.\"",
+      "What is a subordinate clause? Give an example.",
+      "What is the difference between a narrator in first person and in third person?"
+    ],
+    "Spanish": [
+      "Da un sinónimo y un antónimo de «rápido».",
+      "¿Cuál es el sujeto de la oración «Los alumnos estudian para el examen»?",
+      "¿Quién escribió «Don Quijote de la Mancha»?",
+      "¿Qué figura literaria es «sus dientes eran perlas»?\n\nA) Comparación · B) Metáfora · C) Hipérbole · D) Aliteración",
+      "Completa con «haber» o «a ver»: «Vamos ___ qué ha pasado».",
+      "¿Qué es una oración subordinada? Pon un ejemplo.",
+      "¿Qué diferencia hay entre un narrador en primera persona y en tercera persona?"
+    ],
+    "French": [
+      "Donne un synonyme et un antonyme de « rapide ».",
+      "Quel est le sujet de la phrase « Les élèves révisent pour l'examen » ?",
+      "Qui a écrit « Les Misérables » ?",
+      "Quelle figure de style est « ses dents étaient des perles » ?\n\nA) Comparaison · B) Métaphore · C) Hyperbole · D) Allitération",
+      "Complète avec « a » ou « à » : « Il ___ fini ___ midi. »",
+      "Qu'est-ce qu'une proposition subordonnée ? Donne un exemple.",
+      "Quelle est la différence entre un narrateur à la première et à la troisième personne ?"
+    ],
+    "Catalan": [
+      "Dona un sinònim i un antònim de «ràpid».",
+      "Quin és el subjecte de l'oració «Els alumnes estudien per a l'examen»?",
+      "Qui va escriure «Tirant lo Blanc»?",
+      "Quina figura literària és «les seves dents eren perles»?\n\nA) Comparació · B) Metàfora · C) Hipèrbole · D) Al·literació",
+      "Completa amb «perquè» o «per què»: «No sé ___ ha vingut tan d'hora».",
+      "Què és una oració subordinada? Posa un exemple.",
+      "Quina diferència hi ha entre un narrador en primera persona i en tercera persona?"
+    ]
+  },
+  "English": {
+    "English": [
+      "Choose the right form: \"She ___ to school yesterday.\"\n\nA) goed · B) went · C) gone · D) goes",
+      "Rewrite in the past simple: \"I eat breakfast at 8.\"",
+      "Choose: \"I have lived here ___ 2020.\"\n\nA) for · B) since · C) during · D) from",
+      "What is the plural of \"child\"? And of \"mouse\"?",
+      "Turn into a question: \"You play football on Saturdays.\"",
+      "What is the opposite of \"expensive\"?",
+      "Complete: \"If it rains tomorrow, I ___ (stay) at home.\""
+    ],
+    "Spanish": [
+      "Elige la forma correcta: \"She ___ to school yesterday.\"\n\nA) goed · B) went · C) gone · D) goes",
+      "Traduce al inglés: «Me gusta leer libros por la noche».",
+      "Elige: \"I have lived here ___ 2020.\"\n\nA) for · B) since · C) during · D) from",
+      "¿Cuál es el plural de \"child\"? ¿Y de \"mouse\"?",
+      "Convierte en pregunta: \"You play football on Saturdays.\"",
+      "¿Cuál es el contrario de \"expensive\"?",
+      "Completa: \"If it rains tomorrow, I ___ (stay) at home.\""
+    ],
+    "French": [
+      "Choisis la bonne forme : \"She ___ to school yesterday.\"\n\nA) goed · B) went · C) gone · D) goes",
+      "Traduis en anglais : « J'aime lire des livres le soir ».",
+      "Choisis : \"I have lived here ___ 2020.\"\n\nA) for · B) since · C) during · D) from",
+      "Quel est le pluriel de \"child\" ? Et de \"mouse\" ?",
+      "Transforme en question : \"You play football on Saturdays.\"",
+      "Quel est le contraire de \"expensive\" ?",
+      "Complète : \"If it rains tomorrow, I ___ (stay) at home.\""
+    ],
+    "Catalan": [
+      "Tria la forma correcta: \"She ___ to school yesterday.\"\n\nA) goed · B) went · C) gone · D) goes",
+      "Tradueix a l'anglès: «M'agrada llegir llibres a la nit».",
+      "Tria: \"I have lived here ___ 2020.\"\n\nA) for · B) since · C) during · D) from",
+      "Quin és el plural de \"child\"? I de \"mouse\"?",
+      "Converteix en pregunta: \"You play football on Saturdays.\"",
+      "Quin és el contrari de \"expensive\"?",
+      "Completa: \"If it rains tomorrow, I ___ (stay) at home.\""
+    ]
+  },
+  "Programming": {
+    "English": [
+      "What does a `for` loop do? Give a small example.",
+      "What is the value of `x` after: `x = 5; x = x * 2 + 1;`?",
+      "What is the difference between a variable and a constant?",
+      "What does this print: `print(3 > 2 and 2 > 5)`?\n\nA) True · B) False · C) 3 · D) An error",
+      "What is a list (or array)? Give an example.",
+      "What is a function and why do we use them?",
+      "What is a bug, and what would you do first to find one?"
+    ],
+    "Spanish": [
+      "¿Qué hace un bucle `for`? Pon un ejemplo pequeño.",
+      "¿Qué valor tiene `x` después de: `x = 5; x = x * 2 + 1;`?",
+      "¿Qué diferencia hay entre una variable y una constante?",
+      "¿Qué imprime: `print(3 > 2 and 2 > 5)`?\n\nA) True · B) False · C) 3 · D) Un error",
+      "¿Qué es una lista (o array)? Pon un ejemplo.",
+      "¿Qué es una función y para qué sirve?",
+      "¿Qué es un bug y qué harías primero para encontrarlo?"
+    ],
+    "French": [
+      "Que fait une boucle `for` ? Donne un petit exemple.",
+      "Quelle est la valeur de `x` après : `x = 5; x = x * 2 + 1;` ?",
+      "Quelle est la différence entre une variable et une constante ?",
+      "Qu'affiche : `print(3 > 2 and 2 > 5)` ?\n\nA) True · B) False · C) 3 · D) Une erreur",
+      "Qu'est-ce qu'une liste (ou tableau) ? Donne un exemple.",
+      "Qu'est-ce qu'une fonction et à quoi sert-elle ?",
+      "Qu'est-ce qu'un bug, et que ferais-tu en premier pour le trouver ?"
+    ],
+    "Catalan": [
+      "Què fa un bucle `for`? Posa'n un exemple petit.",
+      "Quin valor té `x` després de: `x = 5; x = x * 2 + 1;`?",
+      "Quina diferència hi ha entre una variable i una constant?",
+      "Què imprimeix: `print(3 > 2 and 2 > 5)`?\n\nA) True · B) False · C) 3 · D) Un error",
+      "Què és una llista (o array)? Posa'n un exemple.",
+      "Què és una funció i per a què serveix?",
+      "Què és un bug i què faries primer per trobar-lo?"
+    ]
+  },
+  "Other": {
+    "English": [
+      "How do you find the main idea of a text?",
+      "Name one technique to memorise a list of words.",
+      "What is the difference between a fact and an opinion? Give an example of each.",
+      "Which planet is closest to the Sun?\n\nA) Venus · B) Mercury · C) Mars · D) Earth",
+      "What does \"summarise\" mean, and what should a good summary include?",
+      "How many continents are there? Name three.",
+      "How would you organise your study time the week before an exam?"
+    ],
+    "Spanish": [
+      "¿Cómo encuentras la idea principal de un texto?",
+      "Di una técnica para memorizar una lista de palabras.",
+      "¿Qué diferencia hay entre un hecho y una opinión? Pon un ejemplo de cada uno.",
+      "¿Qué planeta está más cerca del Sol?\n\nA) Venus · B) Mercurio · C) Marte · D) Tierra",
+      "¿Qué significa «resumir» y qué debe tener un buen resumen?",
+      "¿Cuántos continentes hay? Nombra tres.",
+      "¿Cómo organizarías tu tiempo de estudio la semana antes de un examen?"
+    ],
+    "French": [
+      "Comment trouves-tu l'idée principale d'un texte ?",
+      "Cite une technique pour mémoriser une liste de mots.",
+      "Quelle est la différence entre un fait et une opinion ? Donne un exemple de chaque.",
+      "Quelle planète est la plus proche du Soleil ?\n\nA) Vénus · B) Mercure · C) Mars · D) Terre",
+      "Que veut dire « résumer » et que doit contenir un bon résumé ?",
+      "Combien y a-t-il de continents ? Cites-en trois.",
+      "Comment organiserais-tu ton temps de révision la semaine avant un examen ?"
+    ],
+    "Catalan": [
+      "Com trobes la idea principal d'un text?",
+      "Digues una tècnica per memoritzar una llista de paraules.",
+      "Quina diferència hi ha entre un fet i una opinió? Posa un exemple de cadascun.",
+      "Quin planeta és el més proper al Sol?\n\nA) Venus · B) Mercuri · C) Mart · D) Terra",
+      "Què vol dir «resumir» i què ha de tenir un bon resum?",
+      "Quants continents hi ha? Anomena'n tres.",
+      "Com organitzaries el teu temps d'estudi la setmana abans d'un examen?"
+    ]
+  }
+}

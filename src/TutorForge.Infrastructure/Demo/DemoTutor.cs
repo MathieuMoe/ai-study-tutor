@@ -1,5 +1,7 @@
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.Text.Json;
+using System.Text.RegularExpressions;
 using TutorForge.Core.Abstractions;
 using TutorForge.Core.Models;
 using TutorForge.Core.Validation;
@@ -7,13 +9,16 @@ using TutorForge.Core.Validation;
 namespace TutorForge.Infrastructure.Demo;
 
 /// <summary>
-/// Offline tutor used when no API key is configured. It does not understand the question:
-/// it follows the pedagogical script of each mode (in 4 languages) so the app can be tried end to end.
-/// Answers are streamed word by word like the real one.
+/// Offline tutor used when no API key is configured. It does not understand the answers: it follows the
+/// pedagogical script of each mode with a small question bank per subject and language (demo-questions.json).
+/// Each conversation gets its own random order of questions, carried in a hidden [[SEED:n]] tag so the
+/// server can stay stateless. Answers are streamed word by word like the real tutor.
 /// </summary>
-public sealed class DemoTutor(TimeProvider timeProvider) : ITutor
+public sealed partial class DemoTutor(TimeProvider timeProvider) : ITutor
 {
+    private const int AssessQuestions = 5;
     private static readonly TimeSpan WordDelay = TimeSpan.FromMilliseconds(18);
+    private static readonly Lazy<Dictionary<Subject, Dictionary<TutorLanguage, string[]>>> Bank = new(LoadBank);
 
     public DemoTutor() : this(TimeProvider.System) { }
 
@@ -35,105 +40,86 @@ public sealed class DemoTutor(TimeProvider timeProvider) : ITutor
         }
     }
 
-    internal static string BuildReply(TutorRequest request)
+    internal static string BuildReply(TutorRequest request, int? newSeed = null)
     {
         var turn = request.Messages.Count(m => m.Role == ChatRole.User);
-        var topic = Topic(request.Messages[^1].Content);
         var s = Script(request.Language);
+        var questions = Questions(request.Subject, request.Language);
+        var subjectName = s.Subjects.GetValueOrDefault(request.Subject, request.Subject.ToString());
 
-        if (request.Mode == TutorMode.Assess)
-        {
-            return Assess(turn, request.Language) + "\n\n" + s.DemoNote;
-        }
+        // Random order per conversation: reuse the seed of the conversation, or create one on the first answer.
+        var existingSeed = FindSeed(request.Messages);
+        var seed = existingSeed ?? newSeed ?? Random.Shared.Next(1, 1_000_000);
+        var order = Shuffle(questions.Length, seed);
+        string Q(int index) => questions[order[index % order.Length]];
+        var seedTag = existingSeed is null ? $" [[SEED:{seed}]]" : string.Empty;
+        var feedback = (seed + turn) % 3 == 0 ? s.Wrong : s.Right;
 
         var body = request.Mode switch
         {
-            TutorMode.Explain => string.Format(CultureInfo.InvariantCulture, s.Explain, topic),
+            TutorMode.Assess when turn == 1 =>
+                $"{string.Format(CultureInfo.InvariantCulture, s.AssessIntro, subjectName, AssessQuestions)}\n\n**{Label(s.QuestionLabel, 1)}** {Q(0)}",
+            TutorMode.Assess when turn <= AssessQuestions =>
+                $"{feedback}\n\n**{Label(s.QuestionLabel, turn)}** {Q(turn - 1)}",
+            TutorMode.Assess when turn == AssessQuestions + 1 =>
+                string.Format(CultureInfo.InvariantCulture, s.Report, subjectName, 4 + (seed % 4)) + $" [[LEVEL:{4 + (seed % 4)}]]",
+            TutorMode.Assess =>
+                $"{s.Growing}\n\n**{s.Challenge}** {Q(turn - 1)} [[LEVEL:{Math.Min(4 + (seed % 4) + turn - AssessQuestions - 1, 10)}]]",
+
+            TutorMode.Practice when turn == 1 =>
+                $"{string.Format(CultureInfo.InvariantCulture, s.PracticeIntro, subjectName)}\n\n**{Label(s.ExerciseLabel, 1)}** {Q(0)}",
+            TutorMode.Practice =>
+                $"{feedback}\n\n**{Label(s.ExerciseLabel, turn)}** {Q(turn - 1)} [[LEVEL:{Math.Min(3 + turn, 9)}]]",
+
+            TutorMode.Explain => string.Format(CultureInfo.InvariantCulture, s.Explain, Topic(request.Messages[^1].Content), subjectName),
             TutorMode.Check => s.Check,
-            TutorMode.Practice => turn == 1 ? s.PracticeFirst : s.PracticeNext + $" [[LEVEL:{Math.Min(4 + turn, 9)}]]",
             _ => turn switch
             {
-                1 => string.Format(CultureInfo.InvariantCulture, s.GuideFirst, topic),
+                1 => string.Format(CultureInfo.InvariantCulture, s.GuideFirst, Topic(request.Messages[^1].Content)),
                 2 => s.GuideSecond,
                 _ => s.GuideNext,
             },
         };
 
-        return body + "\n\n" + s.DemoNote;
+        return body + "\n\n" + s.DemoNote + seedTag;
     }
 
-    /// <summary>Scripted adaptive test: 5 questions, then a report with the estimated level, then training that "grows".</summary>
-    private static string Assess(int turn, TutorLanguage language)
+    private static string Label(string format, int number) =>
+        string.Format(CultureInfo.InvariantCulture, format, number, AssessQuestions);
+
+    private static string[] Questions(Subject subject, TutorLanguage language) =>
+        Bank.Value.TryGetValue(subject, out var byLanguage) && byLanguage.TryGetValue(language, out var list) && list.Length > 0
+            ? list
+            : Bank.Value[Subject.Other][language];
+
+    /// <summary>Deterministic Fisher-Yates shuffle: the same seed always gives the same order.</summary>
+    internal static int[] Shuffle(int count, int seed)
     {
-        var a = AssessScript(language);
-        if (turn <= a.Questions.Length)
+        var order = Enumerable.Range(0, count).ToArray();
+#pragma warning disable CA5394 // not security-sensitive: only shuffles demo questions
+        var random = new Random(seed);
+        for (var i = order.Length - 1; i > 0; i--)
         {
-            var feedback = turn == 1 ? a.Intro : (turn % 2 == 0 ? a.Right : a.Wrong);
-            return $"{feedback}\n\n**{string.Format(CultureInfo.InvariantCulture, a.QuestionLabel, turn, a.Questions.Length)}** {a.Questions[turn - 1]}";
+            var j = random.Next(i + 1);
+            (order[i], order[j]) = (order[j], order[i]);
         }
-
-        if (turn == a.Questions.Length + 1)
-        {
-            return a.Report + " [[LEVEL:6]]";
-        }
-
-        var level = Math.Min(6 + (turn - a.Questions.Length - 1), 10);
-        return a.Next + $" [[LEVEL:{level}]]";
+#pragma warning restore CA5394
+        return order;
     }
 
-    private sealed record AssessTexts(string Intro, string Right, string Wrong, string QuestionLabel, string[] Questions, string Report, string Next);
-
-    private static AssessTexts AssessScript(TutorLanguage language) => language switch
+    private static int? FindSeed(IEnumerable<ChatMessage> messages)
     {
-        TutorLanguage.Spanish => new(
-            "¡Vamos a ver tu nivel! 🎯 Te haré **5 preguntas cortas**, cada vez adaptadas a cómo respondes. Si no sabes una, no pasa nada: dímelo.",
-            "✅ ¡Correcto! Subimos un poco la dificultad.",
-            "❌ No exactamente, pero buen intento. Probamos con una un poco más sencilla.",
-            "Pregunta {0}/{1}:",
-            ["¿Cuánto es $\\frac{1}{2} + \\frac{1}{4}$?\n\nA) $\\frac{2}{6}$ · B) $\\frac{3}{4}$ · C) $\\frac{1}{6}$ · D) $\\frac{2}{4}$",
-             "Resuelve: $3x - 4 = 11$",
-             "Si un pantalón cuesta 40 € y tiene un 25 % de descuento, ¿cuánto pagas?",
-             "Explica con tus palabras por qué $(-2) \\cdot (-3)$ es positivo.",
-             "Resuelve el sistema: $x + y = 10$, $x - y = 2$"],
-            "📊 **Tu informe de nivel**\n\n**Nivel estimado: 6/10**: dominas las operaciones básicas y las ecuaciones sencillas.\n\n**Puntos fuertes:** fracciones, porcentajes.\n**A trabajar:** signos con números negativos, sistemas de ecuaciones.\n\n**Siguiente paso:** ¿seguimos entrenando? Te propondré ejercicios a tu nivel y subiremos la dificultad a medida que aciertes.",
-            "¡Muy bien, vas subiendo! 📈 Siguiente reto, un poco más difícil: resuelve $2(x - 3) = x + 4$."),
-        TutorLanguage.French => new(
-            "Voyons ton niveau ! 🎯 Je vais te poser **5 questions courtes**, adaptées à tes réponses. Si tu ne sais pas, ce n'est pas grave : dis-le-moi.",
-            "✅ Correct ! On augmente un peu la difficulté.",
-            "❌ Pas tout à fait, mais bel essai. On passe à une question un peu plus simple.",
-            "Question {0}/{1} :",
-            ["Combien font $\\frac{1}{2} + \\frac{1}{4}$ ?\n\nA) $\\frac{2}{6}$ · B) $\\frac{3}{4}$ · C) $\\frac{1}{6}$ · D) $\\frac{2}{4}$",
-             "Résous : $3x - 4 = 11$",
-             "Un pantalon coûte 40 € avec 25 % de réduction : combien paies-tu ?",
-             "Explique avec tes mots pourquoi $(-2) \\times (-3)$ est positif.",
-             "Résous le système : $x + y = 10$, $x - y = 2$"],
-            "📊 **Ton bilan de niveau**\n\n**Niveau estimé : 6/10** : tu maîtrises les opérations de base et les équations simples.\n\n**Points forts :** fractions, pourcentages.\n**À travailler :** règles des signes, systèmes d'équations.\n\n**Prochaine étape :** on continue l'entraînement ? Je te proposerai des exercices à ton niveau et on augmentera la difficulté au fur et à mesure.",
-            "Très bien, tu progresses ! 📈 Défi suivant, un peu plus difficile : résous $2(x - 3) = x + 4$."),
-        TutorLanguage.Catalan => new(
-            "Anem a veure el teu nivell! 🎯 Et faré **5 preguntes curtes**, adaptades a com respons. Si no en saps una, no passa res: digues-m'ho.",
-            "✅ Correcte! Pugem una mica la dificultat.",
-            "❌ No exactament, però bon intent. Provem amb una de més senzilla.",
-            "Pregunta {0}/{1}:",
-            ["Quant és $\\frac{1}{2} + \\frac{1}{4}$?\n\nA) $\\frac{2}{6}$ · B) $\\frac{3}{4}$ · C) $\\frac{1}{6}$ · D) $\\frac{2}{4}$",
-             "Resol: $3x - 4 = 11$",
-             "Uns pantalons costen 40 € i tenen un 25 % de descompte: quant pagues?",
-             "Explica amb les teves paraules per què $(-2) \\cdot (-3)$ és positiu.",
-             "Resol el sistema: $x + y = 10$, $x - y = 2$"],
-            "📊 **El teu informe de nivell**\n\n**Nivell estimat: 6/10**: domines les operacions bàsiques i les equacions senzilles.\n\n**Punts forts:** fraccions, percentatges.\n**A treballar:** signes amb nombres negatius, sistemes d'equacions.\n\n**Següent pas:** seguim entrenant? Et proposaré exercicis al teu nivell i pujarem la dificultat a mesura que encertis.",
-            "Molt bé, vas pujant! 📈 Següent repte, una mica més difícil: resol $2(x - 3) = x + 4$."),
-        _ => new(
-            "Let's find your level! 🎯 I'll ask you **5 short questions**, each adapted to your answers. If you don't know one, that's fine: just tell me.",
-            "✅ Correct! Let's make it a bit harder.",
-            "❌ Not quite, but good try. Let's go with a slightly easier one.",
-            "Question {0}/{1}:",
-            ["What is $\\frac{1}{2} + \\frac{1}{4}$?\n\nA) $\\frac{2}{6}$ · B) $\\frac{3}{4}$ · C) $\\frac{1}{6}$ · D) $\\frac{2}{4}$",
-             "Solve: $3x - 4 = 11$",
-             "A pair of trousers costs €40 with a 25% discount. How much do you pay?",
-             "Explain in your own words why $(-2) \\times (-3)$ is positive.",
-             "Solve the system: $x + y = 10$, $x - y = 2$"],
-            "📊 **Your level report**\n\n**Estimated level: 6/10**: you handle basic operations and simple equations well.\n\n**Strengths:** fractions, percentages.\n**To work on:** signs with negative numbers, systems of equations.\n\n**Next step:** shall we keep training? I'll give you exercises at your level and make them harder as you succeed.",
-            "Great, you're improving! 📈 Next challenge, a bit harder: solve $2(x - 3) = x + 4$."),
-    };
+        foreach (var m in messages.Where(m => m.Role == ChatRole.Assistant))
+        {
+            var match = SeedTag().Match(m.Content);
+            if (match.Success && int.TryParse(match.Groups[1].Value, CultureInfo.InvariantCulture, out var seed))
+            {
+                return seed;
+            }
+        }
+
+        return null;
+    }
 
     private static string Topic(string message)
     {
@@ -142,47 +128,93 @@ public sealed class DemoTutor(TimeProvider timeProvider) : ITutor
         return words.Length > 8 ? topic + "…" : topic;
     }
 
+    private static Dictionary<Subject, Dictionary<TutorLanguage, string[]>> LoadBank()
+    {
+        using var stream = typeof(DemoTutor).Assembly.GetManifestResourceStream("TutorForge.Infrastructure.Demo.demo-questions.json")
+            ?? throw new InvalidOperationException("Embedded demo question bank not found.");
+        var raw = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string[]>>>(stream)!;
+        return raw.ToDictionary(
+            s => Enum.Parse<Subject>(s.Key),
+            s => s.Value.ToDictionary(l => Enum.Parse<TutorLanguage>(l.Key), l => l.Value));
+    }
+
+    [GeneratedRegex(@"\[\[SEED:(\d+)\]\]")]
+    private static partial Regex SeedTag();
+
     private sealed record Texts(
-        string GuideFirst, string GuideSecond, string GuideNext,
-        string Explain, string Check, string PracticeFirst, string PracticeNext, string DemoNote);
+        string AssessIntro, string Right, string Wrong, string QuestionLabel, string Report, string Growing, string Challenge,
+        string PracticeIntro, string ExerciseLabel, string GuideFirst, string GuideSecond, string GuideNext,
+        string Explain, string Check, string DemoNote, Dictionary<Subject, string> Subjects);
 
     private static Texts Script(TutorLanguage language) => language switch
     {
         TutorLanguage.Spanish => new(
-            "¡Buena pregunta! Vamos a resolverlo juntos, paso a paso, sobre «{0}».\n\n**Antes de nada:** ¿qué datos te da el enunciado y qué te piden encontrar? Escríbelo con tus palabras, aunque no estés seguro.",
-            "¡Muy bien, vas por buen camino! 💡 **Pista:** intenta dividir el problema en partes más pequeñas. Por ejemplo, si tienes $2x + 3 = 11$, ¿qué harías primero para dejar la $x$ sola?",
-            "Estás muy cerca. Revisa el último paso: ¿has hecho la misma operación en los dos lados? Cuando lo tengas, compruébalo sustituyendo el resultado en el enunciado. ¡Tú puedes!",
-            "Te explico «{0}» de forma sencilla.\n\n**1. Idea principal:** es un concepto que se entiende mejor con un ejemplo.\n\n**2. Ejemplo cotidiano:** imagina que repartes 12 caramelos entre 3 amigos: $12 \\div 3 = 4$.\n\n**3. Comprueba:** ¿podrías explicarme con tus palabras qué has entendido?",
-            "Gracias por compartir tu respuesta. ✅ El planteamiento es correcto, pero revisa el **segundo paso**: parece que hay un pequeño error de cálculo.\n\n**Pista:** vuelve a hacer esa operación despacio y compara. ¿Qué obtienes?",
-            "¡Vamos a practicar! 🎯\n\n**Ejercicio 1:** resuelve $3x - 5 = 10$.\n\nEscribe tu solución y los pasos que has seguido. No pasa nada si te equivocas: así aprendemos.",
-            "¡Buen intento! Lo que has hecho bien: has aislado la incógnita. A mejorar: revisa los signos.\n\n**Ejercicio 2** (un poco más difícil): resuelve $2(x + 4) = 18$.",
-            "_Modo demo sin conexión: las respuestas son de ejemplo. Añade una clave de API de Anthropic para hablar con un tutor real._"),
+            "¡Vamos a ver tu nivel en **{0}**! 🎯 Te haré **{1} preguntas cortas**, adaptadas a cómo respondes. Si no sabes una, no pasa nada: dímelo.",
+            "✅ ¡Bien! Subimos un poco la dificultad.",
+            "❌ No exactamente, pero buen intento. Vamos con otra.",
+            "Pregunta {0}/{1}:",
+            "📊 **Tu informe de nivel en {0}**\n\n**Nivel estimado: {1}/10**: tienes una buena base y algunos puntos que reforzar.\n\n**Puntos fuertes:** las preguntas de conceptos básicos.\n**A trabajar:** las preguntas que piden explicar o razonar.\n\n**Siguiente paso:** ¿seguimos entrenando? Te propondré retos a tu nivel y subiremos la dificultad a medida que aciertes.",
+            "¡Muy bien, vas subiendo! 📈",
+            "Siguiente reto:",
+            "¡Vamos a practicar **{0}**! 🎯 Escribe tu respuesta y los pasos que has seguido. Equivocarse es parte de aprender.",
+            "Ejercicio {0}:",
+            "¡Buena pregunta! Vamos a resolverlo juntos, paso a paso, sobre «{0}».\n\n**Antes de nada:** ¿qué sabes ya sobre esto o qué has intentado? Escríbelo con tus palabras, aunque no estés seguro.",
+            "¡Muy bien, vas por buen camino! 💡 **Pista:** divide el problema en partes más pequeñas. ¿Cuál sería el primer paso?",
+            "Estás muy cerca. Revisa el último paso y compruébalo con un ejemplo concreto. ¡Tú puedes!",
+            "Te explico «{0}» de forma sencilla.\n\n**1. Idea principal:** la definición en una frase.\n\n**2. Ejemplo cotidiano:** un caso real de {1} donde se ve claramente.\n\n**3. Comprueba:** ¿podrías explicarme con tus palabras qué has entendido?",
+            "Gracias por compartir tu respuesta. ✅ El planteamiento va bien, pero revisa el **segundo paso**: parece que hay un pequeño error.\n\n**Pista:** vuelve a hacerlo despacio y compara. ¿Qué obtienes?",
+            "_Modo demo sin conexión: las preguntas salen de un pequeño banco de ejemplo. Añade una clave de API de Anthropic para hablar con un tutor real._",
+            new() { [Subject.Mathematics] = "Matemáticas", [Subject.PhysicsChemistry] = "Física y química", [Subject.Biology] = "Biología", [Subject.HistoryGeography] = "Geografía e historia", [Subject.LanguageLiterature] = "Lengua y literatura", [Subject.English] = "Inglés", [Subject.Programming] = "Programación", [Subject.Other] = "estudio" }),
         TutorLanguage.French => new(
-            "Bonne question ! On va le résoudre ensemble, étape par étape, à propos de « {0} ».\n\n**D'abord :** quelles données l'énoncé te donne-t-il et que cherche-t-on ? Écris-le avec tes mots, même si tu n'es pas sûr.",
-            "Très bien, tu es sur la bonne voie ! 💡 **Indice :** découpe le problème en petites étapes. Par exemple, avec $2x + 3 = 11$, que ferais-tu en premier pour isoler $x$ ?",
-            "Tu y es presque. Vérifie la dernière étape : as-tu fait la même opération des deux côtés ? Ensuite, vérifie en remplaçant ton résultat dans l'énoncé. Tu peux y arriver !",
-            "Je t'explique « {0} » simplement.\n\n**1. L'idée principale :** c'est plus clair avec un exemple.\n\n**2. Exemple du quotidien :** tu partages 12 bonbons entre 3 amis : $12 \\div 3 = 4$.\n\n**3. Vérifions :** peux-tu m'expliquer avec tes mots ce que tu as compris ?",
-            "Merci d'avoir partagé ta réponse. ✅ Le raisonnement est bon, mais regarde la **deuxième étape** : il semble y avoir une petite erreur de calcul.\n\n**Indice :** refais cette opération lentement et compare. Qu'obtiens-tu ?",
-            "On s'entraîne ! 🎯\n\n**Exercice 1 :** résous $3x - 5 = 10$.\n\nÉcris ta solution et les étapes suivies. Ce n'est pas grave de se tromper : c'est comme ça qu'on apprend.",
-            "Bel effort ! Ce qui est réussi : tu as isolé l'inconnue. À améliorer : attention aux signes.\n\n**Exercice 2** (un peu plus difficile) : résous $2(x + 4) = 18$.",
-            "_Mode démo hors ligne : les réponses sont des exemples. Ajoute une clé API Anthropic pour parler avec un vrai tuteur._"),
+            "Voyons ton niveau en **{0}** ! 🎯 Je vais te poser **{1} questions courtes**, adaptées à tes réponses. Si tu ne sais pas, ce n'est pas grave : dis-le-moi.",
+            "✅ Bien ! On augmente un peu la difficulté.",
+            "❌ Pas tout à fait, mais bel essai. On passe à une autre.",
+            "Question {0}/{1} :",
+            "📊 **Ton bilan de niveau en {0}**\n\n**Niveau estimé : {1}/10** : tu as une bonne base et quelques points à renforcer.\n\n**Points forts :** les questions de notions de base.\n**À travailler :** les questions où il faut expliquer ou raisonner.\n\n**Prochaine étape :** on continue l'entraînement ? Je te proposerai des défis à ton niveau et on augmentera la difficulté au fur et à mesure.",
+            "Très bien, tu progresses ! 📈",
+            "Défi suivant :",
+            "On s'entraîne en **{0}** ! 🎯 Écris ta réponse et les étapes suivies. Se tromper fait partie de l'apprentissage.",
+            "Exercice {0} :",
+            "Bonne question ! On va le résoudre ensemble, étape par étape, à propos de « {0} ».\n\n**D'abord :** que sais-tu déjà là-dessus ou qu'as-tu essayé ? Écris-le avec tes mots, même si tu n'es pas sûr.",
+            "Très bien, tu es sur la bonne voie ! 💡 **Indice :** découpe le problème en petites étapes. Quelle serait la première ?",
+            "Tu y es presque. Vérifie la dernière étape et teste-la avec un exemple concret. Tu peux y arriver !",
+            "Je t'explique « {0} » simplement.\n\n**1. L'idée principale :** la définition en une phrase.\n\n**2. Exemple du quotidien :** un cas réel de {1} où on le voit clairement.\n\n**3. Vérifions :** peux-tu m'expliquer avec tes mots ce que tu as compris ?",
+            "Merci d'avoir partagé ta réponse. ✅ Le raisonnement est bon, mais regarde la **deuxième étape** : il semble y avoir une petite erreur.\n\n**Indice :** refais-la lentement et compare. Qu'obtiens-tu ?",
+            "_Mode démo hors ligne : les questions viennent d'une petite banque d'exemples. Ajoute une clé API Anthropic pour parler avec un vrai tuteur._",
+            new() { [Subject.Mathematics] = "Mathématiques", [Subject.PhysicsChemistry] = "Physique-chimie", [Subject.Biology] = "Biologie", [Subject.HistoryGeography] = "Histoire-géographie", [Subject.LanguageLiterature] = "Français", [Subject.English] = "Anglais", [Subject.Programming] = "Programmation", [Subject.Other] = "méthodologie" }),
         TutorLanguage.Catalan => new(
-            "Bona pregunta! Ho resoldrem junts, pas a pas, sobre «{0}».\n\n**Primer de tot:** quines dades et dona l'enunciat i què et demanen? Escriu-ho amb les teves paraules, encara que no n'estiguis segur.",
-            "Molt bé, vas pel bon camí! 💡 **Pista:** divideix el problema en parts més petites. Per exemple, si tens $2x + 3 = 11$, què faries primer per deixar la $x$ sola?",
-            "Hi ets a prop. Revisa l'últim pas: has fet la mateixa operació als dos costats? Quan ho tinguis, comprova-ho substituint el resultat a l'enunciat. Tu pots!",
-            "T'explico «{0}» de manera senzilla.\n\n**1. Idea principal:** s'entén millor amb un exemple.\n\n**2. Exemple quotidià:** reparteixes 12 caramels entre 3 amics: $12 \\div 3 = 4$.\n\n**3. Comprovem-ho:** em podries explicar amb les teves paraules què has entès?",
-            "Gràcies per compartir la teva resposta. ✅ El plantejament és correcte, però revisa el **segon pas**: sembla que hi ha un petit error de càlcul.\n\n**Pista:** torna a fer aquesta operació a poc a poc i compara. Què obtens?",
-            "Practiquem! 🎯\n\n**Exercici 1:** resol $3x - 5 = 10$.\n\nEscriu la teva solució i els passos que has seguit. No passa res si t'equivoques: així aprenem.",
-            "Bon intent! El que has fet bé: has aïllat la incògnita. A millorar: compte amb els signes.\n\n**Exercici 2** (una mica més difícil): resol $2(x + 4) = 18$.",
-            "_Mode demo sense connexió: les respostes són d'exemple. Afegeix una clau d'API d'Anthropic per parlar amb un tutor real._"),
+            "Anem a veure el teu nivell en **{0}**! 🎯 Et faré **{1} preguntes curtes**, adaptades a com respons. Si no en saps una, no passa res: digues-m'ho.",
+            "✅ Bé! Pugem una mica la dificultat.",
+            "❌ No exactament, però bon intent. Anem amb una altra.",
+            "Pregunta {0}/{1}:",
+            "📊 **El teu informe de nivell en {0}**\n\n**Nivell estimat: {1}/10**: tens una bona base i alguns punts per reforçar.\n\n**Punts forts:** les preguntes de conceptes bàsics.\n**A treballar:** les preguntes que demanen explicar o raonar.\n\n**Següent pas:** seguim entrenant? Et proposaré reptes al teu nivell i pujarem la dificultat a mesura que encertis.",
+            "Molt bé, vas pujant! 📈",
+            "Següent repte:",
+            "Practiquem **{0}**! 🎯 Escriu la teva resposta i els passos que has seguit. Equivocar-se és part d'aprendre.",
+            "Exercici {0}:",
+            "Bona pregunta! Ho resoldrem junts, pas a pas, sobre «{0}».\n\n**Primer de tot:** què en saps o què has provat? Escriu-ho amb les teves paraules, encara que no n'estiguis segur.",
+            "Molt bé, vas pel bon camí! 💡 **Pista:** divideix el problema en parts més petites. Quin seria el primer pas?",
+            "Hi ets a prop. Revisa l'últim pas i comprova'l amb un exemple concret. Tu pots!",
+            "T'explico «{0}» de manera senzilla.\n\n**1. Idea principal:** la definició en una frase.\n\n**2. Exemple quotidià:** un cas real de {1} on es veu clarament.\n\n**3. Comprovem-ho:** em podries explicar amb les teves paraules què has entès?",
+            "Gràcies per compartir la teva resposta. ✅ El plantejament va bé, però revisa el **segon pas**: sembla que hi ha un petit error.\n\n**Pista:** torna-ho a fer a poc a poc i compara. Què obtens?",
+            "_Mode demo sense connexió: les preguntes surten d'un petit banc d'exemple. Afegeix una clau d'API d'Anthropic per parlar amb un tutor real._",
+            new() { [Subject.Mathematics] = "Matemàtiques", [Subject.PhysicsChemistry] = "Física i química", [Subject.Biology] = "Biologia", [Subject.HistoryGeography] = "Geografia i història", [Subject.LanguageLiterature] = "Llengua i literatura", [Subject.English] = "Anglès", [Subject.Programming] = "Programació", [Subject.Other] = "estudi" }),
         _ => new(
-            "Great question! Let's solve it together, step by step, about \"{0}\".\n\n**First:** what information does the exercise give you, and what are you asked to find? Write it in your own words, even if you're not sure.",
-            "Well done, you're on the right track! 💡 **Hint:** split the problem into smaller steps. For example, with $2x + 3 = 11$, what would you do first to get $x$ on its own?",
-            "You're very close. Check the last step: did you do the same operation on both sides? Then verify by putting your result back into the exercise. You can do it!",
-            "Let me explain \"{0}\" simply.\n\n**1. Main idea:** it's easier with an example.\n\n**2. Everyday example:** you share 12 sweets between 3 friends: $12 \\div 3 = 4$.\n\n**3. Let's check:** can you tell me in your own words what you understood?",
-            "Thanks for sharing your answer. ✅ Your approach is right, but look at the **second step**: there seems to be a small calculation mistake.\n\n**Hint:** redo that operation slowly and compare. What do you get?",
-            "Let's practise! 🎯\n\n**Exercise 1:** solve $3x - 5 = 10$.\n\nWrite your solution and the steps you followed. It's fine to make mistakes: that's how we learn.",
-            "Nice try! What went well: you isolated the unknown. To improve: watch the signs.\n\n**Exercise 2** (a bit harder): solve $2(x + 4) = 18$.",
-            "_Offline demo mode: these answers are examples. Add an Anthropic API key to talk to a real tutor._"),
+            "Let's find your level in **{0}**! 🎯 I'll ask you **{1} short questions**, adapted to your answers. If you don't know one, that's fine: just tell me.",
+            "✅ Good! Let's make it a bit harder.",
+            "❌ Not quite, but good try. Let's go with another one.",
+            "Question {0}/{1}:",
+            "📊 **Your level report in {0}**\n\n**Estimated level: {1}/10**: you have a good base and a few things to strengthen.\n\n**Strengths:** the questions on basic concepts.\n**To work on:** the questions that ask you to explain or reason.\n\n**Next step:** shall we keep training? I'll give you challenges at your level and make them harder as you succeed.",
+            "Great, you're improving! 📈",
+            "Next challenge:",
+            "Let's practise **{0}**! 🎯 Write your answer and the steps you followed. Mistakes are part of learning.",
+            "Exercise {0}:",
+            "Great question! Let's solve it together, step by step, about \"{0}\".\n\n**First:** what do you already know about it or what have you tried? Write it in your own words, even if you're not sure.",
+            "Well done, you're on the right track! 💡 **Hint:** split the problem into smaller steps. What would the first one be?",
+            "You're very close. Check the last step and test it with a concrete example. You can do it!",
+            "Let me explain \"{0}\" simply.\n\n**1. Main idea:** the definition in one sentence.\n\n**2. Everyday example:** a real case in {1} where you can clearly see it.\n\n**3. Let's check:** can you tell me in your own words what you understood?",
+            "Thanks for sharing your answer. ✅ Your approach is right, but look at the **second step**: there seems to be a small mistake.\n\n**Hint:** redo it slowly and compare. What do you get?",
+            "_Offline demo mode: questions come from a small sample bank. Add an Anthropic API key to talk to a real tutor._",
+            new() { [Subject.Mathematics] = "Mathematics", [Subject.PhysicsChemistry] = "Physics & chemistry", [Subject.Biology] = "Biology", [Subject.HistoryGeography] = "History & geography", [Subject.LanguageLiterature] = "Language & literature", [Subject.English] = "English", [Subject.Programming] = "Programming", [Subject.Other] = "study skills" }),
     };
 }

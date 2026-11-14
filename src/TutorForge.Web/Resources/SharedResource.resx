@@ -57,6 +57,8 @@
   <data name="Js_Saved" xml:space="preserve"><value>✓ Progress saved</value></data>
   <data name="Js_NotSaved" xml:space="preserve"><value>Progress could not be saved</value></data>
   <data name="Js_LastUpdate" xml:space="preserve"><value>Updated {0}.</value></data>
+  <data name="Engine_Choose" xml:space="preserve"><value>AI engine</value></data>
+  <data name="Engine_Hint" xml:space="preserve"><value>More engines appear when you configure their API key (see README).</value></data>
   <data name="Mode_Guide" xml:space="preserve"><value>Guide me</value></data>
   <data name="Mode_Guide_Desc" xml:space="preserve"><value>Hints step by step, without giving the answer</value></data>
   <data name="Mode_Explain" xml:space="preserve"><value>Explain</value></data>

@@ -14,6 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Offline demo question bank (8 subjects x 4 languages) -->
+    <EmbeddedResource Include="Demo\demo-questions.json" LogicalName="TutorForge.Infrastructure.Demo.demo-questions.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <InternalsVisibleTo Include="TutorForge.Tests" />
   </ItemGroup>
 

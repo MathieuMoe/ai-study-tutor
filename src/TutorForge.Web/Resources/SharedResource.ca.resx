@@ -57,6 +57,8 @@
   <data name="Js_Saved" xml:space="preserve"><value>✓ Progrés desat</value></data>
   <data name="Js_NotSaved" xml:space="preserve"><value>No s'ha pogut desar el progrés</value></data>
   <data name="Js_LastUpdate" xml:space="preserve"><value>Actualitzat el {0}.</value></data>
+  <data name="Engine_Choose" xml:space="preserve"><value>Motor d'IA</value></data>
+  <data name="Engine_Hint" xml:space="preserve"><value>Apareixen més motors quan configures la seva clau d'API (vegeu README).</value></data>
   <data name="Mode_Guide" xml:space="preserve"><value>Guia'm</value></data>
   <data name="Mode_Guide_Desc" xml:space="preserve"><value>Pistes pas a pas, sense donar-te la resposta</value></data>
   <data name="Mode_Explain" xml:space="preserve"><value>Explica'm</value></data>

@@ -9,6 +9,7 @@ using TutorForge.Core.Abstractions;
 using TutorForge.Core.Models;
 using TutorForge.Core.Validation;
 using TutorForge.Infrastructure;
+using TutorForge.Infrastructure.Engines;
 using TutorForge.Web;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -76,8 +77,11 @@ app.MapGet("/culture/{culture}", (string culture, string? returnUrl, HttpContext
 
 // Chat endpoint. Stateless: the browser sends the whole conversation, the server stores nothing.
 // The answer is streamed as server-sent events: data: {"text":"..."} ... event: done.
-app.MapPost("/api/tutor/stream", async (TutorRequest request, ITutor tutor, HttpContext context, ILogger<Program> logger) =>
+app.MapPost("/api/tutor/stream", async (TutorRequest request, TutorEngines engines, HttpContext context, ILogger<Program> logger) =>
 {
+    // The engine chosen in the interface (Claude, ChatGPT, Gemini, Ollama or the demo)
+    var tutor = EngineSelection.Current(context, engines).Create();
+
     var errors = TutorRequestValidator.Check(request);
     if (errors.Count > 0)
     {
@@ -114,6 +118,7 @@ app.MapPost("/api/tutor/stream", async (TutorRequest request, ITutor tutor, Http
 .RequireRateLimiting("chat");
 
 app.MapProgressEndpoints();
+app.MapEngineSelection();
 
 await app.RunAsync();
 

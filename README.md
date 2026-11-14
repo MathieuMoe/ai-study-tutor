@@ -5,7 +5,7 @@
 **An AI study tutor that teaches instead of doing the homework.**
 Students choose a subject, their level and how they want help: MatGPT Tutor guides them with questions and hints (Socratic method), explains concepts, checks their answers or gives them exercises to practise.
 
-Built with **ASP.NET Core (.NET 10)**, the **Claude API** (streaming) and a dashboard UI made with **Tailwind CSS + Preline UI**. No account needed: progress is saved anonymously per subject.
+Built with **ASP.NET Core (.NET 10)**, your choice of AI (**Claude, ChatGPT, Gemini or a local Ollama model**, all streaming) and a dashboard UI made with **Tailwind CSS + Preline UI**. No account needed: progress is saved anonymously per subject.
 
 ![MatGPT Tutor screenshot](docs/screenshot.png)
 
@@ -30,7 +30,8 @@ Built with **ASP.NET Core (.NET 10)**, the **Claude API** (streaming) and a dash
 - 🗣️ Interface in **English, Français, Español and Català** (`.resx` localization); the tutor's language can be chosen separately
 - 📥 Download the conversation as Markdown to keep your notes
 - 🌗 Responsive layout with dark mode
-- 🧪 **Offline demo mode**: works without an API key (scripted tutor) so anyone can try it
+- 🤖 **Choose your AI**: Claude, ChatGPT, Gemini or Ollama (free, local) from a selector in the header; each engine appears once its key is configured
+- 🧪 **Offline demo mode**: works without an API key, with a sample question bank per subject and language (random order per session) so anyone can try it
 
 ## How it works
 
@@ -38,8 +39,10 @@ Built with **ASP.NET Core (.NET 10)**, the **Claude API** (streaming) and a dash
 flowchart LR
     B[Browser<br/>conversation in memory] -->|POST /api/tutor/stream<br/>whole history| E[Minimal API<br/>validation + rate limit]
     E --> T{ITutor}
-    T -->|API key| C[ClaudeTutor<br/>Messages API, stream: true]
-    T -->|no key| D[DemoTutor<br/>offline script]
+    T -->|Claude key| C[ClaudeTutor<br/>Messages API, stream: true]
+    T -->|OpenAI / Gemini key<br/>or Ollama| O[OpenAiCompatibleTutor<br/>Chat Completions, stream: true]
+    T -->|always| D[DemoTutor<br/>offline question bank]
+    O -->|server-sent events| E
     C -->|server-sent events| E
     E -->|server-sent events| B
 ```
@@ -50,6 +53,7 @@ Technical choices worth noting:
 - **Pedagogy in the prompt.** `TutorPromptBuilder` builds a system prompt per mode (Socratic guidance, explanation structure, error-finding, adaptive practice) plus permanent safety rules. It's covered by tests.
 - **Stateless chat, persistent progress.** The chat endpoint is stateless (the browser sends the history; `ConversationNormalizer` makes it valid for the API). Progress goes through `ProgressService` and the `IStudentProgressStore` repository: the demo writes atomic JSON files (`FileStudentProgressStore`), and [docs/database.sql](docs/database.sql) contains the SQL Server schema for a production implementation, without changing anything else.
 - **Anonymous identity.** A random id in an HttpOnly cookie identifies the student; with real authentication it simply becomes the user id. A background service purges inactive students after 90 days.
+- **Pluggable AI engines.** `TutorEngines` is a registry of the configured providers; the header selector stores the choice in a cookie and the stream endpoint resolves it per request. One `OpenAiCompatibleTutor` covers ChatGPT, Gemini (OpenAI-compatible endpoint) and Ollama, with the same prompts as Claude.
 - **End-to-end streaming.** Claude's SSE stream is parsed (`content_block_delta`) and re-emitted as SSE to the browser, which renders Markdown progressively. Cancelling in the UI aborts the request to the AI too.
 - **Safe rendering.** Model output is Markdown converted with `marked` and sanitized with `DOMPurify` before touching the DOM; math is protected from the Markdown parser and rendered with KaTeX.
 - **Cost protection.** Rate limiting (20 messages/minute per IP), message and conversation size limits.
@@ -59,7 +63,7 @@ Technical choices worth noting:
 ```
 src/
   TutorForge.Core/            Models, validation, prompts (pedagogy + safety), progress service + store interface
-  TutorForge.Infrastructure/  Claude streaming tutor (HttpClient + SSE), offline demo tutor, JSON progress store, cleanup job
+  TutorForge.Infrastructure/  Claude and OpenAI-compatible streaming tutors (HttpClient + SSE), engine registry, offline demo tutor, JSON progress store, cleanup job
   TutorForge.Web/             Razor Pages UI, streaming minimal API, localization, rate limiting
     Resources/                UI translations (en, fr, es, ca)
     Styles/                   Tailwind CSS source + vendor copy script
@@ -79,19 +83,32 @@ dotnet run --project src/TutorForge.Web
 # open https://localhost:7190
 ```
 
-The app starts in **demo mode**. To use Claude, add your [Anthropic API key](https://console.anthropic.com/):
+The app starts in **demo mode**. Add one or more AI keys (stored with user-secrets, never in the repo); every configured engine appears in the header selector:
 
 ```bash
+# Claude  - https://console.anthropic.com/
 dotnet user-secrets set "Claude:ApiKey" "sk-ant-..." --project src/TutorForge.Web
+# ChatGPT - https://platform.openai.com/api-keys
+dotnet user-secrets set "OpenAI:ApiKey" "sk-..." --project src/TutorForge.Web
+# Gemini (free tier available) - https://aistudio.google.com/apikey
+dotnet user-secrets set "Gemini:ApiKey" "AIza..." --project src/TutorForge.Web
+# Ollama (free, runs on your machine) - https://ollama.com, then: ollama pull llama3.2
+dotnet user-secrets set "Ollama:Enabled" "true" --project src/TutorForge.Web
+# Optional: engine selected by default
+dotnet user-secrets set "Ai:Default" "gemini" --project src/TutorForge.Web
 ```
 
-With Docker: `ANTHROPIC_API_KEY=sk-ant-... docker compose up --build` and open http://localhost:8080.
+With Docker: `OPENAI_API_KEY=sk-... docker compose up --build` (or `ANTHROPIC_API_KEY`, `GEMINI_API_KEY`) and open http://localhost:8080.
 
 | Setting | Default | Description |
 |---|---|---|
-| `Claude:ApiKey` / `ANTHROPIC_API_KEY` | – | Enables Claude. Without it, demo mode is used. |
+| `Ai:Default` | first configured | Default engine: `claude`, `openai`, `gemini`, `ollama` or `demo`. |
+| `Claude:ApiKey` / `ANTHROPIC_API_KEY` | – | Enables Claude. |
 | `Claude:Model` | `claude-sonnet-4-5` | Any model from the [models list](https://docs.claude.com/en/docs/about-claude/models). |
 | `Claude:MaxTokens` | `2048` | Maximum answer size. |
+| `OpenAI:ApiKey` / `OPENAI_API_KEY` | – | Enables ChatGPT. `OpenAI:Model` defaults to `gpt-5-mini`. |
+| `Gemini:ApiKey` / `GEMINI_API_KEY` | – | Enables Gemini. `Gemini:Model` defaults to `gemini-2.5-flash`. |
+| `Ollama:Enabled` | `false` | Enables a local Ollama model (`Ollama:Model`, `Ollama:BaseUrl`). |
 | `Progress:Directory` | `App_Data/progress` | Where the demo progress store writes (excluded from git). |
 | `Progress:Retention` | `90.00:00:00` | Inactive students are deleted after this time. |
 
@@ -124,6 +141,7 @@ dotnet test
 
 ## Roadmap
 
+- [x] Choose between Claude, ChatGPT, Gemini and Ollama
 - [ ] Attach a photo or PDF of the exercise
 - [ ] SQL Server implementation of `IStudentProgressStore` (schema ready in docs/database.sql)
 - [ ] Teacher view: choose topics and see anonymous difficulty statistics

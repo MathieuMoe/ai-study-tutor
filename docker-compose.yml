@@ -4,5 +4,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      # Leave empty to run in offline demo mode
+      # Leave all keys empty to run in offline demo mode. Each key adds an engine to the selector.
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}

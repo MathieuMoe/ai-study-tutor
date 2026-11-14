@@ -2,8 +2,8 @@
     var current = ViewContext.RouteData.Values["page"]?.ToString();
     var culture = Localization.CurrentCulture;
     var returnUrl = Context.Request.Path + Context.Request.QueryString;
-    var engine = ViewData["Engine"]?.ToString();
-    var engineLabel = engine is null or "Claude" ? engine : L["Engine_Demo"].Value;
+    var engine = EngineSelection.Current(Context, Engines);
+    string EngineLabel(TutorForge.Infrastructure.Engines.TutorEngine e) => e.IsDemo ? L["Engine_Demo"].Value : e.Name;
     var jsStrings = System.Text.Json.JsonSerializer.Serialize(
         L.GetAllStrings().Where(s => s.Name.StartsWith("Js_", StringComparison.Ordinal)).ToDictionary(s => s.Name[3..], s => s.Value));
     string NavClass(string page) =>
@@ -45,10 +45,30 @@
             </div>
 
             <div class="flex items-center gap-x-2">
-                <span class="inline-flex items-center gap-x-1.5 py-1 px-2.5 rounded-full text-xs font-medium border border-layer-line bg-layer text-foreground" title="@L["Nav_EngineTooltip"]">
-                    <span class="size-1.5 rounded-full @(ViewData["Engine"]?.ToString() == "Claude" ? "bg-teal-500" : "bg-amber-500")"></span>
-                    @engineLabel
-                </span>
+                <!-- AI engine selector (Preline dropdown): Claude, ChatGPT, Gemini, Ollama or the demo -->
+                <div class="hs-dropdown [--placement:bottom-right] relative inline-flex">
+                    <button id="engine-menu" type="button" class="hs-dropdown-toggle inline-flex items-center gap-x-1.5 py-1 px-2.5 rounded-full text-xs font-medium border border-layer-line bg-layer text-foreground hover:bg-layer-hover focus:outline-hidden"
+                            aria-haspopup="menu" aria-expanded="false" title="@L["Nav_EngineTooltip"]">
+                        <span class="size-1.5 rounded-full @(engine.IsDemo ? "bg-amber-500" : "bg-teal-500")"></span>
+                        @EngineLabel(engine)
+                        <svg class="size-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+                    </button>
+                    <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-56 z-50 bg-dropdown border border-dropdown-line shadow-md rounded-xl p-1" role="menu" aria-labelledby="engine-menu">
+                        <p class="px-3 pt-2 pb-1 text-xs text-muted-foreground-1">@L["Engine_Choose"]</p>
+                        @foreach (var e in Engines.All)
+                        {
+                            <a class="flex items-center justify-between gap-x-3 py-2 px-3 rounded-lg text-sm text-dropdown-item-foreground hover:bg-dropdown-item-hover focus:outline-hidden focus:bg-dropdown-item-focus @(e.Id == engine.Id ? "font-semibold" : "")"
+                               href="/engine/@e.Id?returnUrl=@Uri.EscapeDataString(returnUrl)">
+                                <span class="flex items-center gap-x-2"><span class="size-1.5 rounded-full @(e.IsDemo ? "bg-amber-500" : "bg-teal-500")"></span>@EngineLabel(e)</span>
+                                @if (e.Id == engine.Id)
+                                {
+                                    <svg class="size-4 text-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
+                                }
+                            </a>
+                        }
+                        <p class="px-3 pt-1 pb-2 text-xs text-muted-foreground-1 border-t border-dropdown-divider mt-1">@L["Engine_Hint"]</p>
+                    </div>
+                </div>
                 <!-- Interface language (Preline dropdown) -->
                 <div class="hs-dropdown [--placement:bottom-right] relative inline-flex">
                     <button id="lang-menu" type="button" class="hs-dropdown-toggle h-9 px-2.5 inline-flex items-center gap-x-1.5 rounded-full text-sm font-medium text-foreground hover:bg-layer-hover focus:outline-hidden"

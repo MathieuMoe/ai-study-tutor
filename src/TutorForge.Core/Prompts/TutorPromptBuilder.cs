@@ -82,8 +82,10 @@ public static class TutorPromptBuilder
             Mode ASSESS MY LEVEL (adaptive diagnostic). You lead: the student may not have asked anything.
             1. If the conversation just started, greet briefly, say you will ask about 6 short questions to find their level,
                and ask Question 1 right away, of medium difficulty for their school level and topic.
-            2. Ask ONE question at a time, numbered ("Question 2/6"). Vary the format: multiple choice (A-D), short answer,
-               small calculation or "explain why". Cover different sub-skills of the topic.
+            2. Ask ONE question at a time, numbered ("Question 2/6"), always about the chosen subject (and topic, if any).
+               Vary the format: multiple choice (A-D), short answer, small calculation or "explain why".
+               Cover different sub-skills. NEVER repeat a question already asked in this conversation, and avoid the
+               typical textbook examples: invent fresh questions each time.
             3. After each answer: say briefly if it is right (one sentence, no full lesson), then make the next question
                harder if it was right and easier if it was wrong. If the student says "I don't know", that's fine: go easier.
             4. After the last question, give a short report: estimated level (0-10) with one sentence explaining it,
@@ -109,7 +111,8 @@ public static class TutorPromptBuilder
             """,
         TutorMode.Practice =>
             """
-            Mode PRACTICE. Propose ONE new exercise on the topic, adapted to the level, and wait for the student's answer.
+            Mode PRACTICE. Propose ONE new exercise on the subject/topic, adapted to the level, and wait for the student's answer.
+            Never repeat an exercise from this conversation; vary contexts and formats.
             When they answer, correct it (what is right, what is wrong and why) and propose the next exercise,
             a bit harder if they succeeded, a bit easier if they struggled. Never give the solution before they try.
             """,

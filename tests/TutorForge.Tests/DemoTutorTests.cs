@@ -60,34 +60,98 @@ public class DemoTutorTests
         });
     }
 
-    private static TutorRequest Turn(int userTurns, TutorMode mode = TutorMode.Assess)
+    /// <summary>Builds a conversation with <paramref name="userTurns"/> student messages, replaying the demo's own answers.</summary>
+    private static TutorRequest Conversation(int userTurns, Subject subject = Subject.Mathematics,
+        TutorMode mode = TutorMode.Assess, TutorLanguage language = TutorLanguage.English, int seed = 42)
     {
+        var request = TestData.Request(mode: mode, language: language) with { Subject = subject, Messages = [] };
         var messages = new List<ChatMessage>();
         for (var i = 1; i <= userTurns; i++)
         {
             messages.Add(new ChatMessage(ChatRole.User, $"answer {i}"));
             if (i < userTurns)
             {
-                messages.Add(new ChatMessage(ChatRole.Assistant, "question"));
+                messages.Add(new ChatMessage(ChatRole.Assistant, DemoTutor.BuildReply(request with { Messages = [.. messages] }, seed)));
             }
         }
 
-        return TestData.Request(mode: mode) with { Messages = messages };
+        return request with { Messages = messages };
+    }
+
+    private static string QuestionLine(string reply) =>
+        reply.Split("\n\n").First(l => l.StartsWith("**Question", StringComparison.Ordinal) || l.StartsWith("**Exercise", StringComparison.Ordinal));
+
+    [Fact]
+    public void Assess_mode_starts_by_itself_on_the_chosen_subject_with_a_hidden_seed()
+    {
+        var reply = DemoTutor.BuildReply(Conversation(1, Subject.Biology), 42);
+
+        Assert.Contains("Biology", reply, StringComparison.Ordinal);
+        Assert.Contains("Question 1/5", reply, StringComparison.Ordinal);
+        Assert.Contains("[[SEED:42]]", reply, StringComparison.Ordinal);
+    }
+
+    [Theory]
+    [InlineData(Subject.HistoryGeography, TutorLanguage.Spanish, "Pregunta 1/5")]
+    [InlineData(Subject.Programming, TutorLanguage.French, "Question 1/5")]
+    [InlineData(Subject.English, TutorLanguage.Catalan, "Pregunta 1/5")]
+    public void Questions_come_from_the_subject_bank_in_the_right_language(Subject subject, TutorLanguage language, string label)
+    {
+        var reply = DemoTutor.BuildReply(Conversation(1, subject, language: language), 7);
+        Assert.Contains(label, reply, StringComparison.Ordinal);
+        Assert.DoesNotContain("3x - 4", reply, StringComparison.Ordinal); // not the maths script
     }
 
     [Fact]
-    public void Assess_mode_starts_with_question_1_without_any_question_from_the_student()
+    public void The_five_questions_of_a_test_are_all_different()
     {
-        var reply = DemoTutor.BuildReply(Turn(1));
-        Assert.Contains("Question 1/5", reply, StringComparison.Ordinal);
-        Assert.DoesNotContain("[[LEVEL", reply, StringComparison.Ordinal);
+        var questions = Enumerable.Range(1, 5)
+            .Select(turn => QuestionLine(DemoTutor.BuildReply(Conversation(turn, Subject.Biology), 99)).Split(' ', 3)[2])
+            .ToList();
+
+        Assert.Equal(5, questions.Distinct().Count());
+    }
+
+    [Fact]
+    public void Different_sessions_get_a_different_order()
+    {
+        var firstQuestions = Enumerable.Range(1, 20)
+            .Select(seed => QuestionLine(DemoTutor.BuildReply(Conversation(1, Subject.Mathematics, seed: seed), seed)))
+            .Distinct()
+            .Count();
+
+        Assert.True(firstQuestions > 3);
+    }
+
+    [Fact]
+    public void The_seed_is_reused_and_not_repeated_after_the_first_answer()
+    {
+        var reply = DemoTutor.BuildReply(Conversation(2, Subject.Biology), 1234);
+        Assert.DoesNotContain("[[SEED:", reply, StringComparison.Ordinal);
     }
 
     [Fact]
     public void Assess_mode_gives_a_level_report_then_the_level_grows()
     {
-        Assert.Contains("[[LEVEL:6]]", DemoTutor.BuildReply(Turn(6)), StringComparison.Ordinal);
-        Assert.Contains("[[LEVEL:7]]", DemoTutor.BuildReply(Turn(7)), StringComparison.Ordinal);
-        Assert.Contains("[[LEVEL:8]]", DemoTutor.BuildReply(Turn(8)), StringComparison.Ordinal);
+        var report = DemoTutor.BuildReply(Conversation(6), 42);
+        var next = DemoTutor.BuildReply(Conversation(7), 42);
+
+        var level = 4 + (42 % 4);
+        Assert.Contains($"[[LEVEL:{level}]]", report, StringComparison.Ordinal);
+        Assert.Contains($"[[LEVEL:{level + 1}]]", next, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Practice_mode_uses_exercises_of_the_subject()
+    {
+        var reply = DemoTutor.BuildReply(Conversation(1, Subject.PhysicsChemistry, TutorMode.Practice), 5);
+        Assert.Contains("Physics & chemistry", reply, StringComparison.Ordinal);
+        Assert.Contains("Exercise 1", reply, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Shuffle_is_a_permutation()
+    {
+        Assert.Equal(Enumerable.Range(0, 7), DemoTutor.Shuffle(7, 3).Order());
     }
 }
